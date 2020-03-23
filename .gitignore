@@ -1,0 +1,17 @@
+# Virtual environment
+venv
+env
+
+#VS code settings
+.vscode
+
+#DB
+certwebapp/db.sqlite3
+
+#Django
+*.log
+*.pot
+*.pyc
+
+
+ __pycache__/
