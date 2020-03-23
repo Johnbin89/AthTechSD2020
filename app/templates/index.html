@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+  {{ block.super }}
+
+  <link rel="stylesheet" href="{% static 'css/index.css' %}">
+
+{% endblock %}
+
+{% block page_content %}
+  <h1>Test index page</h1>
+{% endblock %}
+
+{% block scripts %}
+  {{ block.super }}
+{% endblock %}
