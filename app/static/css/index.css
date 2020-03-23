@@ -1,0 +1,122 @@
+html,body {
+    height:100%;
+    width:100%;
+    position: relative;
+}
+#background-carousel{
+	position:fixed;
+	width:100%;
+	height:100%;
+	z-index:0;
+}
+.carousel,
+.carousel-inner {
+	width:100%;
+	height:100%;
+	z-index:0;
+
+}
+.carousel-item {
+	width:100%;
+	height:100%;
+	background-position:center center;
+	background-size:cover;
+	z-index:0;
+}
+
+.carousel-indicators{
+    top: 20px;
+}
+
+.carousel-item img {
+    width: inherit;
+    height: inherit;
+}
+
+.myIndexHead{
+    position: relative;
+}
+
+.myIndexHead #index-header{
+    color: rgb(22, 22, 63);
+    text-align: center;
+    text-shadow: 0px 10px 15px #80dfff;
+    font-weight: 700;
+	font-size: 4em;
+}
+
+.myIndexHead h3{
+    color: rgb(22, 22, 63);
+    text-align: center;
+    font-weight: 700;
+    font-size: 2em;
+    text-shadow: 0px 10px 15px #80dfff;
+}
+
+
+/*search box css start here*/
+.search-sec{
+    position: relative;
+}
+
+.search-slt{
+    display: block;
+    width: 100%;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: #55595c;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    height: calc(4rem + 2px) !important;
+    border-radius:0;
+}
+
+.search-date{
+    display: block;
+    width: 100%;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: #55595c;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    height: calc(2rem + 1px) !important;
+    border-radius:0;
+}
+.wrn-btn{
+    width: 100%;
+    font-size: 16px;
+    font-weight: 400;
+    text-transform: capitalize;
+    height: calc(4rem + 2px) !important;
+    border-radius:0;
+}
+
+
+.dive-spot {
+    background: transparent;
+    color:white;
+    border-color: white;
+    width: 40rem;
+}
+
+.dive-spots
+{
+    max-height: 20rem;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+}
+
+::-webkit-scrollbar{
+    display: none;
+}
+
+.events-calendar{
+    text-align: -webkit-center;
+}
+
+
+.divespot-name {
+    color:white;
+}
