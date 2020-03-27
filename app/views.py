@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, logout
 from django.contrib.auth.forms import UserCreationForm
 
 
@@ -14,14 +14,10 @@ def index(request):
     return render(request, 'index.html', context)
 
 
-def login(request):
-    context = {'login': True}
-    return render(request, 'registration/login.html', context)
-
-
-# def register(request):
-#     return render(request, 'registration/register.html', {})
-
+def logout_view(request):
+    logout(request)
+    messages.info(request, 'You have logged out successfully.')
+    return redirect('index')
 
 def register(request):
     context = {'register': True}

@@ -114,7 +114,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-LOGIN_REDIRECT_URL = 'base'
+LOGIN_REDIRECT_URL = 'index'
 
 from django.contrib.messages import constants as messages
 MESSAGE_TAGS = {
