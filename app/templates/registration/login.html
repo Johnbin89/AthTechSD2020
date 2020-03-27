@@ -31,10 +31,12 @@
                     </tr>
                 </table>
                 {% if form.errors %}
-                    <p class=" label label-danger">
-                        Your username and password didn't match. 
-                        Please try again.
-                    </p>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        Your username or password was not correct.
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
                 {% endif %}
 
                 <input type="submit" value="Login" 
