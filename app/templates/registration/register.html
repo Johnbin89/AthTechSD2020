@@ -9,10 +9,10 @@
     <link rel="stylesheet" href="{% static 'css/register.css' %}">
 
 {% endblock %}
-{% block content %}
+{% block page_content %}
     <h2>Sign up</h2>
     <div class=" container col-lg-6"">
-        <form method="post" action="{% url 'register' %}">
+        <form method="post">
           {% csrf_token %}
           {% for field in form %}
             <p>
@@ -21,9 +21,6 @@
               {% if field.help_text %}
                 <small style="color: grey">{{ field.help_text }}</small>
               {% endif %}
-              {% for error in field.errors %}
-                <p style="color: red">{{ error }}</p>
-              {% endfor %}
             </p>
           {% endfor %}
           <button type="submit">Sign up</button>
