@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import authenticate
 from django.contrib.auth.forms import UserCreationForm
 
 
@@ -15,7 +15,8 @@ def index(request):
 
 
 def login(request):
-    return render(request, 'registration/login.html', {})
+    context = {'login': True}
+    return render(request, 'registration/login.html', context)
 
 
 # def register(request):
@@ -23,16 +24,18 @@ def login(request):
 
 
 def register(request):
-    # if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+    context = {'register': True}
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
-            login(request, user)
-            return redirect('base')
+            messages.success(request, 'Your account was created successfully!')
+            return redirect('login')
         else:
-            form = SignUpForm()
-        return render(request, 'registration/register.html', {'form': form})
+            for err in form.errors.values():
+                messages.error(request, err)
+    else:
+        form = SignUpForm()
+    context['form'] = form
+    return render(request, 'registration/register.html', context)
 
