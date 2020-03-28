@@ -1,0 +1,75 @@
+h2 {
+    text-align: center;
+    margin-top: 5%;
+}
+
+.container {
+    margin-top: 5%;
+    margin-left: 25%;
+    margin-right: 25%;
+}
+@media (max-width: 1000px) {
+    .container {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+}
+
+.btn-signup {
+    width: 50%;
+    margin-left: 25%;
+    margin-right: 25%;
+}
+
+.id_password1 {
+    display: flex;
+}
+
+.hint {
+  position: relative;
+  top: -12px;
+  right: -12px;
+  width: 32px;
+  height: 32px;
+  background: black;
+  border-radius: 16px;
+  transition: all 0.2s ease;
+}
+.hint .icon-info {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  display: block;
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  cursor: pointer;
+  pointer-events: auto;
+}
+.hint .icon-info:after {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 12px;
+  background: white;
+  border-radius: 2px;
+  transform-origin: center center;
+  transition: all 0.25s ease;
+}
+.hint .icon-info:before {
+  transform: translate(15px, 6px) rotate(0) scale(1, 0.2);
+}
+.hint .icon-info:after {
+  transform: translate(15px, 12px) rotate(0) scale(1, 0.5);
+}
+.hint.show {
+  width: calc(100% + 24px);
+  height: calc(100% + 24px);
+}
+.hint.show .icon-info:before {
+  transform: translate(15px, 10px) rotate(-45deg);
+}
+.hint.show .icon-info:after {
+  transform: translate(15px, 10px) rotate(45deg);
+}
