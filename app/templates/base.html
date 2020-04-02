@@ -45,15 +45,15 @@
           <a id="navname" class="nav-link  dropdown-toggle" href="#" data-toggle="dropdown">{{ user.username }}  </a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href=""> Your Account </a></li>
-            <li><a class="dropdown-item" href="/logout"> Logout </a></li>
+            <li><a class="dropdown-item" href="{% url 'logout' %}"> Logout </a></li>
           </ul>
         </li>
         {% else %}
         <li class="nav-item {{ login|yesno:'active, ' }}" id="login">
-          <a class="nav-link" href="/login">Login</a>
+          <a class="nav-link" href="{% url 'login' %}">Login</a>
         </li>
         <li class="nav-item {{ register|yesno:'active, ' }}" id="register">
-          <a class="nav-link" href="/register">SignUp</a>
+          <a class="nav-link" href="{% url 'register' %}">SignUp</a>
         </li>
         {% endif %}
 
