@@ -10,7 +10,7 @@ urlpatterns = [
     path('login/', LoginView.as_view(extra_context={'login': True}), name='login'),
     path('register/', views_accounts.register, name='register'),
     path('logout/', views_accounts.logout_view, name='logout'),
-    path('profile/(?P<user_id>\d+/', views_accounts.profile_view , name='profile')
+    path('profile/(?P<user_id>\d+/', views_accounts.ProfileForm.as_view() , name='profile')
 ]
 
 #urlpatterns += staticfiles_urlpatterns()

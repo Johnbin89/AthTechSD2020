@@ -67,19 +67,19 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class ApplicantProfile(models.Model):
-    userName = models.ForeignKey(User , verbose_name = 'Όνομα Χρήστη', on_delete= models.PROTECT)
-    companyName = models.CharField(max_length = 250 , verbose_name ='Ονομασία')
-    distTitle = models.CharField(max_length=100, verbose_name ='Διακριτικός Τίτλος')
-    afm = models.CharField(max_length= 20, verbose_name ='ΑΦΜ')
-    doy = models.CharField(max_length= 100, verbose_name ='Δ.Ο.Υ.')
-    gemi = models.CharField(max_length = 20, verbose_name ='ΓΕΜΗ')
-    address = models.CharField(max_length = 250, verbose_name ='Διεύθυνση')
-    postalCode = models.CharField(max_length = 10, verbose_name ='Ταχ. Κώδικας')
-    phone = models.CharField(max_length = 15, verbose_name ='Τηλέφωνο')
-    fax = models.CharField(max_length = 15, verbose_name ='Φαξ')
+    user = models.ForeignKey('auth.User', default=1, on_delete= models.CASCADE)
+    companyName = models.CharField(max_length = 250 , verbose_name ='Ονομασία', blank = True)
+    distTitle = models.CharField(max_length=100, verbose_name ='Διακριτικός Τίτλος', blank = True)
+    afm = models.CharField(max_length= 20, verbose_name ='ΑΦΜ', blank = True)
+    doy = models.CharField(max_length= 100, verbose_name ='Δ.Ο.Υ.', blank = True)
+    gemi = models.CharField(max_length = 20, verbose_name ='ΓΕΜΗ', blank = True)
+    address = models.CharField(max_length = 250, verbose_name ='Διεύθυνση', blank = True)
+    postalCode = models.CharField(max_length = 10, verbose_name ='Ταχ. Κώδικας', blank = True)
+    phone = models.CharField(max_length = 15, verbose_name ='Τηλέφωνο', blank = True)
+    fax = models.CharField(max_length = 15, verbose_name ='Φαξ', blank = True)
     email =models.CharField(max_length = 100, verbose_name ='E-mail')
-    contactPerson =models.CharField(max_length = 100, verbose_name ='Πρόσωπο Επικοινωνίας')
+    contactPerson =models.CharField(max_length = 100, verbose_name ='Πρόσωπο Επικοινωνίας', blank = True)
 
     def get_absolute_url(self):
-        return reverse('ApplicantProfile', args=[str(self.pk)])
+        return reverse('profile',args=[self.user.id])
 

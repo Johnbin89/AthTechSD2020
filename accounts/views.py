@@ -30,7 +30,7 @@ def register(request):
     context['form'] = form
     return render(request, 'registration/register.html', context)
 
-
+'''
 def profile_view(request,user_id):
     print(user_id)
     form = ProfileForm().model.objects.get(userName=user_id)
@@ -38,3 +38,4 @@ def profile_view(request,user_id):
     context = {'form': form} 
 
     return render(request, "profile.html", context)
+'''
