@@ -1,0 +1,23 @@
+{% extends "./base.html" %}
+{% load static %}
+
+{% block title %}Your Account{% endblock %}
+
+{% block head %}
+  {{ block.super }}
+
+  <link rel="stylesheet" href="{% static 'css/index.css' %}">
+
+{% endblock %}
+
+{% block page_content %}
+    <form action = '' method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Αποθήκευση" />
+    </form>
+{% endblock %}
+
+{% block scripts %}
+  {{ block.super }}
+{% endblock %}
