@@ -24,6 +24,8 @@ class SignUpForm(UserCreationForm):
 
 
 class ProfileForm(UpdateView):
+    slug_field = 'user'
+    slug_url_kwarg = 'user_id'
     model = ApplicantProfile
     template_name = 'profile.html'
-    fields = '__all__' 
+    fields = ['companyName', 'distTitle', 'afm','doy','gemi','address','postalCode','phone','fax','email','contactPerson']
