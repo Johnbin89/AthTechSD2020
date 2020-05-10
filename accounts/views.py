@@ -2,7 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth.forms import UserCreationForm
-from accounts.forms import SignUpForm
+from accounts.forms import SignUpForm,ProfileForm
+from .models import ApplicantProfile
+from django.views.generic.edit import UpdateView
 
 
 # Create your views here.
@@ -27,3 +29,12 @@ def register(request):
         form = SignUpForm()
     context['form'] = form
     return render(request, 'registration/register.html', context)
+
+
+def profile_view(request,user_id):
+    print(user_id)
+    form = ProfileForm().model.objects.get(userName=user_id)
+    print(form)
+    context = {'form': form} 
+
+    return render(request, "profile.html", context)

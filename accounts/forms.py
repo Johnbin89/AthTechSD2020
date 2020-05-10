@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from .models import ApplicantProfile
+from django.views.generic.edit import UpdateView
 
 
 class SignUpForm(UserCreationForm):
@@ -16,4 +18,12 @@ class SignUpForm(UserCreationForm):
         user.email = self.cleaned_data["email"]
         if commit:
             user.save()
+            newProfile = ApplicantProfile(userName= user, email = user.email)
+            newProfile.save()
         return user
+
+
+class ProfileForm(UpdateView):
+    model = ApplicantProfile
+    template_name = 'profile.html'
+    fields = '__all__' 
