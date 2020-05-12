@@ -83,3 +83,32 @@ class ApplicantProfile(models.Model):
     def get_absolute_url(self):
         return reverse('profile',args=[self.user.id])
 
+
+class Regulation(models.Model):
+    regulation = models.CharField(max_length=250, verbose_name = "Nομοθετικη Διάταξη",unique=True)
+
+    class Meta:
+        verbose_name = "Διάταξη"
+        verbose_name_plural = "Διατάξεις"
+        ordering = ['regulation']
+
+    def __str__(self):
+        return self.regulation
+
+    def get_absolute_url(self):
+        return reverse('regulation', args=None)
+
+class SubField(models.Model):
+    regulation = models.ForeignKey(Regulation,default=1, on_delete = models.CASCADE, related_name='children')
+    subField =  models.CharField(max_length=250, verbose_name = "Υπομέρους Θεματικό Πεδίο",unique=True)
+
+    class Meta:
+        verbose_name = "Πεδίο"
+        verbose_name_plural = "Πεδία"
+        ordering = ['subField']
+
+    def __str__(self):
+        return self.subField
+
+    def get_absolute_url(self):
+        return reverse('regulation', args=None)
