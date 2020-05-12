@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth.forms import UserCreationForm
-from accounts.forms import SignUpForm,ProfileForm
-from .models import ApplicantProfile
+from accounts.forms import SignUpForm,ProfileForm,NewRegulation,NewSubField
+from .models import ApplicantProfile,Regulation
 from django.views.generic.edit import UpdateView
 
 
@@ -30,12 +30,6 @@ def register(request):
     context['form'] = form
     return render(request, 'registration/register.html', context)
 
-'''
-def profile_view(request,user_id):
-    print(user_id)
-    form = ProfileForm().model.objects.get(userName=user_id)
-    print(form)
-    context = {'form': form} 
 
-    return render(request, "profile.html", context)
-'''
+def regulation_view(request):
+    return render(request,'regulation_list.html', {'regulations': Regulation.objects.all()})
