@@ -1,7 +1,7 @@
 # from django.contrib.auth.base_user import AbstractBaseUser
 from django.db import models
 from django.urls import reverse
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 
 # from django.contrib.auth.models import BaseUserManager, PermissionsMixin
 #
@@ -66,8 +66,14 @@ from django.contrib.auth.models import User
 
 
 # Create your models here.
+class User(AbstractUser):
+    is_foreas = models.BooleanField(default=False)
+    is_ypan = models.BooleanField(default=False)
+    is_esyd = models.BooleanField(default=False)
+
+
 class ApplicantProfile(models.Model):
-    user = models.ForeignKey('auth.User', default=1, on_delete= models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     companyName = models.CharField(max_length = 250 , verbose_name ='Ονομασία', blank = True)
     distTitle = models.CharField(max_length=100, verbose_name ='Διακριτικός Τίτλος', blank = True)
     afm = models.CharField(max_length= 20, verbose_name ='ΑΦΜ', blank = True)

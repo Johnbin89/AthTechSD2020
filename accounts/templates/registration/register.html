@@ -14,15 +14,8 @@
     <div class=" container col-lg-6">
         <form method="post">
           {% csrf_token %}
-<!--          {% for field in form %}-->
-<!--            <p>-->
-<!--              {{ field.label_tag }}<br>-->
-<!--              {{ field }}-->
-<!--              {% if field.help_text %}-->
-<!--                <small style="color: grey">{{ field.help_text }}</small>-->
-<!--              {% endif %}-->
-<!--            </p>-->
-<!--          {% endfor %}-->
+          {{ form.as_p }}
+              <!--
                 <table class="table">
                     <tr>
                         <td><label for="id_username">Username</label></td>
@@ -37,9 +30,6 @@
                     <tr>
                         <td class="id_password1">
                             <div><label for="id_password1">Password</label></div>
-<!--                          <div class="hint">-->
-<!--                            <span class="icon-info"></span>-->
-<!--                          </div>-->
                         </td>
                         <td><input id="id_password1" name="password1"
                                    type="password" class="form-control"></td>
@@ -50,6 +40,7 @@
                                    type="password" class="form-control"></td>
                     </tr>
                 </table>
+                -->
           <button type="submit" class="btn btn-primary btn-signup">Sign up</button>
         </form>
     </div>
