@@ -121,6 +121,7 @@ STATICFILES_DIRS = [
     'accounts/static',
 ]
 '''
+AUTH_USER_MODEL = 'accounts.User'
 LOGIN_REDIRECT_URL = 'index'
 
 MESSAGE_TAGS = {
