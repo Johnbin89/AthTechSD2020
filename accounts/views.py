@@ -1,13 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from .decorators import foreas_required
+from .decorators import foreas_required, ypan_required, esyd_required
 from django.contrib import messages
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth.forms import UserCreationForm
 from accounts.forms import SignUpForm
-from .models import ApplicantProfile,Regulation,SubField
-from django.views.generic.edit import UpdateView, CreateView
+from .models import ApplicantProfile,XeiristisYpourgeiou,XeiristisEsyd,Regulation,SubField
+from django.views.generic import UpdateView, CreateView, ListView
 
 
 # Create your views here.
@@ -48,6 +48,20 @@ class ForeasProfile(UpdateView):
     template_name = 'profile.html'
     fields = ['companyName', 'distTitle', 'afm','doy','gemi','address','postalCode','phone','fax','email','contactPerson']
 
+
+@method_decorator([login_required, ypan_required], name='dispatch')
+class YpAnProfile(ListView):
+    slug_field = 'user'
+    slug_url_kwarg = 'user_id'
+    model = XeiristisYpourgeiou
+    template_name = 'profile.html'
+
+@method_decorator([login_required, esyd_required], name='dispatch')
+class EsydProfile(ListView):
+    slug_field = 'user'
+    slug_url_kwarg = 'user_id'
+    model = XeiristisEsyd
+    template_name = 'profile.html'
 
 class NewRegulation(CreateView):
     model = Regulation

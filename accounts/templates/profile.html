@@ -10,14 +10,24 @@
 
 {% endblock %}
 
-{% block page_content %}
-    </br>
-    <form action = '' method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Αποθήκευση" />
-    </form>
-{% endblock %}
+
+  {% block page_content %}
+  {% if user.is_foreas %}
+      </br>
+      <form action = '' method="POST">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <input type="submit" value="Αποθήκευση" />
+      </form>
+  {% else %}
+      {% for xeiristis in object_list %}
+        {{ xeiristis.firstname }}<br>
+        {{ xeiristis.lastname }}<br>
+        {{ xeiristis.department }}<br>
+        {{ xeiristis.desk }}
+      {% endfor %}
+  {% endif %}
+  {% endblock %}
 
 {% block scripts %}
   {{ block.super }}
