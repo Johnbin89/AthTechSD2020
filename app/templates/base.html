@@ -50,7 +50,13 @@
         <li class="nav-item dropdown">
           <a id="navname" class="nav-link  dropdown-toggle" href="#" data-toggle="dropdown">{{ user.username }}  </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{% url 'profile' user_id=user.id %}"> Your Account </a></li>
+            {% if user.is_foreas %}
+            <li><a class="dropdown-item" href="{% url 'foreas_profile' user_id=user.id %}"> Your Account </a></li>
+            {% elif user.is_ypan %}
+            <li><a class="dropdown-item" href="{% url 'ypan_profile' user_id=user.id %}"> Your Account </a></li>
+            {% elif user.is_esyd %}
+            <li><a class="dropdown-item" href="{% url 'esyd_profile' user_id=user.id %}"> Your Account </a></li>
+            {% endif %}
             <li><a class="dropdown-item" href="{% url 'logout' %}"> Logout </a></li>
           </ul>
         </li>

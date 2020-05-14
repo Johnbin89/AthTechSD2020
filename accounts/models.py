@@ -90,6 +90,28 @@ class ApplicantProfile(models.Model):
         return reverse('profile',args=[self.user.id])
 
 
+class XeiristisYpourgeiou(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    firstname = models.CharField(max_length =250 , verbose_name ='Όνομα', blank = True)
+    lastname = models.CharField(max_length=100, verbose_name ='Επίθετο', blank = True)
+    email = models.EmailField(default=None)
+    department = models.CharField(max_length=100, verbose_name ='Τμήμα', blank = True)
+    desk = models.CharField(max_length=100, verbose_name='Γραφείο')
+
+    def get_absolute_url(self):
+        return reverse('profile',args=[self.user.id]) 
+
+class XeiristisEsyd(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    firstname = models.CharField(max_length =250 , verbose_name ='Όνομα', blank = True)
+    lastname = models.CharField(max_length=100, verbose_name ='Επίθετο', blank = True)
+    email = models.EmailField(default=None)
+    department = models.CharField(max_length=100, verbose_name ='Τμήμα', blank = True)
+    desk = models.CharField(max_length=100, verbose_name='Γραφείο')
+
+    def get_absolute_url(self):
+        return reverse('profile',args=[self.user.id]) 
+
 class Regulation(models.Model):
     regulation = models.CharField(max_length=250, verbose_name = "Nομοθετικη Διάταξη",unique=True)
 
