@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth.forms import UserCreationForm
 from accounts.forms import SignUpForm
-from .models import ApplicantProfile,XeiristisYpourgeiou,XeiristisEsyd,Regulation,SubField
+from .models import ApplicantProfile, XeiristisYpourgeiou, XeiristisEsyd, Regulation, SubField
 from django.views.generic import UpdateView, CreateView, ListView
 
 
@@ -36,8 +36,7 @@ def register(request):
 
 
 def regulation_view(request):
-    return render(request,'regulation_list.html', {'regulations': Regulation.objects.all()})
-
+    return render(request, 'regulation_list.html', {'regulations': Regulation.objects.all()})
 
 
 @method_decorator([login_required, foreas_required], name='dispatch')
@@ -46,7 +45,8 @@ class ForeasProfile(UpdateView):
     slug_url_kwarg = 'user_id'
     model = ApplicantProfile
     template_name = 'profile.html'
-    fields = ['companyName', 'distTitle', 'afm','doy','gemi','address','postalCode','phone','fax','email','contactPerson']
+    fields = ['companyName', 'distTitle', 'afm', 'doy', 'gemi', 'address', 'postalCode', 'phone', 'fax', 'email',
+              'contactPerson']
 
 
 @method_decorator([login_required, ypan_required], name='dispatch')
@@ -56,6 +56,7 @@ class YpAnProfile(ListView):
     model = XeiristisYpourgeiou
     template_name = 'profile.html'
 
+
 @method_decorator([login_required, esyd_required], name='dispatch')
 class EsydProfile(ListView):
     slug_field = 'user'
@@ -63,10 +64,12 @@ class EsydProfile(ListView):
     model = XeiristisEsyd
     template_name = 'profile.html'
 
+
 class NewRegulation(CreateView):
     model = Regulation
     template_name = 'new_regulation.html'
     fields = '__all__'
+
 
 class NewSubField(CreateView):
     model = SubField

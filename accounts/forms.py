@@ -1,7 +1,7 @@
 from django import forms
-#from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import User,ApplicantProfile,Regulation,SubField
+from .models import User, ApplicantProfile, Regulation, SubField
 from django.db import transaction
 from django.urls import reverse_lazy
 
@@ -25,9 +25,3 @@ class SignUpForm(UserCreationForm):
             newProfile = ApplicantProfile(user=user, email=user.email)
             newProfile.save()
         return user
-
-
-
-
-
-

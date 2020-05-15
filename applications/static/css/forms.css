@@ -1,0 +1,17 @@
+p input {
+    display: flow-root;
+    width: 20rem;
+}
+
+.content_application {
+    width: 100%;
+    display: inline-flex !important;
+}
+
+.pending_list {
+    width: 100%;
+}
+
+.upload_app {
+    width: 100%;
+}
