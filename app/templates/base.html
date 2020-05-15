@@ -36,6 +36,9 @@
        <li class="nav-item {{ services|yesno:'active, ' }}">
          <a class="nav-link" href="/services">Services</a>
        </li>
+       <li class="nav-item {{ esyd|yesno:'active, ' }}">
+         <a class="nav-link" href="{% url 'esyd' %}">ΕΣΥΔ</a>
+       </li>
        <li class="nav-item {{ application|yesno:'active, ' }}">
         <a class="nav-link" href="{% url 'application' %}">Application</a>
       </li>

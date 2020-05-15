@@ -1,0 +1,40 @@
+{% extends "./base.html" %}
+{% load static %}
+
+{% block title %}ESYD Application{% endblock %}
+
+{% block head %}
+  {{ block.super }}
+
+  <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+
+{% endblock %}
+
+{% block page_content %}
+    <div class="content_application">
+        <div class="pending_list">
+            <h2>Pending Applications</h2>
+            <ul>
+                <li></li>
+            </ul>
+        </div>
+        <div class="upload_app">
+            <h2>Create Application</h2>
+            </br>
+            <form method="post" enctype="multipart/form-data" action="">
+            {% csrf_token %}
+                {{ form }}
+            </br>
+                <button type="submit" value="save">Submit</button>
+            </form>
+
+            {% if uploaded_file_url %}
+             <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+  {{ block.super }}
+{% endblock %}

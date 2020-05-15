@@ -3,6 +3,7 @@ from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import AbstractUser
 
+
 # from django.contrib.auth.models import BaseUserManager, PermissionsMixin
 #
 #
@@ -74,46 +75,48 @@ class User(AbstractUser):
 
 class ApplicantProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    companyName = models.CharField(max_length = 250 , verbose_name ='Ονομασία', blank = True)
-    distTitle = models.CharField(max_length=100, verbose_name ='Διακριτικός Τίτλος', blank = True)
-    afm = models.CharField(max_length= 20, verbose_name ='ΑΦΜ', blank = True)
-    doy = models.CharField(max_length= 100, verbose_name ='Δ.Ο.Υ.', blank = True)
-    gemi = models.CharField(max_length = 20, verbose_name ='ΓΕΜΗ', blank = True)
-    address = models.CharField(max_length = 250, verbose_name ='Διεύθυνση', blank = True)
-    postalCode = models.CharField(max_length = 10, verbose_name ='Ταχ. Κώδικας', blank = True)
-    phone = models.CharField(max_length = 15, verbose_name ='Τηλέφωνο', blank = True)
-    fax = models.CharField(max_length = 15, verbose_name ='Φαξ', blank = True)
-    email =models.CharField(max_length = 100, verbose_name ='E-mail')
-    contactPerson =models.CharField(max_length = 100, verbose_name ='Πρόσωπο Επικοινωνίας', blank = True)
+    companyName = models.CharField(max_length=250, verbose_name='Ονομασία', blank=True)
+    distTitle = models.CharField(max_length=100, verbose_name='Διακριτικός Τίτλος', blank=True)
+    afm = models.CharField(max_length=20, verbose_name='ΑΦΜ', blank=True)
+    doy = models.CharField(max_length=100, verbose_name='Δ.Ο.Υ.', blank=True)
+    gemi = models.CharField(max_length=20, verbose_name='ΓΕΜΗ', blank=True)
+    address = models.CharField(max_length=250, verbose_name='Διεύθυνση', blank=True)
+    postalCode = models.CharField(max_length=10, verbose_name='Ταχ. Κώδικας', blank=True)
+    phone = models.CharField(max_length=15, verbose_name='Τηλέφωνο', blank=True)
+    fax = models.CharField(max_length=15, verbose_name='Φαξ', blank=True)
+    email = models.CharField(max_length=100, verbose_name='E-mail')
+    contactPerson = models.CharField(max_length=100, verbose_name='Πρόσωπο Επικοινωνίας', blank=True)
 
     def get_absolute_url(self):
-        return reverse('profile',args=[self.user.id])
+        return reverse('profile', args=[self.user.id])
 
 
 class XeiristisYpourgeiou(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    firstname = models.CharField(max_length =250 , verbose_name ='Όνομα', blank = True)
-    lastname = models.CharField(max_length=100, verbose_name ='Επίθετο', blank = True)
+    firstname = models.CharField(max_length=250, verbose_name='Όνομα', blank=True)
+    lastname = models.CharField(max_length=100, verbose_name='Επίθετο', blank=True)
     email = models.EmailField(default=None)
-    department = models.CharField(max_length=100, verbose_name ='Τμήμα', blank = True)
+    department = models.CharField(max_length=100, verbose_name='Τμήμα', blank=True)
     desk = models.CharField(max_length=100, verbose_name='Γραφείο')
 
     def get_absolute_url(self):
-        return reverse('profile',args=[self.user.id]) 
+        return reverse('profile', args=[self.user.id])
+
 
 class XeiristisEsyd(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    firstname = models.CharField(max_length =250 , verbose_name ='Όνομα', blank = True)
-    lastname = models.CharField(max_length=100, verbose_name ='Επίθετο', blank = True)
+    firstname = models.CharField(max_length=250, verbose_name='Όνομα', blank=True)
+    lastname = models.CharField(max_length=100, verbose_name='Επίθετο', blank=True)
     email = models.EmailField(default=None)
-    department = models.CharField(max_length=100, verbose_name ='Τμήμα', blank = True)
+    department = models.CharField(max_length=100, verbose_name='Τμήμα', blank=True)
     desk = models.CharField(max_length=100, verbose_name='Γραφείο')
 
     def get_absolute_url(self):
-        return reverse('profile',args=[self.user.id]) 
+        return reverse('profile', args=[self.user.id])
+
 
 class Regulation(models.Model):
-    regulation = models.CharField(max_length=250, verbose_name = "Nομοθετικη Διάταξη",unique=True)
+    regulation = models.CharField(max_length=250, verbose_name="Nομοθετικη Διάταξη", unique=True)
 
     class Meta:
         verbose_name = "Διάταξη"
@@ -126,9 +129,10 @@ class Regulation(models.Model):
     def get_absolute_url(self):
         return reverse('regulation', args=None)
 
+
 class SubField(models.Model):
-    regulation = models.ForeignKey(Regulation,default=1, on_delete = models.CASCADE, related_name='children')
-    subField =  models.CharField(max_length=250, verbose_name = "Υπομέρους Θεματικό Πεδίο",unique=True)
+    regulation = models.ForeignKey(Regulation, default=1, on_delete=models.CASCADE, related_name='children')
+    subField = models.CharField(max_length=250, verbose_name="Υπομέρους Θεματικό Πεδίο", unique=True)
 
     class Meta:
         verbose_name = "Πεδίο"
@@ -136,7 +140,7 @@ class SubField(models.Model):
         ordering = ['subField']
 
     def __str__(self):
-        return self.subField
+        return self.regulation.regulation + ' - ' + self.subField
 
     def get_absolute_url(self):
         return reverse('regulation', args=None)
