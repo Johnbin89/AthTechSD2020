@@ -88,7 +88,7 @@ class ApplicantProfile(models.Model):
     contactPerson = models.CharField(max_length=100, verbose_name='Πρόσωπο Επικοινωνίας', blank=True)
 
     def get_absolute_url(self):
-        return reverse('profile', args=[self.user.id])
+        return reverse('foreas_profile', args=[self.user.id])
 
 
 class XeiristisYpourgeiou(models.Model):
