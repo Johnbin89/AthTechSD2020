@@ -5,18 +5,64 @@
 
 {% block head %}
   {{ block.super }}
-
-  <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+<!-- Google Fonts -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+<!-- Bootstrap core CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+<!-- Material Design Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.18.0/css/mdb.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/appsForms.css' %}">
 
 {% endblock %}
 
 {% block page_content %}
     <div class="content_application">
         <div class="pending_list">
-            <h2>Pending Applications</h2>
-            <ul>
-                <li></li>
-            </ul>
+            <h2>Applications</h2>
+            <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Id</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Submission Date</th>
+                    </tr>
+                </thead>
+            <tbody>
+                {% for pendApp in pendingApps%}
+                    <tr class="accordion-toggle collapsed" id="accordion1" data-toggle="collapse" data-parent="#accordion1" href="#id{{ pendApp.id }}">
+                        <td class="expand-button"></td>
+                        <td>{{ pendApp.id }}</td>
+                        <td>{{ pendApp.status }}</td>
+                        <td>{{ pendApp.date }}</td>
+                    </tr>
+                    <tr class="hide-table-padding">
+                        <td></td>
+                        <td colspan="3">
+                            <div id="id{{ pendApp.id }}" class="collapse in p-3">
+                                <div class="row">
+                                    <div class="col"><b>Field</b></div>
+                                    <div class="col"><b>Status</b></div>
+                                    <div class="col"><b>Expiration Date</b></div>
+                                </div>
+                                {% for field in pendApp.children.all %}
+                                    <div class="row">
+                                        <div class="col"> {{ field.subField }}</div>
+                                        <div class="col"> {{ field.status }}</div>
+                                        <div class="col"> {{ field.expDate }}</div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+            </div>
+            
         </div>
         <div class="upload_app">
             <h2>Create Application</h2>
@@ -36,5 +82,12 @@
 {% endblock %}
 
 {% block scripts %}
-  {{ block.super }}
+<!-- JQuery -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.18.0/js/mdb.min.js"></script>
 {% endblock %}
