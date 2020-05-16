@@ -90,6 +90,13 @@ class ApplicantProfile(models.Model):
     def get_absolute_url(self):
         return reverse('foreas_profile', args=[self.user.id])
 
+    def has_empty_fields(self):
+        if (self.companyName == "" or self.distTitle == "" or self.afm =="" or self.doy == "" or self.gemi == "" 
+        or self.address == "" or self.postalCode == "" or self.phone == "" or self.fax == "" or self.email == "" 
+        or self.contactPerson == ""):
+            return True
+        else :
+            return False
 
 class XeiristisYpourgeiou(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
