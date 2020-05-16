@@ -132,9 +132,10 @@ class Regulation(models.Model):
 
 class SubField(models.Model):
     regulation = models.ForeignKey(Regulation, default=1, on_delete=models.CASCADE, related_name='children')
-    subField = models.CharField(max_length=250, verbose_name="Υπομέρους Θεματικό Πεδίο", unique=True)
+    subField = models.CharField(max_length=250, verbose_name="Υπομέρους Θεματικό Πεδίο")
 
     class Meta:
+        unique_together = ('regulation', 'subField')
         verbose_name = "Πεδίο"
         verbose_name_plural = "Πεδία"
         ordering = ['subField']
