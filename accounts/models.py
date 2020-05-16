@@ -138,7 +138,7 @@ class SubField(models.Model):
         unique_together = ('regulation', 'subField')
         verbose_name = "Πεδίο"
         verbose_name_plural = "Πεδία"
-        ordering = ['subField']
+        ordering = ['regulation', 'subField']
 
     def __str__(self):
         return self.regulation.regulation + ' - ' + self.subField
