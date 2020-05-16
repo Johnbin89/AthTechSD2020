@@ -7,10 +7,15 @@ from django.utils.decorators import method_decorator
 from applications.forms import UploadDocumentForm
 from django.views.generic import DetailView
 from .models import ApplicationForm
+
+
+from django.contrib.auth.decorators import login_required
+from accounts.decorators import foreas_required, ypan_required, esyd_required
 # def esydApp(request):
 #     return render(request, 'esydApp.html', {})
 
 
+@foreas_required
 def esydApp(request):
     form = UploadDocumentForm()
     pendingApps = ApplicationForm.objects.filter(foreas = request.user.id)

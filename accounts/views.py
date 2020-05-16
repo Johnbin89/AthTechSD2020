@@ -65,12 +65,14 @@ class EsydProfile(ListView):
     template_name = 'profile.html'
 
 
+@method_decorator([login_required, ypan_required], name='dispatch')
 class NewRegulation(CreateView):
     model = Regulation
     template_name = 'new_regulation.html'
     fields = '__all__'
 
 
+@method_decorator([login_required, ypan_required], name='dispatch')
 class NewSubField(CreateView):
     model = SubField
     template_name = 'new_subfield.html'
