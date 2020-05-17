@@ -1,0 +1,92 @@
+{% extends "./base.html" %}
+{% load static %}
+
+{% block title %}Αίτηση ΕΣΥΔ{% endblock %}
+
+{% block head %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'css/appsForms.css' %}">
+
+{% endblock %}
+
+{% block page_content %}
+    <div class="content_application">
+        <div class="pending_list">
+            <h2>Αιτήσεις σε εκκρεμότητα:</h2>
+            {% if pendingApps %}
+            <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Αρ. Αίτησης</th>
+                        <th scope="col">Κατάσταση</th>
+                        <th scope="col">Ημερομηνία Υποβολής</th>
+                    </tr>
+                </thead>
+            <tbody>
+                {% for pendApp in pendingApps%}
+                    <tr class="accordion-toggle collapsed" id="accordion1" data-toggle="collapse" data-parent="#accordion1" href="#id{{ pendApp.id }}">
+                        <td class="expand-button"></td>
+                        <td>{{ pendApp.id }}</td>
+                        <td>{{ pendApp.status }}</td>
+                        <td>{{ pendApp.date }}</td>
+                    </tr>
+                    <tr class="hide-table-padding">
+                        <td></td>
+                        <td colspan="3">
+                            <div id="id{{ pendApp.id }}" class="collapse in p-3">
+                                <div class="row">
+                                    <div class="col"><b>Πεδίο</b></div>
+                                    <div class="col"><b>Κατάσταση</b></div>
+                                    <div class="col"><b>Ημερομηνία Λήξης</b></div>
+                                </div>
+                                {% for field in pendApp.children.all %}
+                                    <div class="row">
+                                        <div class="col"> {{ field.subField }}</div>
+                                        <div class="col"> {{ field.status }}</div>
+                                        <div class="col"> {{ field.expDate }}</div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+            </div>
+            {% else %}
+                <h4>Δεν υπάρχουν αιτήσεις σε εκκρεμότητα</h4>
+            {% endif %}
+            
+        </div>
+        <br>
+        <br>
+        <br>
+        <div class="upload_app">
+            <h2>Αίτηση νέου πιστοποιητικού διαπίστευσης (ΕΣΥΔ):</h2>
+            </br>
+            <form method="post" enctype="multipart/form-data" action="">
+            {% csrf_token %}
+                {{ form }}
+            </br>
+                <button type="submit" value="save">Submit</button>
+            </form>
+
+            {% if uploaded_file_url %}
+             <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+<!-- JQuery -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.18.0/js/mdb.min.js"></script>
+{% endblock %}
