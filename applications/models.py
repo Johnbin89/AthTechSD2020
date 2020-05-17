@@ -7,7 +7,7 @@ from accounts.models import ApplicantProfile, SubField
 # Create your models here.
 from django.urls import reverse
 
-
+#application foreas -> esyd
 class ApplicationForm(models.Model):
     foreas = models.ForeignKey('accounts.User', on_delete=models.CASCADE)
     subfields = models.ManyToManyField(SubField, verbose_name='Πεδια', through='ApplicationSubField')
@@ -19,6 +19,7 @@ class ApplicationForm(models.Model):
         return reverse('Application', args=[self.pk])
 
 
+#subfields of an application to esyd
 class ApplicationSubField(models.Model):
     subField = models.ForeignKey(SubField, default=1, on_delete=models.CASCADE, related_name='children')
     application = models.ForeignKey(ApplicationForm, default=1, on_delete=models.CASCADE, related_name='children')
