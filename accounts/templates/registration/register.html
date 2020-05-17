@@ -14,8 +14,8 @@
     <div class=" container col-lg-6">
         <form method="post">
           {% csrf_token %}
-          {{ form.as_p }}
-              <!--
+         <!-- {{ form.as_p }} -->
+              
                 <table class="table">
                     <tr>
                         <td><label for="id_username">Username</label></td>
@@ -40,7 +40,7 @@
                                    type="password" class="form-control"></td>
                     </tr>
                 </table>
-                -->
+                
           <button type="submit" class="btn btn-primary btn-signup">Εγγραφή</button>
         </form>
     </div>
