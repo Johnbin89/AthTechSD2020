@@ -4,31 +4,51 @@
 {% block title %}Your Account{% endblock %}
 
 {% block head %}
-  {{ block.super }}
+{{ block.super }}
 
-  <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+<link rel="stylesheet" href="{% static 'css/forms.css' %}">
 
 {% endblock %}
 
 
-  {% block page_content %}
-  {% if user.is_foreas %}
-      </br>
-      <form action = '' method="POST">
-          {% csrf_token %}
-          {{ form.as_p }}
-          <input type="submit" value="Αποθήκευση" />
-      </form>
-  {% else %}
-      {% for xeiristis in object_list %}
-        {{ xeiristis.firstname }}<br>
-        {{ xeiristis.lastname }}<br>
-        {{ xeiristis.department }}<br>
-        {{ xeiristis.desk }}
-      {% endfor %}
-  {% endif %}
-  {% endblock %}
+{% block page_content %}
+{% if user.is_foreas %}
+</br>
+<form action='' method="POST">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" value="Αποθήκευση" />
+</form>
+{% else %}
+{% for xeiristis in object_list %}
+<table class="table table-bordered">
+  <tbody>
+    <tr>
+      <th>First Name</th>
+      <td>{{ xeiristis.firstname }}</td>
+    </tr>
+    <tr>
+      <th>Last Name</th>
+      <td>{{ xeiristis.lastname }}</td>
+    </tr>
+    <tr>
+      <th>Email</th>
+      <td>{{ xeiristis.email }}</td>
+    </tr>
+    <tr>
+      <th>Department</th>
+      <td>{{ xeiristis.department }}</td>
+    </tr>
+    <tr>
+      <th>Desk</th>
+      <td>{{ xeiristis.desk }}</td>
+    </tr>
+  </tbody>
+</table>
+{% endfor %}
+{% endif %}
+{% endblock %}
 
 {% block scripts %}
-  {{ block.super }}
+{{ block.super }}
 {% endblock %}
