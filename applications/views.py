@@ -1,20 +1,14 @@
 from django.shortcuts import render
-
-# Create your views here.
 from django.utils.decorators import method_decorator
-
-# @method_decorator(login_required, name='dispatch')
 from applications.forms import UploadDocumentForm
 from django.views.generic import DetailView
 from .models import ApplicationForm
-
-
 from django.contrib.auth.decorators import login_required
 from accounts.decorators import foreas_required, ypan_required, esyd_required
-# def esydApp(request):
-#     return render(request, 'esydApp.html', {})
 from accounts.models import ApplicantProfile
 from django.contrib import messages
+
+
 
 @foreas_required
 def esydApp(request):
