@@ -1,11 +1,9 @@
 from django.shortcuts import render, reverse
-from django.utils.decorators import method_decorator
 from applications.forms import UploadDocumentForm
-from django.views.generic import DetailView
 from .models import ApplicationForm
 from django.contrib.auth.decorators import login_required
 from accounts.decorators import foreas_required, ypan_required, esyd_required
-from accounts.models import ApplicantProfile, SubField
+from accounts.models import ApplicantProfile
 from django.contrib import messages
 from django.utils.html import format_html
 from django.http import HttpResponseRedirect
