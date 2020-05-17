@@ -37,26 +37,26 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item {{ home|yesno:'active, ' }}">
-            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="/">Αρχική <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item {{ services|yesno:'active, ' }}">
-            <a class="nav-link" href="/services">Services</a>
+            <a class="nav-link" href="/services">Υπηρεσίες</a>
           </li>
           {% if user.is_foreas or user.is_esyd %}
           <li class="nav-item {{ esyd|yesno:'active, ' }}">
-            <a class="nav-link" href="{% url 'esyd' %}">ΕΣΥΔ</a>
+            <a class="nav-link" href="{% url 'esyd' %}">Αίτηση ΕΣΥΔ</a>
           </li>
           {% endif %}
           {% if user.is_foreas or user.is_ypan %}
           <li class="nav-item {{ application|yesno:'active, ' }}">
-            <a class="nav-link" href="{% url 'application' %}">Application</a>
+            <a class="nav-link" href="{% url 'application' %}">Αίτηση Υπ.Ανάπτυξης</a>
           </li>
           {% endif %}
           <li class="nav-item {{ regulation|yesno:'active, ' }}">
-            <a class="nav-link" href="{% url 'regulation' %}">Regulations</a>
+            <a class="nav-link" href="{% url 'regulation' %}">Νομοθεσίες-Πεδία</a>
           </li>
           <li class="nav-item {{ contactus|yesno:'active, ' }}" id="contactus">
-            <a class="nav-link" href="/contactus">Contact Us</a>
+            <a class="nav-link" href="/contactus">Επικοινωνία</a>
           </li>
 
           {% if user.is_authenticated %}
@@ -64,21 +64,21 @@
             <a id="navname" class="nav-link  dropdown-toggle" href="#" data-toggle="dropdown">{{ user.username }} </a>
             <ul class="dropdown-menu">
               {% if user.is_foreas %}
-              <li><a class="dropdown-item" href="{% url 'foreas_profile' user_id=user.id %}"> Your Account </a></li>
+              <li><a class="dropdown-item" href="{% url 'foreas_profile' user_id=user.id %}"> Λογαριασμός </a></li>
               {% elif user.is_ypan %}
-              <li><a class="dropdown-item" href="{% url 'ypan_profile' user_id=user.id %}"> Your Account </a></li>
+              <li><a class="dropdown-item" href="{% url 'ypan_profile' user_id=user.id %}"> Λογαριασμός </a></li>
               {% elif user.is_esyd %}
-              <li><a class="dropdown-item" href="{% url 'esyd_profile' user_id=user.id %}"> Your Account </a></li>
+              <li><a class="dropdown-item" href="{% url 'esyd_profile' user_id=user.id %}"> Λογαριασμός </a></li>
               {% endif %}
               <li><a class="dropdown-item" href="{% url 'logout' %}"> Logout </a></li>
             </ul>
           </li>
           {% else %}
           <li class="nav-item {{ login|yesno:'active, ' }}" id="login">
-            <a class="nav-link" href="{% url 'login' %}">Login</a>
+            <a class="nav-link" href="{% url 'login' %}">Είσοδος</a>
           </li>
           <li class="nav-item {{ register|yesno:'active, ' }}" id="register">
-            <a class="nav-link" href="{% url 'register' %}">SignUp</a>
+            <a class="nav-link" href="{% url 'register' %}">Εγγραφή</a>
           </li>
           {% endif %}
 
