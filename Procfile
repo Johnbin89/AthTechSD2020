@@ -1,0 +1,1 @@
+web: gunicorn certwebapp.wsgi:application --log-file -
