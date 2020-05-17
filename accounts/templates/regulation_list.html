@@ -1,0 +1,34 @@
+{% extends "./base.html" %}
+{% load static %}
+
+{% block title %}Regulations{% endblock %}
+
+{% block head %}
+  {{ block.super }}
+
+  <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+
+{% endblock %}
+
+{% block page_content %}
+    </br>
+    <h2>Διαθέσιμα Πεδία Τεχνικής Νομοθεσίας: </h2>
+    <ul> 
+        {% for regulation in regulations %} 
+            <li> {{ regulation.regulation }} 
+                {% for child in regulation.children.all %}
+                    <ul> {{child.subField}} </ul>
+                {% endfor %}
+            </li> 
+        {% endfor %} 
+    </ul>
+    {% if user.is_ypan %}
+    <a href="{% url 'new_regulation' %}">Create New Regulation</a>
+</br>
+    <a href="{% url 'new_subfield' %}">Create New SubField</a>
+    {% endif %}
+{% endblock %}
+
+{% block scripts %}
+  {{ block.super }}
+{% endblock %}
