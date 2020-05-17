@@ -1,0 +1,24 @@
+{% extends "./base.html" %}
+{% load static %}
+
+{% block title %}New Regulation{% endblock %}
+
+{% block head %}
+  {{ block.super }}
+
+  <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+
+{% endblock %}
+
+{% block page_content %}
+    </br>
+    <form action = '' method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Αποθήκευση" />
+    </form>
+{% endblock %}
+
+{% block scripts %}
+  {{ block.super }}
+{% endblock %}
