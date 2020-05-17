@@ -84,6 +84,8 @@ venv/
 ENV/ 
 env.bak/ 
 venv.bak/ 
+.ve1
+ve1/
 
 # mkdocs documentation 
 /site 
@@ -111,3 +113,6 @@ GitHub.sublime-settings
 # Visual Studio Code # 
 .vscode/*
 .history
+
+#script
+populateDB.py

@@ -72,7 +72,7 @@ class User(AbstractUser):
     is_ypan = models.BooleanField(default=False)
     is_esyd = models.BooleanField(default=False)
 
-
+#foreas profile
 class ApplicantProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     companyName = models.CharField(max_length=250, verbose_name='Ονομασία', blank=True)

@@ -21,10 +21,11 @@
             </li> 
         {% endfor %} 
     </ul>
-
+    {% if user.is_ypan %}
     <a href="{% url 'new_regulation' %}">Create New Regulation</a>
 </br>
     <a href="{% url 'new_subfield' %}">Create New SubField</a>
+    {% endif %}
 {% endblock %}
 
 {% block scripts %}
