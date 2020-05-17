@@ -132,3 +132,6 @@ MESSAGE_TAGS = {
 }
 
 # AUTH_USER_MODEL = 'app.User'
+# Configure Django App for Heroku.
+import django_heroku
+django_heroku.settings(locals())
