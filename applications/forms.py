@@ -1,7 +1,4 @@
-
-# class ApplicationForm():
 from django.forms import ModelForm
-
 from applications.models import ApplicationForm
 from accounts.models import SubField
 

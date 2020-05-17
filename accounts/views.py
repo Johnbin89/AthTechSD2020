@@ -4,7 +4,6 @@ from django.utils.decorators import method_decorator
 from .decorators import foreas_required, ypan_required, esyd_required
 from django.contrib import messages
 from django.contrib.auth import authenticate, logout
-from django.contrib.auth.forms import UserCreationForm
 from accounts.forms import SignUpForm
 from .models import ApplicantProfile, XeiristisYpourgeiou, XeiristisEsyd, Regulation, SubField
 from django.views.generic import UpdateView, CreateView, ListView
