@@ -1,7 +1,8 @@
 from django.conf.urls import url
 from django.urls import path
-from applications import views as views_app
+from applications import views as views_applications
 
 urlpatterns = [
-    path('esyd/', views_app.esyd_for_foreas, name='esyd'),
+    path('esyd/', views_applications.esyd_for_foreas, name='esyd'),
+    path('ypan_application/', views_applications.ypan_application, name='ypan_application'),
 ]

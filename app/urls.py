@@ -7,6 +7,8 @@ from app import views as views_app
 
 urlpatterns = [
     path('', views_app.index, name='index'),
+    path('services/', views_app.services, name='services'),
+    path('contactus/', views_app.contactus, name='contactus')
     # path('login/', LoginView.as_view(extra_context={'login': True}), name='login'),
     # path('register/', views_accounts.register, name='register'),
     # path('logout/', views_accounts.logout_view, name='logout')
