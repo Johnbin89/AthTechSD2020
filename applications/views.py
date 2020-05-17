@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, reverse
 from django.utils.decorators import method_decorator
 from applications.forms import UploadDocumentForm
 from django.views.generic import DetailView
@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from accounts.decorators import foreas_required, ypan_required, esyd_required
 from accounts.models import ApplicantProfile
 from django.contrib import messages
+from django.utils.html import format_html
 
 
 
@@ -18,7 +19,11 @@ def esyd_for_foreas(request):
 
     userProfile = ApplicantProfile.objects.filter(user =  request.user.id)
     if userProfile[0].has_empty_fields() :
-        messages.error(request, "Συμπληρώστε τα στοιχεία σας στην ενότητα Your Account")
+        account_message = format_html("{} <a href='{}'>{}</a>",
+                      "Συμπληρώστε τα στοιχεία σας στην ενότητα ", 
+                      reverse('foreas_profile', args=(request.user.id,)),
+                      'Λογαριασμός')
+        messages.error(request, account_message)
     else:
         if request.method == 'POST':
             form = UploadDocumentForm(request.POST, request.FILES)
