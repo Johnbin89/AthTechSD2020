@@ -11,7 +11,7 @@ from django.contrib import messages
 
 
 @foreas_required
-def esydApp(request):
+def esyd_for_foreas(request):
     form = UploadDocumentForm()
     pendingApps = ApplicationForm.objects.filter(foreas = request.user.id)
 
