@@ -13,6 +13,7 @@ from django.contrib import messages
 @foreas_required
 def esyd_for_foreas(request):
     form = UploadDocumentForm()
+    esyd_page = True
     pendingApps = ApplicationForm.objects.filter(foreas = request.user.id)
 
     userProfile = ApplicantProfile.objects.filter(user =  request.user.id)
@@ -27,3 +28,7 @@ def esyd_for_foreas(request):
                 # if saved, our files would be located in media/ folder under the project's base folder
                 form.save()
     return render(request, 'esydApp.html', locals())
+
+def ypan_application(request):
+    context = {'ypan_page': True}
+    return render(request, 'ypan_application.html', context)

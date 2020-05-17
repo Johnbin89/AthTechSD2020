@@ -39,24 +39,24 @@
           <li class="nav-item {{ home|yesno:'active, ' }}">
             <a class="nav-link" href="/">Αρχική <span class="sr-only">(current)</span></a>
           </li>
-          <li class="nav-item {{ services|yesno:'active, ' }}">
-            <a class="nav-link" href="/services">Υπηρεσίες</a>
+          <li class="nav-item {{ services_page|yesno:'active, ' }}">
+            <a class="nav-link" href="{% url 'services' %}">Υπηρεσίες</a>
           </li>
           {% if user.is_foreas or user.is_esyd %}
-          <li class="nav-item {{ esyd|yesno:'active, ' }}">
+          <li class="nav-item {{ esyd_page|yesno:'active, ' }}">
             <a class="nav-link" href="{% url 'esyd' %}">Αίτηση ΕΣΥΔ</a>
           </li>
           {% endif %}
           {% if user.is_foreas or user.is_ypan %}
-          <li class="nav-item {{ application|yesno:'active, ' }}">
-            <a class="nav-link" href="{% url 'application' %}">Αίτηση Υπ.Ανάπτυξης</a>
+          <li class="nav-item {{ ypan_page|yesno:'active, ' }}">
+            <a class="nav-link" href="{% url 'ypan_application' %}">Αίτηση Υπ.Ανάπτυξης</a>
           </li>
           {% endif %}
-          <li class="nav-item {{ regulation|yesno:'active, ' }}">
+          <li class="nav-item {{ regulation_page|yesno:'active, ' }}">
             <a class="nav-link" href="{% url 'regulation' %}">Νομοθεσίες-Πεδία</a>
           </li>
-          <li class="nav-item {{ contactus|yesno:'active, ' }}" id="contactus">
-            <a class="nav-link" href="/contactus">Επικοινωνία</a>
+          <li class="nav-item {{ contact_page|yesno:'active, ' }}" id="contactus">
+            <a class="nav-link" href="{% url 'contactus' %}">Επικοινωνία</a>
           </li>
 
           {% if user.is_authenticated %}
