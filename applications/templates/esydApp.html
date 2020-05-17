@@ -12,15 +12,16 @@
 {% block page_content %}
     <div class="content_application">
         <div class="pending_list">
-            <h2>Applications</h2>
+            <h2>Αιτήσεις σε εκκρεμότητα:</h2>
+            {% if pendingApps %}
             <div class="table-responsive">
             <table class="table table-bordered">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Id</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Submission Date</th>
+                        <th scope="col">Αρ. Αίτησης</th>
+                        <th scope="col">Κατάσταση</th>
+                        <th scope="col">Ημερομηνία Υποβολής</th>
                     </tr>
                 </thead>
             <tbody>
@@ -36,9 +37,9 @@
                         <td colspan="3">
                             <div id="id{{ pendApp.id }}" class="collapse in p-3">
                                 <div class="row">
-                                    <div class="col"><b>Field</b></div>
-                                    <div class="col"><b>Status</b></div>
-                                    <div class="col"><b>Expiration Date</b></div>
+                                    <div class="col"><b>Πεδίο</b></div>
+                                    <div class="col"><b>Κατάσταση</b></div>
+                                    <div class="col"><b>Ημερομηνία Λήξης</b></div>
                                 </div>
                                 {% for field in pendApp.children.all %}
                                     <div class="row">
@@ -54,10 +55,16 @@
             </tbody>
             </table>
             </div>
+            {% else %}
+                <h4>Δεν υπάρχουν αιτήσεις σε εκκρεμότητα</h4>
+            {% endif %}
             
         </div>
+        <br>
+        <br>
+        <br>
         <div class="upload_app">
-            <h2>Create Application</h2>
+            <h2>Αίτηση νέου πιστοποιητικού διαπίστευσης (ΕΣΥΔ):</h2>
             </br>
             <form method="post" enctype="multipart/form-data" action="">
             {% csrf_token %}

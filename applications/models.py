@@ -13,7 +13,7 @@ class ApplicationForm(models.Model):
     subfields = models.ManyToManyField(SubField, verbose_name='Πεδια', through='ApplicationSubField')
     status = models.CharField(max_length=100, verbose_name='Κατασταση', default='Pending')
     date = models.DateField(default=datetime.date.today, verbose_name='Ημ/νία υποβολής')
-    file = models.FileField(upload_to='applications/static')
+    file = models.FileField(upload_to='applications/static/esyd_files')
 
     def get_absolute_url(self):
         return reverse('Application', args=[self.pk])
