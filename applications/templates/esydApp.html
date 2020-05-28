@@ -22,6 +22,10 @@
                         <th scope="col">Αρ. Αίτησης</th>
                         <th scope="col">Κατάσταση</th>
                         <th scope="col">Ημερομηνία Υποβολής</th>
+                        {% if user.is_esyd %}
+                        <th scope="col">Αρχείο</th>
+                        <th scope="col">Υποβλήθηκε από</th>
+                        {% endif %}                        
                     </tr>
                 </thead>
             <tbody>
@@ -31,10 +35,18 @@
                         <td>{{ pendApp.id }}</td>
                         <td>{{ pendApp.status }}</td>
                         <td>{{ pendApp.date }}</td>
+                        {% if user.is_esyd %}
+                        <td>
+                        {% with myFilter="esyd_applications/"|add:pendApp.foreas.foreas_profile.companyName|add:'/' %}
+                            {{ pendApp.file.name|cut:myFilter }}
+                        {% endwith %}                            
+                        <a onclick="window.open('{{ pendApp.file.url }}', '_blank');" class="btn btn-info ml-3" >View</a></td>
+                        <td>{{ pendApp.foreas.foreas_profile.companyName }} (ΑΦΜ: {{ pendApp.foreas.foreas_profile.afm }})</td>
+                        {% endif %} 
                     </tr>
                     <tr class="hide-table-padding">
                         <td></td>
-                        <td colspan="3">
+                        <td colspan="5">
                             <div id="id{{ pendApp.id }}" class="collapse in p-3">
                                 <div class="row">
                                     <div class="col"><b>Πεδίο</b></div>
@@ -69,6 +81,7 @@
         <br>
         <br>
         <br>
+        {% if user.is_foreas %}
         <div class="upload_app">
             <h2 class="ml-3">Αίτηση νέου πιστοποιητικού διαπίστευσης (ΕΣΥΔ):</h2>
             </br>
@@ -83,6 +96,7 @@
              <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
             {% endif %}
         </div>
+        {% endif %}
     </div>
 {% endblock %}
 

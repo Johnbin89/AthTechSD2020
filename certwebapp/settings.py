@@ -38,7 +38,7 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     'app',
     'accounts',
-    'applications',
+    'applications.apps.ApplicationsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -134,6 +134,9 @@ LOGIN_REDIRECT_URL = 'user_home_page'
 MESSAGE_TAGS = {
     messages.ERROR: 'danger'
 }
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # AUTH_USER_MODEL = 'app.User'
 # Configure Django App for Heroku.
