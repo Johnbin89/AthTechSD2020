@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+  {{ block.super }}
+
+  <link rel="stylesheet" href="{% static 'css/user_index.css' %}">
+
+{% endblock %}
+
+{% block page_content %}
+<br>
+<div class="ml-3">
+<h2> Αιτήσεις ΕΣΥΔ </h2>
+</div>
+<br>
+    <div class="row">
+      <div class="col">
+        <div class="col-md">
+          <div class="card text-center text-white  mb-3" id="foreas-esyd-pending">
+              <div class="card-header">
+                <h5 class="card-title">Εκκρεμείς αιτήσεις</h5>
+              </div>
+              <div class="card-body">
+                <h3 class="card-title">{{ esyd_pending_apps }}</h3>
+              </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="col-md">
+          <div class="card text-center text-white  mb-3" id="foreas-esyd-approved">
+              <div class="card-header">
+                <h5 class="card-title">Εγκριθείσες αιτήσεις</h5>
+              </div>
+              <div class="card-body">
+                <h3 class="card-title">{{ esyd_approved_apps }}</h3>
+              </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="col-md">
+          <div class="card text-center text-white  mb-3" id="foreas-esyd-rejected">
+              <div class="card-header">
+                <h5 class="card-title">Απορριφθείσες αιτήσεις</h5>
+              </div>
+              <div class="card-body">
+                <h3 class="card-title">{{ esyd_rejected_apps }}</h3>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<br>
+<hr>
+<br>
+<div class="ml-3">
+  <h2> Αιτήσεις Yπ.Ανάπτυξης </h2>
+  </div>
+  <br>
+      <div class="row">
+        <div class="col">
+          <div class="col-md">
+            <div class="card text-center text-white  mb-3" id="foreas-esyd-pending">
+                <div class="card-header">
+                  <h5 class="card-title">Εκκρεμείς αιτήσεις</h5>
+                </div>
+                <div class="card-body">
+                  <h3 class="card-title">5</h3>
+                </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="col">
+          <div class="col-md">
+            <div class="card text-center text-white  mb-3" id="foreas-esyd-approved">
+                <div class="card-header">
+                  <h5 class="card-title">Εγκριθείσες αιτήσεις</h5>
+                </div>
+                <div class="card-body">
+                  <h3 class="card-title">0</h3>
+                </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="col">
+          <div class="col-md">
+            <div class="card text-center text-white  mb-3" id="foreas-esyd-rejected">
+                <div class="card-header">
+                  <h5 class="card-title">Απορριφθείσες αιτήσεις</h5>
+                </div>
+                <div class="card-body">
+                  <h3 class="card-title">2</h3>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+{% endblock %}
+
+{% block scripts %}
+  {{ block.super }}
+{% endblock %}

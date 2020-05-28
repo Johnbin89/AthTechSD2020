@@ -8,7 +8,14 @@ from django.contrib import messages
 from django.utils.html import format_html
 from django.http import HttpResponseRedirect
 
-
+def user_home(request):
+    context = {'home': True}
+    if request.user.is_foreas == True:
+        esyd_pending_apps = ApplicationForm.objects.filter(foreas = request.user.id).filter(status='Σε εκκρεμότητα').count()
+        esyd_approved_apps = ApplicationForm.objects.filter(foreas = request.user.id).filter(status='Εγκρίθηκε').count()
+        esyd_rejected_apps = ApplicationForm.objects.filter(foreas = request.user.id).filter(status='Απορρίφθηκε').count()
+    context.update({'esyd_pending_apps':esyd_pending_apps, 'esyd_approved_apps':esyd_approved_apps, 'esyd_rejected_apps':esyd_rejected_apps})
+    return render(request, 'user_index.html', context)
 
 @foreas_required
 def esyd_for_foreas(request):
