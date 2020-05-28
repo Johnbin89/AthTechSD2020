@@ -7,6 +7,10 @@ from accounts.models import ApplicantProfile, SubField
 # Create your models here.
 from django.urls import reverse
 
+def generate_filename(self, filename):
+    url = "esyd_applications/%s/%s" % (self.foreas.foreas_profile.companyName, filename)
+    return url
+
 #application foreas -> esyd
 class ApplicationForm(models.Model):
     foreas = models.ForeignKey('accounts.User', on_delete=models.CASCADE)
@@ -18,7 +22,7 @@ class ApplicationForm(models.Model):
     ]
     status = models.CharField(max_length=30, verbose_name='Κατασταση', choices=status_esyd_choices, default='Σε εκκρεμότητα')
     date = models.DateField(default=datetime.date.today, verbose_name='Ημ/νία υποβολής')
-    file = models.FileField(upload_to='applications/static/esyd_files', verbose_name="Αρχείο απόδειξης τεχνικής επάρκειας προσωπικού")
+    file = models.FileField(upload_to=generate_filename, verbose_name="Αρχείο απόδειξης τεχνικής επάρκειας προσωπικού")
 
     def get_absolute_url(self):
         return reverse('Application', args=[self.pk])

@@ -74,7 +74,7 @@ class User(AbstractUser):
 
 #foreas profile
 class ApplicantProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    user = models.OneToOneField(User, related_name="foreas_profile", on_delete=models.CASCADE, primary_key=True)
     companyName = models.CharField(max_length=250, verbose_name='Ονομασία', blank=True)
     distTitle = models.CharField(max_length=100, verbose_name='Διακριτικός Τίτλος', blank=True)
     afm = models.CharField(max_length=20, verbose_name='ΑΦΜ', blank=True)
