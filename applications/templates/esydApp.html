@@ -5,7 +5,7 @@
 
 {% block head %}
   {{ block.super }}
-  <link rel="stylesheet" href="{% static 'css/appsForms.css' %}">
+  <link rel="stylesheet" href="{% static 'css/esydApp.css' %}">
 
 {% endblock %}
 
@@ -41,10 +41,16 @@
                                     <div class="col"><b>Κατάσταση</b></div>
                                     <div class="col"><b>Ημερομηνία Λήξης</b></div>
                                 </div>
-                                {% for field in pendApp.children.all %}
-                                    <div class="row">
+                                {% for field in pendApp.children.all %}                                    
+                                    <div class="row border-top mt-3">
                                         <div class="col"> {{ field.subField }}</div>
-                                        <div class="col"> {{ field.status }}</div>
+                                        {% if field.status == 'Σε εκκρεμότητα' %}
+                                            <div class="col text-primary"> {{ field.status }}</div>
+                                        {% elif field.status == 'Απορρίφθηκε' %}
+                                            <div class="col text-danger"> {{ field.status }}</div>
+                                        {% elif field.status == 'Εγκρίθηκε' %}
+                                            <div class="col text-success"> {{ field.status }}</div> 
+                                        {% endif %}                                                                                      
                                         <div class="col"> {{ field.expDate }}</div>
                                     </div>
                                 {% endfor %}
