@@ -12,7 +12,7 @@
 {% block page_content %}
     <div class="content_application">
         <div class="pending_list">
-            <h2>Αιτήσεις σε εκκρεμότητα:</h2>
+            <h2 class="ml-3">Αιτήσεις σε εκκρεμότητα:</h2>
             {% if pendingApps %}
             <div class="table-responsive">
             <table class="table table-bordered">
@@ -62,7 +62,7 @@
             </table>
             </div>
             {% else %}
-                <h4>Δεν υπάρχουν αιτήσεις σε εκκρεμότητα</h4>
+                <h4 class="ml-3">Δεν υπάρχουν αιτήσεις σε εκκρεμότητα</h4>
             {% endif %}
             
         </div>
@@ -70,13 +70,13 @@
         <br>
         <br>
         <div class="upload_app">
-            <h2>Αίτηση νέου πιστοποιητικού διαπίστευσης (ΕΣΥΔ):</h2>
+            <h2 class="ml-3">Αίτηση νέου πιστοποιητικού διαπίστευσης (ΕΣΥΔ):</h2>
             </br>
             <form method="post" enctype="multipart/form-data" action="">
             {% csrf_token %}
-                {{ form }}
+                {{ form.as_p }}
             </br>
-                <button type="submit" value="save">Submit</button>
+                <button type="submit" value="save" class="btn btn-info ml-3">Καταχώρηση</button>
             </form>
 
             {% if uploaded_file_url %}

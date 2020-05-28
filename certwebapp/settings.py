@@ -129,7 +129,7 @@ STATICFILES_DIRS = [
 ]
 '''
 AUTH_USER_MODEL = 'accounts.User'
-LOGIN_REDIRECT_URL = 'index'
+LOGIN_REDIRECT_URL = 'user_home_page'
 
 MESSAGE_TAGS = {
     messages.ERROR: 'danger'
