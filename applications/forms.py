@@ -1,5 +1,6 @@
 from django.forms import ModelForm
-from applications.models import ApplicationForm
+from django import forms
+from applications.models import ApplicationForm, ApplicationSubField
 from accounts.models import SubField
 
 
@@ -17,3 +18,10 @@ class UploadDocumentForm(ModelForm):
         unused_subfields = SubField.objects.exclude(pk__in=set(used_subfields))
         self.fields['subfields'].queryset = unused_subfields
 
+class EsydStatusForm(ModelForm):
+    class Meta:
+        model = ApplicationSubField
+        fields = ['status', 'expDate']
+        widgets = {
+        'expDate': forms.DateInput(format=('%m/%d/%Y'), attrs={'placeholder':'Επιλογή Ημ. Λήξης', 'type':'date'}),
+        }
