@@ -1,6 +1,6 @@
 from django.shortcuts import render, reverse
-from applications.forms import UploadDocumentForm
-from .models import ApplicationForm
+from applications.forms import UploadDocumentForm, EsydStatusForm
+from .models import ApplicationForm, ApplicationSubField
 from django.contrib.auth.decorators import login_required
 from accounts.decorators import foreas_required, ypan_required, esyd_required
 from accounts.models import ApplicantProfile
@@ -48,22 +48,26 @@ def esyd_for_foreas(request):
 def esyd_xeiristis(request):
     context = {'esyd_page': True}
     pendingApps = ApplicationForm.objects.all()
-    #print(pendingApps[0].id)
-
-    context.update({'pendingApps':pendingApps})
+    status_forms = {}
+    for application in pendingApps:
+        no_subfields = ApplicationSubField.objects.filter(application=application.id).count()
+        if no_subfields > 1:
+            list_obj = list(ApplicationSubField.objects.filter(application=application.id))
+            for obj in list_obj:
+                form_name = "form%s%s" % (application.id, str(obj))
+                status_forms.update({form_name:EsydStatusForm(instance=obj)})
+        else:
+            obj = ApplicationSubField.objects.get(application=application.id)
+            form_name = "form%s%s" % (application.id, str(obj))
+            status_forms.update({form_name:EsydStatusForm(instance=obj)})   
+    print(status_forms)
+    context.update({'pendingApps':pendingApps, 'status_forms':status_forms})
     return render(request, 'esydApp.html', context)
 
 
 
 
 
-
-
-
-
-
-
-    pass
 
 def ypan_application(request):
     context = {'ypan_page': True}

@@ -1,5 +1,6 @@
 {% extends "./base.html" %}
 {% load static %}
+{% load extra_tags %}
 
 {% block title %}Αίτηση ΕΣΥΔ{% endblock %}
 
@@ -53,19 +54,40 @@
                                     <div class="col"><b>Κατάσταση</b></div>
                                     <div class="col"><b>Ημερομηνία Λήξης</b></div>
                                 </div>
-                                {% for field in pendApp.children.all %}                                    
+                                {% if user.is_esyd %}
+
+                                {% for field in pendApp.children.all %}
+                                {% with form_name="form"|addstr:pendApp.id|addstr:field.subField %}
+                                {% with form=status_forms|get_item:form_name %}                                    
                                     <div class="row border-top mt-3">
                                         <div class="col"> {{ field.subField }}</div>
-                                        {% if field.status == 'Σε εκκρεμότητα' %}
-                                            <div class="col text-primary"> {{ field.status }}</div>
-                                        {% elif field.status == 'Απορρίφθηκε' %}
-                                            <div class="col text-danger"> {{ field.status }}</div>
-                                        {% elif field.status == 'Εγκρίθηκε' %}
-                                            <div class="col text-success"> {{ field.status }}</div> 
-                                        {% endif %}                                                                                      
-                                        <div class="col"> {{ field.expDate }}</div>
+                                        <div class="col">{{ form.status }}</div>                                                                                    
+                                        <div class="col"> {{ form.expDate }}</div>
                                     </div>
+                                {% endwith %}
+                                {% endwith %}
                                 {% endfor %}
+
+                                {% endif %}
+
+                                
+                                {% if user.is_foreas %}
+
+                                {% for field in pendApp.children.all %}                                    
+                                <div class="row border-top mt-3">
+                                    <div class="col"> {{ field.subField }}</div>
+                                    {% if field.status == 'Σε εκκρεμότητα' %}
+                                        <div class="col text-primary"> {{ field.status }}</div>
+                                    {% elif field.status == 'Απορρίφθηκε' %}
+                                        <div class="col text-danger"> {{ field.status }}</div>
+                                    {% elif field.status == 'Εγκρίθηκε' %}
+                                        <div class="col text-success"> {{ field.status }}</div> 
+                                    {% endif %}                                                                                      
+                                    <div class="col"> {{ field.expDate }}</div>
+                                </div>
+                                {% endfor %}
+
+                                {% endif %} 
                             </div>
                         </td>
                     </tr>
