@@ -23,3 +23,7 @@ tr.hide-table-padding td {
   {
     content: '+';
   }
+
+.hidden{
+    display:none;
+}
