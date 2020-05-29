@@ -2,11 +2,13 @@ from django.shortcuts import render, reverse
 from applications.forms import UploadDocumentForm, EsydStatusForm
 from .models import ApplicationForm, ApplicationSubField
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from accounts.decorators import foreas_required, ypan_required, esyd_required
 from accounts.models import ApplicantProfile
 from django.contrib import messages
 from django.utils.html import format_html
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
+import json
 
 @login_required
 def user_home(request):
@@ -25,7 +27,7 @@ def user_home(request):
 @foreas_required
 def esyd_for_foreas(request):
     context = {'esyd_page': True}
-    pendingApps = ApplicationForm.objects.filter(foreas = request.user.id)
+    pendingApps = ApplicationForm.objects.filter(foreas = request.user.id).filter(status='Σε εκκρεμότητα')
     userProfile = ApplicantProfile.objects.filter(user =  request.user.id)
     form = UploadDocumentForm(current_user=request.user)
     if userProfile[0].has_empty_fields() :
@@ -47,7 +49,7 @@ def esyd_for_foreas(request):
 @esyd_required
 def esyd_xeiristis(request):
     context = {'esyd_page': True}
-    pendingApps = ApplicationForm.objects.all()
+    pendingApps = ApplicationForm.objects.filter(status='Σε εκκρεμότητα').all()
     status_forms = {}
     for application in pendingApps:
         num_subfields = ApplicationSubField.objects.filter(application=application.id).count()
@@ -61,12 +63,39 @@ def esyd_xeiristis(request):
             obj = ApplicationSubField.objects.get(application=application.id)
             no_space_sub_name = str(obj).replace(" ","")
             form_name = "form%s%s" % (application.id, no_space_sub_name)
-            status_forms.update({form_name:EsydStatusForm(instance=obj)})   
+            status_forms.update({form_name:EsydStatusForm(instance=obj)})  
     print(status_forms)
     context.update({'pendingApps':pendingApps, 'status_forms':status_forms})
     return render(request, 'esydApp.html', context)
 
-
+@csrf_exempt
+def updateSub_onEsyd(request):
+    status = request.POST.get('status')
+    date = request.POST.get('date')
+    application_id = request.POST.get('application_id')
+    field_id = request.POST.get('field_id')
+    field_name = request.POST.get('field_name')
+    subfields_of_app = ApplicationSubField.objects.filter(application_id=application_id)
+    field = subfields_of_app.get(pk=field_id)
+    field.status = status
+    field.expDate = date
+    field.save()
+    if status == 'Εγκρίθηκε':
+        messages.success(request, "Το πεδίο ' "+ field_name +" ' της αίτησης Νο. ' "+ application_id + " ' αποθηκεύτηκε. ("+ status + ")" )
+    elif status == 'Σε εκκρεμότητα':
+        messages.warning(request, "Το πεδίο ' "+ field_name +" ' της αίτησης Νο. ' "+ application_id + " ' αποθηκεύτηκε. ("+ status + ")" )
+    else:
+        messages.error(request, "Το πεδίο ' "+ field_name +" ' της αίτησης Νο. ' "+ application_id + " ' αποθηκεύτηκε. ("+ status + ")" )
+    completed = True
+    for subfield in subfields_of_app:
+        if subfield.status == 'Σε εκκρεμότητα' or subfield.status == 'Απορρίφθηκε' :
+            completed = False
+    if completed == True:
+        esyd_app = ApplicationForm.objects.get(pk=application_id)
+        esyd_app.status = 'Εγκρίθηκε'
+        esyd_app.save()
+        messages.success(request, "H αίτηση Νο. ' "+ application_id +" ' εγκρίθηκε" )
+    return JsonResponse('Test Updated!', safe=False)
 
 
 
