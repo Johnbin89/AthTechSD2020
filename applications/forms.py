@@ -22,6 +22,21 @@ class EsydStatusForm(ModelForm):
     class Meta:
         model = ApplicationSubField
         fields = ['status', 'expDate']
-        widgets = {
-        'expDate': forms.DateInput(format=('%m/%d/%Y'), attrs={'placeholder':'Επιλογή Ημ. Λήξης', 'type':'date'}),
-        }
+
+
+    def __init__(self, *args, **kwargs):
+        super(EsydStatusForm, self).__init__(*args, **kwargs)
+        instance = kwargs.get('instance', None)
+        print(instance)
+        date_id_text = "expDate-form%s%s" % (instance.application.id, str(instance).replace(" ",""))
+        status_id_text = "status-form%s%s" % (instance.application.id, str(instance).replace(" ",""))
+        self.fields['expDate'].widget = forms.DateInput(format=('%Y-%m-%d'), attrs={
+            'id': date_id_text,
+            'type': 'date',
+            'placeholder': 'Επιλογή Ημ. Λήξης',
+            'disabled':True})
+        self.fields['status'].widget.attrs\
+            .update({
+                'id': status_id_text,
+                'disabled':True
+            })
