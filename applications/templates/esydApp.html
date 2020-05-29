@@ -53,16 +53,22 @@
                                     <div class="col"><b>Πεδίο</b></div>
                                     <div class="col"><b>Κατάσταση</b></div>
                                     <div class="col"><b>Ημερομηνία Λήξης</b></div>
+                                    <div class="col"><b>Αποθήκευση</b></div>
                                 </div>
                                 {% if user.is_esyd %}
 
                                 {% for field in pendApp.children.all %}
-                                {% with form_name="form"|addstr:pendApp.id|addstr:field.subField %}
+                                {% with form_name="form"|addstr:pendApp.id|addstr:field.subField|cut:" " %}
                                 {% with form=status_forms|get_item:form_name %}                                    
                                     <div class="row border-top mt-3">
                                         <div class="col"> {{ field.subField }}</div>
                                         <div class="col">{{ form.status }}</div>                                                                                    
                                         <div class="col"> {{ form.expDate }}</div>
+                                        <div class="col">
+                                        <button onclick="saveSubfield('{{form_name}}')" class="btn btn-sm btn-info" data-testid="{{form_name}}"  id="save-{{form_name}}">Save</button>
+                                        <button onclick="cancelSave('{{form_name}}')" class="btn btn-sm btn-danger hidden" data-testid="{{form_name}}"  id="cancel-{{form_name}}">Cancel</button>
+                                        <button class="btn btn-sm btn-primary hidden" data-testid="{{form_name}}"  id="confirm-{{form_name}}">Confirm</button>
+                                        </div>
                                     </div>
                                 {% endwith %}
                                 {% endwith %}
@@ -70,7 +76,7 @@
 
                                 {% endif %}
 
-                                
+
                                 {% if user.is_foreas %}
 
                                 {% for field in pendApp.children.all %}                                    
@@ -123,6 +129,65 @@
 {% endblock %}
 
 {% block scripts %}
+<script type="text/javascript">
+
+
+function saveSubfield(form_name){
+        var saveBtn = $(`#save-${form_name}`)
+        var cancelBtn = $(`#cancel-${form_name}`)
+        var confirmBtn = $(`#confirm-${form_name}`)
+        saveBtn.addClass('hidden')
+
+        cancelBtn.removeClass('hidden')
+        confirmBtn.removeClass('hidden')
+}
+
+
+function cancelSave(form_name){
+        var saveBtn = $(`#save-${form_name}`)
+        var cancelBtn = $(`#cancel-${form_name}`)
+        var confirmBtn = $(`#confirm-${form_name}`)
+
+        saveBtn.removeClass('hidden')
+
+        cancelBtn.addClass('hidden')
+        confirmBtn.addClass('hidden')
+
+}
+
+
+function saveUpdate(form_name, field_name, application_id){
+        console.log('Saved!')
+        var testid = $(this).data('testid')
+        var saveBtn = $(`#save-${form_name}`)
+        var cancelBtn = $(`#cancel-${form_name}`)
+        var confirmBtn = $(`#confirm-${form_name}`)
+
+        saveBtn.removeClass('hidden')
+
+        cancelBtn.addClass('hidden')
+        confirmBtn.addClass('hidden')
+
+        var result = $(`#test-${testid}`).val()
+        var data = {'status':testid, 'date':result, 'application_id':application_id , 'field_name':field_name}
+        updateTestPOST(data)
+
+}
+
+function updateTestPOST(data){
+        var url = '/updateSub_onEsyd/'
+        $.ajax({
+            method:'POST',
+            url:url,
+            data:data,
+            success:function(){
+                
+            }
+        })
+
+
+}
+</script>
 <!-- JQuery -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!-- Bootstrap tooltips -->

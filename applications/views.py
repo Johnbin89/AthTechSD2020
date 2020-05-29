@@ -50,15 +50,17 @@ def esyd_xeiristis(request):
     pendingApps = ApplicationForm.objects.all()
     status_forms = {}
     for application in pendingApps:
-        no_subfields = ApplicationSubField.objects.filter(application=application.id).count()
-        if no_subfields > 1:
+        num_subfields = ApplicationSubField.objects.filter(application=application.id).count()
+        if num_subfields > 1:
             list_obj = list(ApplicationSubField.objects.filter(application=application.id))
             for obj in list_obj:
-                form_name = "form%s%s" % (application.id, str(obj))
+                no_space_sub_name = str(obj).replace(" ","")
+                form_name = "form%s%s" % (application.id, no_space_sub_name)
                 status_forms.update({form_name:EsydStatusForm(instance=obj)})
         else:
             obj = ApplicationSubField.objects.get(application=application.id)
-            form_name = "form%s%s" % (application.id, str(obj))
+            no_space_sub_name = str(obj).replace(" ","")
+            form_name = "form%s%s" % (application.id, no_space_sub_name)
             status_forms.update({form_name:EsydStatusForm(instance=obj)})   
     print(status_forms)
     context.update({'pendingApps':pendingApps, 'status_forms':status_forms})
