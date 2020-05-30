@@ -7,6 +7,9 @@
 {% block head %}
   {{ block.super }}
   <link rel="stylesheet" href="{% static 'css/esydApp.css' %}">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 {% endblock %}
 
@@ -144,6 +147,10 @@ function editSubfield(form_name){
     var editBtn = $(`#edit-${form_name}`)
     var status_field = $(`#status-${form_name}`)
     var date_field = $(`#expDate-${form_name}`)
+    date_field.datepicker({
+        dateFormat: "yy-mm-dd",
+        minDate: $.datepicker.formatDate('yy-mm-dd', new Date())
+    })
     saveBtn.prop('disabled', false)
     cancelBtn.removeClass('hidden')
     status_field.prop('disabled', false)
@@ -216,7 +223,7 @@ function updateSubfieldPOST(data){
 
 </script>
 <!-- JQuery -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
 <!-- Bootstrap tooltips -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
 <!-- Bootstrap core JavaScript -->
