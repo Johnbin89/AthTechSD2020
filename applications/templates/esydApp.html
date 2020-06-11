@@ -8,6 +8,7 @@
   {{ block.super }}
   <link rel="stylesheet" href="{% static 'css/esydApp.css' %}">
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+
   <script src="//code.jquery.com/jquery-1.12.4.js"></script>
   <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
@@ -15,124 +16,135 @@
 
 {% block page_content %}
     <div class="content_application">
-        <div class="pending_list">
-            <h2 class="ml-3">Αιτήσεις σε εκκρεμότητα:</h2>
-            {% if pendingApps %}
-            <div class="table-responsive">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Αρ. Αίτησης</th>
-                        <th scope="col">Κατάσταση</th>
-                        <th scope="col">Ημερομηνία Υποβολής</th>
-                        {% if user.is_esyd %}
-                        <th scope="col">Αρχείο</th>
-                        <th scope="col">Υποβλήθηκε από</th>
-                        {% endif %}                        
-                    </tr>
-                </thead>
-            <tbody>
-                {% for pendApp in pendingApps%}
-                    <tr class="accordion-toggle collapsed" id="accordion1" data-toggle="collapse" data-parent="#accordion1" href="#id{{ pendApp.id }}">
-                        <td class="expand-button"></td>
-                        <td>{{ pendApp.id }}</td>
-                        <td>{{ pendApp.status }}</td>
-                        <td>{{ pendApp.date }}</td>
-                        {% if user.is_esyd %}
-                        <td>
-                        {% with myFilter="esyd_applications/"|add:pendApp.foreas.foreas_profile.companyName|add:'/' %}
-                            {{ pendApp.file.name|cut:myFilter }}
-                        {% endwith %}                            
-                        <a onclick="window.open('{{ pendApp.file.url }}', '_blank');" class="btn btn-info ml-3" >View</a></td>
-                        <td>{{ pendApp.foreas.foreas_profile.companyName }} (ΑΦΜ: {{ pendApp.foreas.foreas_profile.afm }})</td>
-                        {% endif %} 
-                    </tr>
-                    <tr class="hide-table-padding">
-                        <td></td>
-                        <td colspan="5">
-                            <div id="id{{ pendApp.id }}" class="collapse in p-3">
-                                <div class="row">
-                                    <div class="col"><b>Πεδίο</b></div>
-                                    <div class="col"><b>Κατάσταση</b></div>
-                                    <div class="col"><b>Ημερομηνία Λήξης</b></div>
-                                    {% if user.is_esyd %}
-                                    <div class="col"><b>Αποθήκευση</b></div>
-                                    {% endif %}
-                                </div>
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#app_list">Αιτήσεις</a>
+            </li>
+            {% if user.is_foreas %}
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#new_app">Νέα Αίτηση</a>
+            </li>
+            {% endif %}
+        </ul>
+        <div class="tab-content">
+            <div id="app_list" class="tab-pane active">
+                <div class="pending_list">
+                    <h2 class="ml-3">Αιτήσεις σε εκκρεμότητα:</h2>
+                    {% if pendingApps %}
+                    <div class="table-responsive">
+                    <table class="table table-bordered" id="apptable">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Αρ. Αίτησης</th>
+                                <th scope="col">Κατάσταση</th>
+                                <th scope="col">Ημερομηνία Υποβολής</th>
                                 {% if user.is_esyd %}
-                                <form>
-                                {% for field in pendApp.children.all %}
-                                {% with form_name="form"|addstr:pendApp.id|addstr:field.subField|cut:" " %}
-                                {% with form=status_forms|get_item:form_name %}                                                                   
-                                    <div class="row border-top mt-3">
-                                        <div class="col"> {{ field.subField }}</div>
-                                        
-                                        <div class="col">{{ form.status }}</div>                                                                                    
-                                        <div class="col"> {{ form.expDate }}</div>
-                                        <div class="col">
-                                        <button onclick="cancelSave('{{form_name}}')" type="reset" class="btn btn-sm btn-danger hidden" data-testid="{{form_name}}"  id="cancel-{{form_name}}" value="Cancel">Cancel</button>
-                                        <button onclick="editSubfield('{{form_name}}')" type="button" class="btn btn-sm btn-warning" data-testid="{{form_name}}"  id="edit-{{form_name}}">Edit</button>
-                                        <button onclick="saveSubfield('{{form_name}}')" type="button" class="btn btn-sm btn-info" disabled="True" data-testid="{{form_name}}"  id="save-{{form_name}}">Save</button>                  
-                                        <button onclick="confirmSave('{{form_name}}','{{field.id}}','{{field.subField}}')" type="button" class="btn btn-sm btn-primary hidden" data-testid="{{form_name}}"  id="confirm-{{form_name}}">Confirm</button>
-                                        
-                                        </div>
-                                    </div>
-                                {% endwith %}
-                                {% endwith %}
-                                {% endfor %}
-                                </form>
-                                {% endif %}
-
-
-                                {% if user.is_foreas %}
-
-                                {% for field in pendApp.children.all %}                                    
-                                <div class="row border-top mt-3">
-                                    <div class="col"> {{ field.subField }}</div>
-                                    {% if field.status == 'Σε εκκρεμότητα' %}
-                                        <div class="col text-primary"> {{ field.status }}</div>
-                                    {% elif field.status == 'Απορρίφθηκε' %}
-                                        <div class="col text-danger"> {{ field.status }}</div>
-                                    {% elif field.status == 'Εγκρίθηκε' %}
-                                        <div class="col text-success"> {{ field.status }}</div> 
-                                    {% endif %}                                                                                      
-                                    <div class="col"> {{ field.expDate }}</div>
-                                </div>
-                                {% endfor %}
-
+                                <th scope="col">Αρχείο</th>
+                                <th scope="col">Υποβλήθηκε από</th>
+                                {% endif %}                        
+                            </tr>
+                        </thead>
+                    <tbody>
+                        {% for pendApp in pendingApps%}
+                            <tr class="accordion-toggle collapsed" id="accordion1" data-toggle="collapse" data-parent="#accordion1" href="#id{{ pendApp.id }}">
+                                <td class="expand-button"></td>
+                                <td>{{ pendApp.id }}</td>
+                                <td>{{ pendApp.status }}</td>
+                                <td>{{ pendApp.date }}</td>
+                                {% if user.is_esyd %}
+                                <td>
+                                {% with myFilter="esyd_applications/"|add:pendApp.foreas.foreas_profile.companyName|add:'/' %}
+                                    {{ pendApp.file.name|cut:myFilter }}
+                                {% endwith %}                            
+                                <a onclick="window.open('{{ pendApp.file.url }}', '_blank');" class="btn btn-info ml-3" >View</a></td>
+                                <td>{{ pendApp.foreas.foreas_profile.companyName }} (ΑΦΜ: {{ pendApp.foreas.foreas_profile.afm }})</td>
                                 {% endif %} 
-                            </div>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-            </table>
+                            </tr>
+                            <tr class="hide-table-padding">
+                                <td></td>
+                                <td colspan="5">
+                                    <div id="id{{ pendApp.id }}" class="collapse in p-3">
+                                        <div class="row">
+                                            <div class="col"><b>Πεδίο</b></div>
+                                            <div class="col"><b>Κατάσταση</b></div>
+                                            <div class="col"><b>Ημερομηνία Λήξης</b></div>
+                                            {% if user.is_esyd %}
+                                            <div class="col"><b>Αποθήκευση</b></div>
+                                            {% endif %}
+                                        </div>
+                                        {% if user.is_esyd %}
+                                        <form>
+                                        {% for field in pendApp.children.all %}
+                                        {% with form_name="form"|addstr:pendApp.id|addstr:field.subField|cut:" " %}
+                                        {% with form=status_forms|get_item:form_name %}                                                                   
+                                            <div class="row border-top mt-3">
+                                                <div class="col"> {{ field.subField }}</div>
+                                                
+                                                <div class="col">{{ form.status }}</div>                                                                                    
+                                                <div class="col"> {{ form.expDate }}</div>
+                                                <div class="col">
+                                                <button onclick="cancelSave('{{form_name}}')" type="reset" class="btn btn-sm btn-danger hidden" data-testid="{{form_name}}"  id="cancel-{{form_name}}" value="Cancel">Cancel</button>
+                                                <button onclick="editSubfield('{{form_name}}')" type="button" class="btn btn-sm btn-warning" data-testid="{{form_name}}"  id="edit-{{form_name}}">Edit</button>
+                                                <button onclick="saveSubfield('{{form_name}}')" type="button" class="btn btn-sm btn-info" disabled="True" data-testid="{{form_name}}"  id="save-{{form_name}}">Save</button>                  
+                                                <button onclick="confirmSave('{{form_name}}','{{field.id}}','{{field.subField}}')" type="button" class="btn btn-sm btn-primary hidden" data-testid="{{form_name}}"  id="confirm-{{form_name}}">Confirm</button>
+                                                
+                                                </div>
+                                            </div>
+                                        {% endwith %}
+                                        {% endwith %}
+                                        {% endfor %}
+                                        </form>
+                                        {% endif %}
+        
+        
+                                        {% if user.is_foreas %}
+        
+                                        {% for field in pendApp.children.all %}                                    
+                                        <div class="row border-top mt-3">
+                                            <div class="col"> {{ field.subField }}</div>
+                                            {% if field.status == 'Σε εκκρεμότητα' %}
+                                                <div class="col text-primary"> {{ field.status }}</div>
+                                            {% elif field.status == 'Απορρίφθηκε' %}
+                                                <div class="col text-danger"> {{ field.status }}</div>
+                                            {% elif field.status == 'Εγκρίθηκε' %}
+                                                <div class="col text-success"> {{ field.status }}</div> 
+                                            {% endif %}                                                                                      
+                                            <div class="col"> {{ field.expDate }}</div>
+                                        </div>
+                                        {% endfor %}
+        
+                                        {% endif %} 
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                    </table>
+                    </div>
+                    {% else %}
+                        <h4 class="ml-3">Δεν υπάρχουν αιτήσεις σε εκκρεμότητα</h4>
+                    {% endif %}
+                    
+                </div>
             </div>
-            {% else %}
-                <h4 class="ml-3">Δεν υπάρχουν αιτήσεις σε εκκρεμότητα</h4>
+            {% if user.is_foreas %}
+            <div class="upload_app tab-pane" id="new_app">
+                <h2 class="ml-3">Αίτηση νέου πιστοποιητικού διαπίστευσης (ΕΣΥΔ):</h2>
+                </br>
+                <form method="post" enctype="multipart/form-data" action="">
+                {% csrf_token %}
+                    {{ form.as_p }}
+                </br>
+                    <button type="submit" value="save" class="btn btn-info ml-3">Καταχώρηση</button>
+                </form>
+    
+                {% if uploaded_file_url %}
+                 <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
+                {% endif %}
+            </div>
             {% endif %}
-            
-        </div>
-        <br>
-        <br>
-        <br>
-        {% if user.is_foreas %}
-        <div class="upload_app">
-            <h2 class="ml-3">Αίτηση νέου πιστοποιητικού διαπίστευσης (ΕΣΥΔ):</h2>
-            </br>
-            <form method="post" enctype="multipart/form-data" action="">
-            {% csrf_token %}
-                {{ form.as_p }}
-            </br>
-                <button type="submit" value="save" class="btn btn-info ml-3">Καταχώρηση</button>
-            </form>
-
-            {% if uploaded_file_url %}
-             <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
-            {% endif %}
-        </div>
-        {% endif %}
+        </div>        
     </div>
 {% endblock %}
 
@@ -230,4 +242,5 @@ function updateSubfieldPOST(data){
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.18.0/js/mdb.min.js"></script>
+
 {% endblock %}
