@@ -55,9 +55,13 @@
             <a class="nav-link" href="{% url 'esyd_xeiristis' %}">Αίτηση ΕΣΥΔ</a>
           </li>
           {% endif %}
-          {% if user.is_foreas or user.is_ypan %}
+          {% if user.is_foreas %}
           <li class="nav-item {{ ypan_page|yesno:'active, ' }}">
             <a class="nav-link" href="{% url 'ypan_application' %}">Αίτηση Υπ.Ανάπτυξης</a>
+          </li>
+          {% elif user.is_ypan %}
+          <li class="nav-item {{ ypan_page|yesno:'active, ' }}">
+            <a class="nav-link" href="{% url 'ypan_xeiristis' %}">Αίτηση Υπ.Ανάπτυξης</a>
           </li>
           {% endif %}
           <li class="nav-item {{ regulation_page|yesno:'active, ' }}">

@@ -1,6 +1,6 @@
 from django.shortcuts import render, reverse
-from applications.forms import UploadDocumentForm, EsydStatusForm
-from .models import ApplicationForm, ApplicationSubField
+from applications.forms import UploadDocumentForm, EsydStatusForm,UploadYpanDocumentForm,YpanStatusForm
+from .models import ApplicationForm, ApplicationSubField,ApplicationYpanForm,ApplicationYpanSubField
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from accounts.decorators import foreas_required, ypan_required, esyd_required
@@ -102,4 +102,43 @@ def updateSub_onEsyd(request):
 
 def ypan_application(request):
     context = {'ypan_page': True}
+    pendingApps = ApplicationYpanForm.objects.filter(foreas = request.user.id).filter(status='Σε εκκρεμότητα')
+    userProfile = ApplicantProfile.objects.filter(user =  request.user.id)
+    form = UploadYpanDocumentForm(current_user=request.user)
+    if userProfile[0].has_empty_fields() :
+        account_message = format_html("{} <a href='{}'>{}</a>",
+                      "Συμπληρώστε τα στοιχεία σας στην ενότητα ", 
+                      reverse('foreas_profile', args=(request.user.id,)),
+                      'Λογαριασμός')
+        messages.error(request, account_message)
+    else:
+        if request.method == 'POST':
+            form = UploadYpanDocumentForm(request.POST, request.FILES, current_user = request.user)
+            form.instance.foreas = request.user
+            if form.is_valid():
+                form.save()
+                return HttpResponseRedirect(reverse('ypan_application'))
+    context['form'],context['pendingApps'] = form, pendingApps
+    return render(request, 'ypan_application.html', context)
+
+@ypan_required
+def ypan_xeiristis(request):
+    context = {'ypan_page': True}
+    pendingApps = ApplicationYpanForm.objects.filter(status='Σε εκκρεμότητα').all()
+    status_forms = {}
+    for application in pendingApps:
+        num_subfields = ApplicationYpanSubField.objects.filter(application=application.id).count()
+        if num_subfields > 1:
+            list_obj = list(ApplicationYpanSubField.objects.filter(application=application.id))
+            for obj in list_obj:
+                no_space_sub_name = str(obj).replace(" ","")
+                form_name = "form%s%s" % (application.id, no_space_sub_name)
+                status_forms.update({form_name:YpanStatusForm(instance=obj)})
+        else:
+            obj = ApplicationYpanSubField.objects.get(application=application.id)
+            no_space_sub_name = str(obj).replace(" ","")
+            form_name = "form%s%s" % (application.id, no_space_sub_name)
+            status_forms.update({form_name:YpanStatusForm(instance=obj)})  
+    print(status_forms)
+    context.update({'pendingApps':pendingApps, 'status_forms':status_forms})
     return render(request, 'ypan_application.html', context)
