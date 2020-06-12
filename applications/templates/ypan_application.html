@@ -5,33 +5,33 @@
 {% block title %}Αίτηση Υπουργείο Ανάπτυξης{% endblock %}
 
 {% block head %}
-  {{ block.super }}
-  <link rel="stylesheet" href="{% static 'css/ypanApp.css' %}">
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/ypanApp.css' %}">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
 
-  <script src="//code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="//code.jquery.com/jquery-1.12.4.js"></script>
+<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 {% endblock %}
 
 {% block page_content %}
-    <div class="content_application">
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#app_list">Αιτήσεις</a>
-            </li>
-            {% if user.is_foreas %}
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#new_app">Νέα Αίτηση</a>
-            </li>
-            {% endif %}
-        </ul>
-        <div class="tab-content">
-            <div id="app_list" class="tab-pane active">
-                <div class="pending_list">
-                    <h2 class="ml-3">Αιτήσεις σε εκκρεμότητα:</h2>
-                    {% if pendingApps %}
-                    <div class="table-responsive">
+<div class="content_application">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#app_list">Αιτήσεις</a>
+        </li>
+        {% if user.is_foreas %}
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#new_app">Νέα Αίτηση</a>
+        </li>
+        {% endif %}
+    </ul>
+    <div class="tab-content">
+        <div id="app_list" class="tab-pane active">
+            <div class="pending_list">
+                <!-- <h2 class="ml-3">Αιτήσεις σε εκκρεμότητα:</h2> -->
+                {% if pendingApps %}
+                <div class="table-responsive">
                     <table class="table table-bordered" id="apptable">
                         <thead>
                             <tr>
@@ -40,137 +40,256 @@
                                 <th scope="col">Κατάσταση</th>
                                 <th scope="col">Ημερομηνία Υποβολής</th>
                                 {% if user.is_ypan %}
-                                <th scope="col">Αρχείο</th>
                                 <th scope="col">Υποβλήθηκε από</th>
-                                {% endif %}                        
+                                {% endif %}
                             </tr>
                         </thead>
-                    <tbody>
-                        {% for pendApp in pendingApps%}
-                            <tr class="accordion-toggle collapsed" id="accordion1" data-toggle="collapse" data-parent="#accordion1" href="#id{{ pendApp.id }}">
-                                <td class="expand-button"></td>
+                        <tbody>
+                            {% for pendApp in pendingApps%}
+                            <tr class="">
+                                <td class="accordion-toggle collapsed" id="accordion1" data-toggle="collapse"
+                                data-parent="#accordion1" href="#id{{ pendApp.id }}"><br><b class="expand-button"></b></td>
                                 <td>{{ pendApp.id }}</td>
                                 <td>{{ pendApp.status }}</td>
                                 <td>{{ pendApp.date }}</td>
                                 {% if user.is_ypan %}
-                                <td>
-                                {% with myFilter="ypan_applications/"|add:pendApp.foreas.foreas_profile.companyName|add:'/' %}
-                                    {{ pendApp.Non_Bankruptcy_Cert_1.name|cut:myFilter }}
-                                {% endwith %}                            
-                                <a onclick="window.open('{{ pendApp.Non_Bankruptcy_Cert_1.url }}', '_blank');" class="btn btn-info ml-3" >View</a></td>
-                                <td>{{ pendApp.foreas.foreas_profile.companyName }} (ΑΦΜ: {{ pendApp.foreas.foreas_profile.afm }})</td>
-                                {% endif %} 
+                                <td>{{ pendApp.foreas.foreas_profile.companyName }} (ΑΦΜ:
+                                    {{ pendApp.foreas.foreas_profile.afm }})</td>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="5">
+                                    <div id="id{{ pendApp.id }}" class="collapse in p-3">
+                                        <div class="row">
+                                            {% if user.is_ypan %}
+                                            <div class="col"><b>ΠΡΟΒΟΛΗ ΑΡΧΕΙΩΝ</b></div>
+                                            {% endif %}
+                                            <div class="col"><b>Πεδίο</b></div>
+                                            <div class="col"><b>Κατάσταση</b></div>
+                                            <div class="col"><b>Ημερομηνία Λήξης</b></div>
+                                            {% if user.is_ypan %}
+                                            <div class="col"><b>Αποθήκευση</b></div>
+                                            {% endif %}
+                                        </div>
+                                        {% if user.is_ypan %}
+                                        <form>
+                                            {% for field in pendApp.ypan_subfields.all %}
+                                            {% with form_name="form"|addstr:pendApp.id|addstr:field.subField|cut:" " %}
+                                            {% with form=status_forms|get_item:form_name %}
+                                            <div class="row border-top mt-3">
+                                                <div class="col hide-table-padding accordion-toggle collapsed" id="accordion2" data-toggle="collapse"
+                                                data-parent="#accordion2" href="#id2{{ pendApp.id }}"><br><b class="expand-button"></b></div>
+                                                <div class="col"> {{ field.subField }}</div>
+
+                                                <div class="col">{{ form.status }}</div>
+                                                <div class="col"> {{ form.expDate }}</div>
+                                                <div class="col">
+                                                    <button onclick="cancelSave('{{form_name}}')" type="reset"
+                                                        class="btn btn-sm btn-danger hidden" data-testid="{{form_name}}"
+                                                        id="cancel-{{form_name}}" value="Cancel">Cancel</button>
+                                                    <button onclick="editSubfield('{{form_name}}')" type="button"
+                                                        class="btn btn-sm btn-warning" data-testid="{{form_name}}"
+                                                        id="edit-{{form_name}}">Edit</button>
+                                                    <button onclick="saveSubfield('{{form_name}}')" type="button"
+                                                        class="btn btn-sm btn-info" disabled="True"
+                                                        data-testid="{{form_name}}"
+                                                        id="save-{{form_name}}">Save</button>
+                                                    <button
+                                                        onclick="confirmSave('{{form_name}}','{{field.id}}','{{field.subField}}')"
+                                                        type="button" class="btn btn-sm btn-primary hidden"
+                                                        data-testid="{{form_name}}"
+                                                        id="confirm-{{form_name}}">Confirm</button>
+
+                                                </div>
+                                            </div>
+                                            {% endwith %}
+                                            {% endwith %}
+                                            {% endfor %}
+                                        </form>
+                                        {% endif %}
+
+
+                                        {% if user.is_foreas %}
+
+                                        {% for field in pendApp.ypan_subfields.all %}
+                                        <div class="row border-top mt-3">
+                                            <div class="col"> {{ field.subField }}</div>
+                                            {% if field.status == 'Σε εκκρεμότητα' %}
+                                            <div class="col text-primary"> {{ field.status }}</div>
+                                            {% elif field.status == 'Απορρίφθηκε' %}
+                                            <div class="col text-danger"> {{ field.status }}</div>
+                                            {% elif field.status == 'Εγκρίθηκε' %}
+                                            <div class="col text-success"> {{ field.status }}</div>
+                                            {% endif %}
+                                            <div class="col"> {{ field.expDate }}</div>
+                                        </div>
+                                        {% endfor %}
+
+                                        {% endif %}
+                                    </div>
+                                </td>
                             </tr>
                             <tr class="hide-table-padding">
-                              <td></td>
-                              <td colspan="5">
-                                  <div id="id{{ pendApp.id }}" class="collapse in p-3">
-                                      <div class="row">
-                                          <div class="col"><b>Πεδίο</b></div>
-                                          <div class="col"><b>Κατάσταση</b></div>
-                                          <div class="col"><b>Ημερομηνία Λήξης</b></div>
-                                          {% if user.is_ypan %}
-                                          <div class="col"><b>Αποθήκευση</b></div>
-                                          {% endif %}
-                                      </div>
-                                      {% if user.is_ypan %}
-                                      <form>
-                                      {% for field in pendApp.ypan_subfields.all %}
-                                      {% with form_name="form"|addstr:pendApp.id|addstr:field.subField|cut:" " %}
-                                      {% with form=status_forms|get_item:form_name %}                                                                   
-                                          <div class="row border-top mt-3">
-                                              <div class="col"> {{ field.subField }}</div>
-                                              
-                                              <div class="col">{{ form.status }}</div>                                                                                    
-                                              <div class="col"> {{ form.expDate }}</div>
-                                              <div class="col">
-                                              <button onclick="cancelSave('{{form_name}}')" type="reset" class="btn btn-sm btn-danger hidden" data-testid="{{form_name}}"  id="cancel-{{form_name}}" value="Cancel">Cancel</button>
-                                              <button onclick="editSubfield('{{form_name}}')" type="button" class="btn btn-sm btn-warning" data-testid="{{form_name}}"  id="edit-{{form_name}}">Edit</button>
-                                              <button onclick="saveSubfield('{{form_name}}')" type="button" class="btn btn-sm btn-info" disabled="True" data-testid="{{form_name}}"  id="save-{{form_name}}">Save</button>                  
-                                              <button onclick="confirmSave('{{form_name}}','{{field.id}}','{{field.subField}}')" type="button" class="btn btn-sm btn-primary hidden" data-testid="{{form_name}}"  id="confirm-{{form_name}}">Confirm</button>
-                                              
-                                              </div>
-                                          </div>
-                                      {% endwith %}
-                                      {% endwith %}
-                                      {% endfor %}
-                                      </form>
-                                      {% endif %}
-      
-      
-                                      {% if user.is_foreas %}
-      
-                                      {% for field in pendApp.ypan_subfields.all %}                                    
-                                      <div class="row border-top mt-3">
-                                          <div class="col"> {{ field.subField }}</div>
-                                          {% if field.status == 'Σε εκκρεμότητα' %}
-                                              <div class="col text-primary"> {{ field.status }}</div>
-                                          {% elif field.status == 'Απορρίφθηκε' %}
-                                              <div class="col text-danger"> {{ field.status }}</div>
-                                          {% elif field.status == 'Εγκρίθηκε' %}
-                                              <div class="col text-success"> {{ field.status }}</div> 
-                                          {% endif %}                                                                                      
-                                          <div class="col"> {{ field.expDate }}</div>
-                                      </div>
-                                      {% endfor %}
-      
-                                      {% endif %} 
-                                  </div>
-                              </td>
-                          </tr>
-                        {% endfor %}
-                    </tbody>
+                                <td></td>
+                                <td colspan="5">
+                                    <div id="id2{{ pendApp.id }}" class="collapse in p-3">
+                                        <div class="row" style="flex-wrap: nowrap;width: max-content;">
+                                            <div class="col"><b>Πιστοποιητικό Πρωτοδικείου περί μη πτώχευσης σε ισχύ</b><br>
+                                                {% with myFilter="ypan_applications/"|add:pendApp.foreas.foreas_profile.companyName|add:'/' %}
+                                                {{ pendApp.Non_Bankruptcy_Cert_1.name|cut:myFilter }}
+                                                {% endwith %}
+                                                <a onclick="window.open('{{ pendApp.Non_Bankruptcy_Cert_1.url }}', '_blank');"
+                                                    class="btn btn-info ml-3">View</a>
+                                            </div>
+                                            <div class="col"><b>Πιστοποιητικό Πρωτοδικείου περί μη κατάθεσης αίτησης
+                                                    πτωχεύσεως σε
+                                                    ισχύ</b><br>
+                                                {% with myFilter="ypan_applications/"|add:pendApp.foreas.foreas_profile.companyName|add:'/' %}
+                                                {{ pendApp.Non_Bankruptcy_Cert_2.name|cut:myFilter }}
+                                                {% endwith %}
+                                                <a onclick="window.open('{{ pendApp.Non_Bankruptcy_Cert_2.url }}', '_blank');"
+                                                    class="btn btn-info ml-3">View</a></div>
+                                            <div class="col"><b>Πιστοποιητικό Πρωτοδικείου περί μη θέσης σε εκκαθάριση
+                                                    σε
+                                                    ισχύ</b><br>
+                                                {% with myFilter="ypan_applications/"|add:pendApp.foreas.foreas_profile.companyName|add:'/' %}
+                                                {{ pendApp.Non_Clearance_Cert.name|cut:myFilter }}
+                                                {% endwith %}
+                                                <a onclick="window.open('{{ pendApp.Non_Clearance_Cert.url }}', '_blank');"
+                                                    class="btn btn-info ml-3">View</a></div>
+                                            <div class="col"><b>Πιστοποιητικό Πρωτοδικείου περί μη θέσης σε αναγκαστική
+                                                    διαχείριση σε
+                                                    ισχύ</b><br>
+                                                {% with myFilter="ypan_applications/"|add:pendApp.foreas.foreas_profile.companyName|add:'/' %}
+                                                {{ pendApp.Non_Force_Arrange_Cert.name|cut:myFilter }}
+                                                {% endwith %}
+                                                <a onclick="window.open('{{ pendApp.Non_Force_Arrange_Cert.url }}', '_blank');"
+                                                    class="btn btn-info ml-3">View</a></div>
+                                            <div class="col"><b>Πιστοποιητικό ΓΕΜΗ Γενικής Χρήσης και
+                                                    Εκπροσώπησης</b><br>
+                                                {% with myFilter="ypan_applications/"|add:pendApp.foreas.foreas_profile.companyName|add:'/' %}
+                                                {{ pendApp.GEMI_Cert.name|cut:myFilter }}
+                                                {% endwith %}
+                                                <a onclick="window.open('{{ pendApp.GEMI_Cert.url }}', '_blank');"
+                                                    class="btn btn-info ml-3">View</a>
+                                            </div>
+                                            <div class="col"><b>Αποδεικτικό ενημερότητας για χρέη προς το
+                                                    Δημόσιο</b><br>
+                                                {% with myFilter="ypan_applications/"|add:pendApp.foreas.foreas_profile.companyName|add:'/' %}
+                                                {{ pendApp.Tax_Clear_Cert.name|cut:myFilter }}
+                                                {% endwith %}
+                                                <a onclick="window.open('{{ pendApp.Tax_Clear_Cert.url }}', '_blank');"
+                                                    class="btn btn-info ml-3">View</a>
+                                            </div>
+                                            <div class="col"><b>Βεβαίωση ΙΚΑ περί ασφαλιστικής ενημερότητας σε ισχύ</b><br>
+                                                {% with myFilter="ypan_applications/"|add:pendApp.foreas.foreas_profile.companyName|add:'/' %}
+                                                {{ pendApp.Insurance_Liability_Cert.name|cut:myFilter }}
+                                                {% endwith %}
+                                                <a onclick="window.open('{{ pendApp.Insurance_Liability_Cert.url }}', '_blank');"
+                                                    class="btn btn-info ml-3">View</a>
+                                            </div>
+                                            <div class="col"><b>Βεβαίωση ασφάλισης επαγγελματικής αστικής ευθύνης για
+                                                    την κάλυψη κινδύνων των παρεχόμενων
+                                                    υπηρεσιών</b><br>
+                                                {% with myFilter="ypan_applications/"|add:pendApp.foreas.foreas_profile.companyName|add:'/' %}
+                                                {{ pendApp.Civil_ID.name|cut:myFilter }}
+                                                {% endwith %}
+                                                <a onclick="window.open('{{ pendApp.Civil_ID.url }}', '_blank');"
+                                                    class="btn btn-info ml-3">View</a></div>
+                                            <div class="col"><b>Ισολογισμοί τριών τελευταίων ετών</b><br>
+                                                {% with myFilter="ypan_applications/"|add:pendApp.foreas.foreas_profile.companyName|add:'/' %}
+                                                {{ pendApp.Balance_Sheet_3Y.name|cut:myFilter }}
+                                                {% endwith %}
+                                                <a onclick="window.open('{{ pendApp.Balance_Sheet_3Y.url }}', '_blank');"
+                                                    class="btn btn-info ml-3">View</a></div>
+                                            <div class="col"><b>Κωδικοποιημένο καταστατικό της
+                                                    εταιρείας</b><br>
+                                                {% with myFilter="ypan_applications/"|add:pendApp.foreas.foreas_profile.companyName|add:'/' %}
+                                                {{ pendApp.Art_Of_Incorporation.name|cut:myFilter }}
+                                                {% endwith %}
+                                                <a onclick="window.open('{{ pendApp.Art_Of_Incorporation.url }}', '_blank');"
+                                                    class="btn btn-info ml-3">View</a></div>
+                                            <div class="col"><b>Βεβαίωση περί μη τροποποίησης του πιστοποιητικού
+                                                    ΓΕΜΗ</b><br>
+                                                {% with myFilter="ypan_applications/"|add:pendApp.foreas.foreas_profile.companyName|add:'/' %}
+                                                {{ pendApp.GEMI_NoMod_Cert.name|cut:myFilter }}
+                                                {% endwith %}
+                                                <a onclick="window.open('{{ pendApp.GEMI_NoMod_Cert.url }}', '_blank');"
+                                                    class="btn btn-info ml-3">View</a></div>
+                                            <div class="col"><b>Υπεύθυνη δήλωση του κοινοποιημένου οργανισμού για τη
+                                                    δραστηριοποίησή του ή μη σε άλλες
+                                                    χώρες</b><br>
+                                                {% with myFilter="ypan_applications/"|add:pendApp.foreas.foreas_profile.companyName|add:'/' %}
+                                                {{ pendApp.Foreign_Activity_Decl.name|cut:myFilter }}
+                                                {% endwith %}
+                                                <a onclick="window.open('{{ pendApp.Foreign_Activity_Decl.url }}', '_blank');"
+                                                    class="btn btn-info ml-3">View</a></div>
+                                            <div class="col"><b>Υπεύθυνη δήλωση του κοινοποιημένου φορέα για τη
+                                                    συμμετοχή του ή μη στις ομάδες
+                                                    συντονισμού</b><br>
+                                                {% with myFilter="ypan_applications/"|add:pendApp.foreas.foreas_profile.companyName|add:'/' %}
+                                                {{ pendApp.Coord_Group_Decl.name|cut:myFilter }}
+                                                {% endwith %}
+                                                <a onclick="window.open('{{ pendApp.Coord_Group_Decl.url }}', '_blank');"
+                                                    class="btn btn-info ml-3">View</a></div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
                     </table>
-                    </div>
-                    {% else %}
-                        <h4 class="ml-3">Δεν υπάρχουν αιτήσεις σε εκκρεμότητα</h4>
-                    {% endif %}
-                    
                 </div>
-            </div>
-            {% if user.is_foreas %}
-            <div class="upload_app tab-pane" id="new_app">
-                <h2 class="ml-3">Αίτηση νέου πιστοποιητικού διαπίστευσης (Υπουργείο	Ανάπτυξης):</h2>
-                </br>
-                <form method="post" enctype="multipart/form-data" action="">
-                {% csrf_token %}
-                    {{ form.as_p }}
-                </br>
-                    <button type="submit" value="save" class="btn btn-info ml-3">Καταχώρηση</button>
-                </form>
-    
-                {% if uploaded_file_url %}
-                 <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
+                {% else %}
+                <h4 class="ml-3">Δεν υπάρχουν αιτήσεις σε εκκρεμότητα</h4>
                 {% endif %}
+
             </div>
+        </div>
+        {% if user.is_foreas %}
+        <div class="upload_app tab-pane" id="new_app">
+            <h2 class="ml-3">Αίτηση νέου πιστοποιητικού διαπίστευσης (Υπουργείο Ανάπτυξης):</h2>
+            </br>
+            <form method="post" enctype="multipart/form-data" action="">
+                {% csrf_token %}
+                {{ form.as_p }}
+                </br>
+                <button type="submit" value="save" class="btn btn-info ml-3">Καταχώρηση</button>
+            </form>
+
+            {% if uploaded_file_url %}
+            <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
             {% endif %}
-        </div>        
+        </div>
+        {% endif %}
     </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
 <script type="text/javascript">
 
 
-function editSubfield(form_name){
-    var saveBtn = $(`#save-${form_name}`)
-    var cancelBtn = $(`#cancel-${form_name}`)
-    var confirmBtn = $(`#confirm-${form_name}`)
-    var editBtn = $(`#edit-${form_name}`)
-    var status_field = $(`#status-${form_name}`)
-    var date_field = $(`#expDate-${form_name}`)
-    date_field.datepicker({
-        dateFormat: "yy-mm-dd",
-        minDate: $.datepicker.formatDate('yy-mm-dd', new Date())
-    })
-    saveBtn.prop('disabled', false)
-    cancelBtn.removeClass('hidden')
-    status_field.prop('disabled', false)
-    date_field.prop('disabled', false)
+    function editSubfield(form_name) {
+        var saveBtn = $(`#save-${form_name}`)
+        var cancelBtn = $(`#cancel-${form_name}`)
+        var confirmBtn = $(`#confirm-${form_name}`)
+        var editBtn = $(`#edit-${form_name}`)
+        var status_field = $(`#status-${form_name}`)
+        var date_field = $(`#expDate-${form_name}`)
+        date_field.datepicker({
+            dateFormat: "yy-mm-dd",
+            minDate: $.datepicker.formatDate('yy-mm-dd', new Date())
+        })
+        saveBtn.prop('disabled', false)
+        cancelBtn.removeClass('hidden')
+        status_field.prop('disabled', false)
+        date_field.prop('disabled', false)
 
-}
+    }
 
-function saveSubfield(form_name){
+    function saveSubfield(form_name) {
         var saveBtn = $(`#save-${form_name}`)
         var cancelBtn = $(`#cancel-${form_name}`)
         var confirmBtn = $(`#confirm-${form_name}`)
@@ -182,10 +301,10 @@ function saveSubfield(form_name){
 
         cancelBtn.removeClass('hidden')
         confirmBtn.removeClass('hidden')
-}
+    }
 
 
-function cancelSave(form_name){
+    function cancelSave(form_name) {
 
         var saveBtn = $(`#save-${form_name}`)
         var cancelBtn = $(`#cancel-${form_name}`)
@@ -199,10 +318,10 @@ function cancelSave(form_name){
         status_field.prop('disabled', true)
         date_field.prop('disabled', true)
 
-}
+    }
 
 
-function confirmSave(form_name, field_id, field_name){
+    function confirmSave(form_name, field_id, field_name) {
         console.log('Saved!')
         var testid = $(this).data('testid')
         var saveBtn = $(`#save-${form_name}`)
@@ -215,20 +334,20 @@ function confirmSave(form_name, field_id, field_name){
         confirmBtn.addClass('hidden')
         var status = $(`#status-${form_name}`).val()
         var date = $(`#expDate-${form_name}`).val()
-        var data = {'status':status, 'date':date, 'application_id':form_name[4] , 'field_id':field_id, 'field_name':field_name}
+        var data = { 'status': status, 'date': date, 'application_id': form_name[4], 'field_id': field_id, 'field_name': field_name }
         console.log(data)
         updateSubfieldPOST(data)
 
-}
+    }
 
-function updateSubfieldPOST(data){
-        var url = "{% url 'esyd_update_subfield' %}"
+    function updateSubfieldPOST(data) {
+        var url = "{% url 'ypan_update_subfield' %}"
         $.ajax({
-            method:'POST',
-            url:url,
-            data:data,
-            success:function(){
-                window.location.href = "{% url 'esyd_xeiristis' %}"
+            method: 'POST',
+            url: url,
+            data: data,
+            success: function () {
+                window.location.href = "{% url 'ypan_xeiristis' %}"
             }
         })
     }
@@ -239,7 +358,8 @@ function updateSubfieldPOST(data){
 <!-- Bootstrap tooltips -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
 <!-- Bootstrap core JavaScript -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.18.0/js/mdb.min.js"></script>
 
