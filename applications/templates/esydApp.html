@@ -8,7 +8,8 @@
   {{ block.super }}
   <link rel="stylesheet" href="{% static 'css/esydApp.css' %}">
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/css/theme.bootstrap_4.min.css">
+  <link href="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.6/select2.min.css" rel="stylesheet">
   <script src="//code.jquery.com/jquery-1.12.4.js"></script>
   <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
@@ -32,16 +33,16 @@
                     <!-- <h2 class="ml-3">Αιτήσεις σε εκκρεμότητα:</h2> -->
                     {% if pendingApps %}
                     <div class="table-responsive">
-                    <table class="table table-bordered" id="apptable">
+                    <table class="table table-bordered tablesorter-bootstrap" id="apptable">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Αρ. Αίτησης</th>
-                                <th scope="col">Κατάσταση</th>
-                                <th scope="col">Ημερομηνία Υποβολής</th>
+                                <th scope="col" class="filter-false sorter-false">#</th>
+                                <th scope="col" class="filter-onlyAvail">Αρ. Αίτησης</th>
+                                <th scope="col" class="filter-onlyAvail">Κατάσταση</th>
+                                <th scope="col" class="filter-onlyAvail">Ημερομηνία Υποβολής</th>
                                 {% if user.is_esyd %}
-                                <th scope="col">Αρχείο</th>
-                                <th scope="col">Υποβλήθηκε από</th>
+                                <th scope="col" class="filter-onlyAvail">Αρχείο</th>
+                                <th scope="col" class="filter-onlyAvail">Υποβλήθηκε από</th>
                                 {% endif %}                        
                             </tr>
                         </thead>
@@ -61,7 +62,7 @@
                                 <td>{{ pendApp.foreas.foreas_profile.companyName }} (ΑΦΜ: {{ pendApp.foreas.foreas_profile.afm }})</td>
                                 {% endif %} 
                             </tr>
-                            <tr class="hide-table-padding">
+                            <tr class="hide-table-padding tablesorter-childRow">
                                 <td></td>
                                 <td colspan="5">
                                     <div id="id{{ pendApp.id }}" class="collapse in p-3">
@@ -233,6 +234,56 @@ function updateSubfieldPOST(data){
         })
     }
 
+    $(function() {
+  $("#apptable").tablesorter({
+    theme : 'blue',
+      // this is the default setting
+      cssChildRow : 'tablesorter-childRow',
+      // initialize zebra and filter widgets
+      widgets : [  'filter' ],
+      widgetOptions : {
+      // Use the $.tablesorter.storage utility to save the most recent filters
+      filter_saveFilters : true,
+      // jQuery selector string of an element used to reset the filters
+      filter_reset : 'button.reset',
+      // add custom selector elements to the filter row
+      filter_formatter : {
+
+        // Alphanumeric (exact)
+        1 : function($cell, indx) {
+          return $.tablesorter.filterFormatter.select2( $cell, indx, {
+            match : false // exact match only
+          });
+        },
+        // Alphanumeric (exact)
+        2 : function($cell, indx) {
+          return $.tablesorter.filterFormatter.select2( $cell, indx, {
+            match : false // exact match only
+          });
+        },
+        // Alphanumeric (exact)
+        3 : function($cell, indx) {
+          return $.tablesorter.filterFormatter.select2( $cell, indx, {
+            match : false // exact match only
+          });
+        },
+        // Alphanumeric (exact)
+        4 : function($cell, indx) {
+          return $.tablesorter.filterFormatter.select2( $cell, indx, {
+            match : false // exact match only
+          });
+        },
+        // Alphanumeric (exact)
+        5 : function($cell, indx) {
+          return $.tablesorter.filterFormatter.select2( $cell, indx, {
+            match : false // exact match only
+          });
+        }
+      },
+    }
+
+  });
+});
 </script>
 <!-- JQuery -->
 
@@ -242,5 +293,10 @@ function updateSubfieldPOST(data){
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.18.0/js/mdb.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.widgets.min.js"></script>
+
+<script src="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.6/select2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/widgets/widget-filter-formatter-select2.min.js"></script>
 
 {% endblock %}
