@@ -27,7 +27,7 @@ def user_home(request):
 @foreas_required
 def esyd_for_foreas(request):
     context = {'esyd_page': True}
-    pendingApps = ApplicationForm.objects.filter(foreas = request.user.id).filter(status='Σε εκκρεμότητα')
+    pendingApps = ApplicationForm.objects.filter(foreas = request.user.id) ##.filter(status='Σε εκκρεμότητα')
     userProfile = ApplicantProfile.objects.filter(user =  request.user.id)
     form = UploadDocumentForm(current_user=request.user)
     if userProfile[0].has_empty_fields() :
@@ -49,7 +49,7 @@ def esyd_for_foreas(request):
 @esyd_required
 def esyd_xeiristis(request):
     context = {'esyd_page': True}
-    pendingApps = ApplicationForm.objects.filter(status='Σε εκκρεμότητα').all()
+    pendingApps = ApplicationForm.objects.all() ##.filter(status='Σε εκκρεμότητα')
     status_forms = {}
     for application in pendingApps:
         num_subfields = ApplicationSubField.objects.filter(application=application.id).count()
@@ -102,7 +102,7 @@ def updateSub_onEsyd(request):
 
 def ypan_application(request):
     context = {'ypan_page': True}
-    pendingApps = ApplicationYpanForm.objects.filter(foreas = request.user.id).filter(status='Σε εκκρεμότητα')
+    pendingApps = ApplicationYpanForm.objects.filter(foreas = request.user.id) ##.filter(status='Σε εκκρεμότητα')
     userProfile = ApplicantProfile.objects.filter(user =  request.user.id)
     form = UploadYpanDocumentForm(current_user=request.user)
     if userProfile[0].has_empty_fields() :
@@ -124,7 +124,7 @@ def ypan_application(request):
 @ypan_required
 def ypan_xeiristis(request):
     context = {'ypan_page': True}
-    pendingApps = ApplicationYpanForm.objects.filter(status='Σε εκκρεμότητα').all()
+    pendingApps = ApplicationYpanForm.objects.all() ##.filter(status='Σε εκκρεμότητα')
     status_forms = {}
     for application in pendingApps:
         num_subfields = ApplicationYpanSubField.objects.filter(application=application.id).count()
@@ -142,3 +142,54 @@ def ypan_xeiristis(request):
     print(status_forms)
     context.update({'pendingApps':pendingApps, 'status_forms':status_forms})
     return render(request, 'ypan_application.html', context)
+
+@esyd_required
+def esyd_xeiristis(request):
+    context = {'esyd_page': True}
+    pendingApps = ApplicationForm.objects.all() ##.filter(status='Σε εκκρεμότητα')
+    status_forms = {}
+    for application in pendingApps:
+        num_subfields = ApplicationSubField.objects.filter(application=application.id).count()
+        if num_subfields > 1:
+            list_obj = list(ApplicationSubField.objects.filter(application=application.id))
+            for obj in list_obj:
+                no_space_sub_name = str(obj).replace(" ","")
+                form_name = "form%s%s" % (application.id, no_space_sub_name)
+                status_forms.update({form_name:EsydStatusForm(instance=obj)})
+        else:
+            obj = ApplicationSubField.objects.get(application=application.id)
+            no_space_sub_name = str(obj).replace(" ","")
+            form_name = "form%s%s" % (application.id, no_space_sub_name)
+            status_forms.update({form_name:EsydStatusForm(instance=obj)})  
+    print(status_forms)
+    context.update({'pendingApps':pendingApps, 'status_forms':status_forms})
+    return render(request, 'esydApp.html', context)
+
+@csrf_exempt
+def updateSub_onYpan(request):
+    status = request.POST.get('status')
+    date = request.POST.get('date')
+    application_id = request.POST.get('application_id')
+    field_id = request.POST.get('field_id')
+    field_name = request.POST.get('field_name')
+    subfields_of_app = ApplicationYpanSubField.objects.filter(application_id=application_id)
+    field = subfields_of_app.get(pk=field_id)
+    field.status = status
+    field.expDate = date
+    field.save()
+    if status == 'Εγκρίθηκε':
+        messages.success(request, "Το πεδίο ' "+ field_name +" ' της αίτησης Νο. ' "+ application_id + " ' αποθηκεύτηκε. ("+ status + ")" )
+    elif status == 'Σε εκκρεμότητα':
+        messages.warning(request, "Το πεδίο ' "+ field_name +" ' της αίτησης Νο. ' "+ application_id + " ' αποθηκεύτηκε. ("+ status + ")" )
+    else:
+        messages.error(request, "Το πεδίο ' "+ field_name +" ' της αίτησης Νο. ' "+ application_id + " ' αποθηκεύτηκε. ("+ status + ")" )
+    completed = True
+    for subfield in subfields_of_app:
+        if subfield.status == 'Σε εκκρεμότητα' or subfield.status == 'Απορρίφθηκε' :
+            completed = False
+    if completed == True:
+        ypan_app = ApplicationYpanForm.objects.get(pk=application_id)
+        ypan_app.status = 'Εγκρίθηκε'
+        ypan_app.save()
+        messages.success(request, "H αίτηση Νο. ' "+ application_id +" ' εγκρίθηκε" )
+    return JsonResponse('Test Updated!', safe=False)
