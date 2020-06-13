@@ -17,24 +17,23 @@ import json
 @foreas_required
 def report_foreas(request):
     context = {'reporting': True}
-    pendingApps = ApplicationForm.objects.filter(foreas = request.user.id) ##.filter(status='Σε εκκρεμότητα')
-    userProfile = ApplicantProfile.objects.filter(user =  request.user.id)
-    form = UploadDocumentForm(current_user=request.user)
-    context['form'],context['pendingApps'] = form, pendingApps
+    total_esyd = ApplicationForm.objects.filter(foreas= request.user)
+    total_ypan = ApplicationYpanForm.objects.filter(foreas = request.user)
+    context['total_esyd'],context['total_ypan'] = total_esyd,total_ypan
     return render(request, 'foreasReport.html', context)
 
 @esyd_required
 def report_esyd(request):
     context = {'reporting': True}
-    pendingApps = ApplicationForm.objects.filter(foreas = request.user.id) ##.filter(status='Σε εκκρεμότητα')
-    userProfile = ApplicantProfile.objects.filter(user =  request.user.id)
-    form = UploadDocumentForm(current_user=request.user)
-    context['form'],context['pendingApps'] = form, pendingApps
+    subFields = ApplicationSubField.objects.filter(application__status = 'Εγκρίθηκε',expDate__gte=date.today())
+    total = ApplicationForm.objects.all()
+    context['subFields'],context['total'] = subFields,total
     return render(request, 'esydReport.html', context)
 
 @ypan_required
 def report_ypan(request):
     context = {'reporting': True}
-    subFields = ApplicationYpanSubField.objects.filter(status = 'Εγκρίθηκε',expDate__gte=date.today())
-    context['subFields'] = subFields
+    subFields = ApplicationYpanSubField.objects.filter(application__status = 'Εγκρίθηκε',expDate__gte=date.today())
+    total = ApplicationYpanForm.objects.all()
+    context['subFields'],context['total'] = subFields,total
     return render(request, 'ypanReport.html', context)
