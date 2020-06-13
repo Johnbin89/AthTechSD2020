@@ -4,21 +4,58 @@
 {% block title %}New SubField{% endblock %}
 
 {% block head %}
-  {{ block.super }}
+{{ block.super }}
 
-  <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+<link rel="stylesheet" href="{% static 'css/forms.css' %}">
 
 {% endblock %}
 
 {% block page_content %}
-    </br>
-    <form action = '' method="POST">
+<br>
+<!--<form action='' method="POST">-->
+<!--    {% csrf_token %}-->
+<!--    {{ form.as_p }}-->
+<!--    <label for="id_regulation">Regulation:</label>-->
+<!--    <select name="regulation" id="id_regulation">-->
+<!--        {% for regulation in regulations %}-->
+<!--        <option value="{{ regulation.regulation }}" selected="">{{ regulation.regulation }}</option>-->
+<!--        {% endfor %}-->
+<!--    </select>-->
+
+<!--    <label for="id_subField">Υπομέρους Θεματικό Πεδίο:</label>-->
+<!--    <input type="text" name="subField" required="" id="id_subField">-->
+<!--    <input type="submit" value="Αποθήκευση"/>-->
+<!--</form>-->
+<h2 class="headline">Εισαγωγή Υπομέρους Θεματικού Πεδίου</h2>
+<div class="container">
+    <form action='' method="POST">
         {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Αποθήκευση" />
+<!--                {{ form.as_p }}-->
+        <div class="form-group row justify-content-md-center row justify-content-md-center">
+            <label for="id_regulation" class="col-sm-2 control-label">Nομοθετικη Διάταξη:</label>
+            <select class="col-sm-6" name="regulation" id="id_regulation">
+                {% for f in form %}
+                <option value="{{ f }}"></option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group row justify-content-md-center row justify-content-md-center">
+            <label for="id_subField">Υπομέρους Θεματικό Πεδίο:</label>
+            <div class="col-sm-6">
+                <input name="subField" type="text" class="form-control" id="id_subField"
+                       placeholder="Nομοθετικη Διάταξη" >
+            </div>
+
+        </div>
+        <div class="row justify-content-md-center">
+            <input class="btn bg-info btn-lg" type="submit" name="submit" value="Αποθήκευση"/>
+        </div>
     </form>
+</div>
 {% endblock %}
 
 {% block scripts %}
-  {{ block.super }}
+{{ block.super }}
 {% endblock %}
+
+
