@@ -72,7 +72,8 @@ class User(AbstractUser):
     is_ypan = models.BooleanField(default=False)
     is_esyd = models.BooleanField(default=False)
 
-#foreas profile
+
+# foreas profile
 class ApplicantProfile(models.Model):
     user = models.OneToOneField(User, related_name="foreas_profile", on_delete=models.CASCADE, primary_key=True)
     companyName = models.CharField(max_length=250, verbose_name='Ονομασία', blank=True)
@@ -91,12 +92,13 @@ class ApplicantProfile(models.Model):
         return reverse('foreas_profile', args=[self.user.id])
 
     def has_empty_fields(self):
-        if (self.companyName == "" or self.distTitle == "" or self.afm =="" or self.doy == "" or self.gemi == "" 
-        or self.address == "" or self.postalCode == "" or self.phone == "" or self.fax == "" or self.email == "" 
-        or self.contactPerson == ""):
+        if (self.companyName == "" or self.distTitle == "" or self.afm == "" or self.doy == "" or self.gemi == ""
+                or self.address == "" or self.postalCode == "" or self.phone == "" or self.fax == "" or self.email == ""
+                or self.contactPerson == ""):
             return True
-        else :
+        else:
             return False
+
 
 class XeiristisYpourgeiou(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)

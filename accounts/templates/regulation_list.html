@@ -12,20 +12,24 @@
 
 {% block page_content %}
     </br>
-    <h2>Διαθέσιμα Πεδία Τεχνικής Νομοθεσίας: </h2>
-    <ul> 
+    <h2 class="headline">Διαθέσιμα Πεδία Τεχνικής Νομοθεσίας</h2>
+    <div class="reglist ">
+        <ul class="regulation list-group">
         {% for regulation in regulations %} 
-            <li> {{ regulation.regulation }} 
+            <li class="list-group-item list-group-item-success"> <a class="list-item-regulation">{{ regulation.regulation }} </a>
                 {% for child in regulation.children.all %}
-                    <ul> {{child.subField}} </ul>
+                <ul class="regulationchild list-group"> <li class="list-group-item list-group-item-info">{{child.subField}} </li></ul>
                 {% endfor %}
             </li> 
         {% endfor %} 
-    </ul>
+        </ul>
+    </div>
     {% if user.is_ypan %}
-    <a href="{% url 'new_regulation' %}">Create New Regulation</a>
-</br>
-    <a href="{% url 'new_subfield' %}">Create New SubField</a>
+    <div class="reg-buttons">
+        <a class="reg btn bg-info btn-lg" href="{% url 'new_regulation' %}">Create New Regulation</a>
+        </br>
+        <a class="subreg btn bg-info btn-lg" href="{% url 'new_subfield' %}">Create New SubField</a>
+    </div>
     {% endif %}
 {% endblock %}
 
