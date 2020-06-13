@@ -1,0 +1,106 @@
+{% extends "./base.html" %}
+{% load static %}
+{% load extra_tags %}
+
+{% block title %}Αναφορές{% endblock %}
+
+{% block head %}
+{{ block.super }}
+<!-- <link rel="stylesheet" href="{% static 'css/esydApp.css' %}"> -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.21/datatables.min.css"/>
+<link href="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.6/select2.min.css" rel="stylesheet">
+<script src="//code.jquery.com/jquery-1.12.4.js"></script>
+<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<style>
+    tr.group,
+    tr.group:hover {
+    background-color: #ddd !important;
+}
+</style>
+{% endblock %}
+
+{% block page_content %}
+<div class="content_application">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#report1">Φορείς ανα Πεδίο</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#report2">Αναφορά 2</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div id="report1" class="tab-pane active">
+            <table class="table table-bordered tablesorter-bootstrap" id="reportTable">
+                <thead>
+                    <td>Νομοθεσία - Θεματικό Πεδίο</td>
+                    <td>Φορέας</td>
+                    <td>Ημερομηνία Λήξης</td>
+                </thead>
+                <tbody>
+                    {% for field in subFields%}
+                    <tr>
+                        <td>{{ field.subField.regulation.regulation }} - {{ field.subField.subField }}</td>
+                        <td>{{ field.application.foreas }}</td>
+                        <td>{{ field.expDate }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+    $(document).ready(function() {
+    var groupColumn =0 ;
+    var table = $('#reportTable').DataTable({
+        "paging":   false,
+        "ordering": false,
+        "info":     false,
+        "columnDefs": [
+            { "visible": false, "targets": groupColumn }
+        ],
+        "order": [[ groupColumn, 'asc' ]],
+        "displayLength": 25,
+        "drawCallback": function ( settings ) {
+            var api = this.api();
+            var rows = api.rows( {page:'current'} ).nodes();
+            var last=null;
+ 
+            api.column(groupColumn, {page:'current'} ).data().each( function ( group, i ) {
+                if ( last !== group ) {
+                    $(rows).eq( i ).before(
+                        '<tr class="group"><td colspan="5">'+group+'</td></tr>'
+                    );
+ 
+                    last = group;
+                }
+            } );
+        }
+    } );
+ 
+    // Order by the grouping
+    $('#reportTable tbody').on( 'click', 'tr.group', function () {
+        var currentOrder = table.order()[0];
+        if ( currentOrder[0] === groupColumn && currentOrder[1] === 'asc' ) {
+            table.order( [ groupColumn, 'desc' ] ).draw();
+        }
+        else {
+            table.order( [ groupColumn, 'asc' ] ).draw();
+        }
+    } );
+} );
+</script>
+<!-- JQuery -->
+
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="   https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" src="   https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+{% endblock %}
