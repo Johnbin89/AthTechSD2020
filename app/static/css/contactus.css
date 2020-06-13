@@ -1,0 +1,19 @@
+.headline {
+    text-align: center;
+}
+
+.contact-table {
+    text-align: center;
+    margin-top: 2em;
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+    border-top-left-radius: 1rem !important;
+    border-top-right-radius: 1rem !important;
+    border-bottom-left-radius: 1rem !important;
+    border-bottom-right-radius: 1rem !important;
+}
+
+.contact {
+
+}
+

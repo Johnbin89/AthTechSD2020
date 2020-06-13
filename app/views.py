@@ -9,7 +9,7 @@ from django.contrib import messages
 
 def index(request):
     context = {'home': True}
-    messages.success(request, 'Hello')
+    # messages.success(request, 'Hello')
     return render(request, 'index.html', context)
 
 def services(request):

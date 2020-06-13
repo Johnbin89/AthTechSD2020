@@ -43,9 +43,9 @@
             <a class="nav-link" href="{% url 'index' %}">Αρχική <span class="sr-only">(current)</span></a>
             {% endif %}
           </li>
-          <li class="nav-item {{ services_page|yesno:'active, ' }}">
-            <a class="nav-link" href="{% url 'services' %}">Υπηρεσίες</a>
-          </li>
+<!--          <li class="nav-item {{ services_page|yesno:'active, ' }}">-->
+<!--            <a class="nav-link" href="{% url 'services' %}">Υπηρεσίες</a>-->
+<!--          </li>-->
           {% if user.is_foreas %}
           <li class="nav-item {{ esyd_page|yesno:'active, ' }}">
             <a class="nav-link" href="{% url 'esyd_for_foreas' %}">Αίτηση ΕΣΥΔ</a>
