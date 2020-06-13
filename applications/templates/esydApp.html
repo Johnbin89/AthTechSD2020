@@ -48,8 +48,8 @@
                         </thead>
                     <tbody>
                         {% for pendApp in pendingApps%}
-                            <tr class="accordion-toggle collapsed" id="accordion1" data-toggle="collapse" data-parent="#accordion1" href="#id{{ pendApp.id }}">
-                                <td class="expand-button"></td>
+                            <tr>
+                                <td class="accordion-toggle collapsed" id="accordion1" data-toggle="collapse" data-parent="#accordion1" href="#id{{ pendApp.id }}"><br><b class="expand-button"></b></td>
                                 <td>{{ pendApp.id }}</td>
                                 <td>{{ pendApp.status }}</td>
                                 <td>{{ pendApp.date }}</td>
