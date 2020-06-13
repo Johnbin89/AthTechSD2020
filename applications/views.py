@@ -110,11 +110,23 @@ def updateSub_onEsyd(request):
     for subfield in subfields_of_app:
         if subfield.status == 'Σε εκκρεμότητα' or subfield.status == 'Απορρίφθηκε' :
             completed = False
+        if subfield.status == 'Απορρίφθηκε':
+            esyd_app = ApplicationForm.objects.get(pk=application_id)
+            esyd_app.status = 'Απορρίφθηκε'
+            esyd_app.save()
+            messages.success(request, "H αίτηση Νο. ' " + application_id + " ' απορρίφθηκε")
+        if subfield.status == 'Σε εκκρεμότητα':
+            esyd_app = ApplicationForm.objects.get(pk=application_id)
+            esyd_app.status = 'Σε εκκρεμότητα'
+            esyd_app.save()
+            messages.success(request, "H αίτηση Νο. ' " + application_id + " ' είναι σε εκκρεμότητα")
+
     if completed == True:
         esyd_app = ApplicationForm.objects.get(pk=application_id)
         esyd_app.status = 'Εγκρίθηκε'
         esyd_app.save()
         messages.success(request, "H αίτηση Νο. ' "+ application_id +" ' εγκρίθηκε" )
+
     return JsonResponse('Test Updated!', safe=False)
 
 
@@ -205,8 +217,18 @@ def updateSub_onYpan(request):
         messages.error(request, "Το πεδίο ' "+ field_name +" ' της αίτησης Νο. ' "+ application_id + " ' αποθηκεύτηκε. ("+ status + ")" )
     completed = True
     for subfield in subfields_of_app:
-        if subfield.status == 'Σε εκκρεμότητα' or subfield.status == 'Απορρίφθηκε' :
+        if subfield.status == 'Σε εκκρεμότητα' or subfield.status == 'Απορρίφθηκε':
             completed = False
+        if subfield.status == 'Απορρίφθηκε':
+            ypan_app = ApplicationYpanForm.objects.get(pk=application_id)
+            ypan_app.status = 'Απορρίφθηκε'
+            ypan_app.save()
+            messages.success(request, "H αίτηση Νο. ' " + application_id + " ' απορρίφθηκε")
+        if subfield.status == 'Σε εκκρεμότητα':
+            ypan_app = ApplicationYpanForm.objects.get(pk=application_id)
+            ypan_app.status = 'Σε εκκρεμότητα'
+            ypan_app.save()
+
     if completed == True:
         ypan_app = ApplicationYpanForm.objects.get(pk=application_id)
         ypan_app.status = 'Εγκρίθηκε'
