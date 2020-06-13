@@ -11,3 +11,9 @@ urlpatterns = [
     path('updatetest/', views_applications.updateSub_onEsyd, name='esyd_update_subfield'),
     path('updateYpan/', views_applications.updateSub_onYpan, name='ypan_update_subfield')
 ]
+
+from background_task.models import Task
+from .reminder import run_reminder
+
+if not Task.objects.filter(verbose_name="run_reminder").exists():
+   run_reminder(repeat=Task.DAILY, verbose_name="run_reminder")
