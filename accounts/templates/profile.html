@@ -9,32 +9,32 @@
 <link rel="stylesheet" href="{% static 'css/forms.css' %}">
 
 {% endblock %}
-
-
 {% block page_content %}
-{% if user.is_foreas %}
 
 </br>
 <h2 class="headline">Ο Λογαριασμός Μου</h2>
 <div class="foreas-account container">
+    {% if user.is_foreas %}
     <form class="form-horizontal" action="" method="POST">
         {% csrf_token %}
         <div class="form-group row justify-content-md-center row justify-content-md-center">
             <label for="id_companyName" class="col-sm-2 control-label">Ονομασία:</label>
             <div class="col-sm-6">
-                <input name="companyName" type="text" class="form-control" id="id_companyName" placeholder="{{ form.companyName.value }}" name="companyName">
+                <input name="companyName" type="text" class="form-control" id="id_companyName"
+                       placeholder="{{ form.companyName.value }}" name="companyName">
             </div>
         </div>
         <div class="form-group row justify-content-md-center">
             <label for="id_distTitle" class="col-sm-2 control-label">Διακριτικός Τίτλος:</label>
             <div class="col-sm-6">
-                <input name="distTitle" type="text" class="form-control" id="id_distTitle" placeholder="{{ form.distTitle.value }}">
+                <input name="distTitle" type="text" class="form-control" id="id_distTitle"
+                       placeholder="{{ form.distTitle.value }}">
             </div>
         </div>
         <div class="form-group row justify-content-md-center">
             <label for="id_afm" class="col-sm-2 control-label">ΑΦΜ:</label>
             <div class="col-sm-6">
-                <input name="afm" type="text" class="form-control" id="id_afm" placeholder="{{ form.afm.value }}" >
+                <input name="afm" type="text" class="form-control" id="id_afm" placeholder="{{ form.afm.value }}">
             </div>
         </div>
         <div class="form-group row justify-content-md-center">
@@ -46,13 +46,14 @@
         <div class="form-group row justify-content-md-center">
             <label for="id_gemi" class="col-sm-2 control-label">ΓΕΜΗ:</label>
             <div class="col-sm-6">
-                <input type="text" class="form-control" id="id_gemi"  name="gemi" placeholder="{{ form.gemi.value }}">
+                <input type="text" class="form-control" id="id_gemi" name="gemi" placeholder="{{ form.gemi.value }}">
             </div>
         </div>
         <div class="form-group row justify-content-md-center">
             <label for="id_address" class="col-sm-2 control-label">Διεύθυνση:</label>
             <div class="col-sm-6">
-                <input type="text" class="form-control" id="id_address" placeholder="{{ form.address.value }}" name="address">
+                <input type="text" class="form-control" id="id_address" placeholder="{{ form.address.value }}"
+                       name="address">
             </div>
         </div>
         <div class="form-group row justify-content-md-center">
@@ -71,55 +72,58 @@
         <div class="form-group row justify-content-md-center">
             <label for="id_fax" class="col-sm-2 control-label">Φαξ:</label>
             <div class="col-sm-6">
-                <input type="text" class="form-control" id="id_fax" placeholder="{{ form.fax.value }}" name="fax" >
+                <input type="text" class="form-control" id="id_fax" placeholder="{{ form.fax.value }}" name="fax">
             </div>
         </div>
         <div class="form-group row justify-content-md-center">
             <label for="id_email" class="col-sm-2 control-label">E-mail:</label>
             <div class="col-sm-6">
-                <input type="email" class="form-control" id="id_email" placeholder="{{ form.email.value }}" name="email">
+                <input type="email" class="form-control" id="id_email" placeholder="{{ form.email.value }}"
+                       name="email">
             </div>
         </div>
         <div class="form-group row justify-content-md-center">
             <label for="id_contactPerson" class="col-sm-2 control-label">Πρόσωπο Επικοινωνίας:</label>
             <div class="col-sm-6">
-                <input name="contactPerson" type="text" class="form-control" id="id_contactPerson" placeholder="{{ form.contactPerson.value }}">
+                <input name="contactPerson" type="text" class="form-control" id="id_contactPerson"
+                       placeholder="{{ form.contactPerson.value }}">
             </div>
         </div>
-<!--          {{ form.as_p }}-->
+        <!--          {{ form.as_p }}-->
         <div class="row justify-content-md-center">
             <input class="btn bg-info btn-lg" type="submit" name="submit" value="Αποθήκευση"/>
         </div>
     </form>
+
+    {% else %}
+    {% for xeiristis in object_list %}
+    <table class="table table-bordered">
+        <tbody>
+        <tr class="table-success">
+            <th>First Name</th>
+            <td>{{ xeiristis.firstname }}</td>
+        </tr>
+        <tr class="table-info">
+            <th>Last Name</th>
+            <td>{{ xeiristis.lastname }}</td>
+        </tr>
+        <tr class="table-success">
+            <th>Email</th>
+            <td>{{ xeiristis.email }}</td>
+        </tr>
+        <tr class="table-info">
+            <th>Department</th>
+            <td>{{ xeiristis.department }}</td>
+        </tr>
+        <tr class="table-success">
+            <th>Desk</th>
+            <td>{{ xeiristis.desk }}</td>
+        </tr>
+        </tbody>
+    </table>
+    {% endfor %}
+    {% endif %}
 </div>
-{% else %}
-{% for xeiristis in object_list %}
-<table class="table table-bordered">
-  <tbody>
-    <tr>
-      <th>First Name</th>
-      <td>{{ xeiristis.firstname }}</td>
-    </tr>
-    <tr>
-      <th>Last Name</th>
-      <td>{{ xeiristis.lastname }}</td>
-    </tr>
-    <tr>
-      <th>Email</th>
-      <td>{{ xeiristis.email }}</td>
-    </tr>
-    <tr>
-      <th>Department</th>
-      <td>{{ xeiristis.department }}</td>
-    </tr>
-    <tr>
-      <th>Desk</th>
-      <td>{{ xeiristis.desk }}</td>
-    </tr>
-  </tbody>
-</table>
-{% endfor %}
-{% endif %}
 {% endblock %}
 
 {% block scripts %}
