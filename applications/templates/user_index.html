@@ -24,7 +24,7 @@
                 <h5 class="card-title">Εκκρεμείς αιτήσεις</h5>
               </div>
               <div class="card-body">
-                <h3 class="card-title">{{ esyd_pending_apps or none}}</h3>
+                <h3 class="card-title">{{ esyd_pending_apps }}</h3>
               </div>
           </div>
         </div>
@@ -159,6 +159,58 @@
 <br>
 <hr>
 {% endif %}
+<!-- Home page for Ypan-->
+{% if user.is_ypan  %}
+<br>
+<div class="ml-3">
+<h2> Αιτήσεις Υπουργείου Ανάπτυξης </h2>
+</div>
+<br>
+    <div class="row">
+      <div class="col">
+        <div class="col-md">
+          <div class="card text-center text-white  mb-3" id="foreas-esyd-pending">
+              <div class="card-header">
+                <h5 class="card-title">Εκκρεμείς αιτήσεις</h5>
+              </div>
+              <div class="card-body">
+                <h3 class="card-title">{{ esyd_pending_apps }}</h3>
+              </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="col-md">
+          <div class="card text-center text-white  mb-3" id="foreas-esyd-approved">
+              <div class="card-header">
+                <h5 class="card-title">Εγκριθείσες αιτήσεις</h5>
+              </div>
+              <div class="card-body">
+                <h3 class="card-title">{{ esyd_approved_apps }}</h3>
+              </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="col-md">
+          <div class="card text-center text-white  mb-3" id="foreas-esyd-rejected">
+              <div class="card-header">
+                <h5 class="card-title">Απορριφθείσες αιτήσεις</h5>
+              </div>
+              <div class="card-body">
+                <h3 class="card-title">{{ esyd_rejected_apps }}</h3>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<br>
+<hr>
+{% endif %}
+
 {% endblock %}
 
 {% block scripts %}

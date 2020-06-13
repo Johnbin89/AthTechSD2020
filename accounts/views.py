@@ -39,7 +39,8 @@ def regulation_view(request):
         'regulations': Regulation.objects.all(),
         'regulation_page': True
     }
-    return render(request, 'regulation_list.html', context)
+    template = 'regulation_list.html' or 'new_subfield.html'
+    return render(request, template, context)
 
 
 @method_decorator([login_required, foreas_required], name='dispatch')

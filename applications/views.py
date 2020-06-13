@@ -21,6 +21,12 @@ def user_home(request):
         esyd_pending_apps = ApplicationForm.objects.all().filter(status='Σε εκκρεμότητα').count()
         esyd_approved_apps = ApplicationForm.objects.all().filter(status='Εγκρίθηκε').count()
         esyd_rejected_apps = ApplicationForm.objects.all().filter(status='Απορρίφθηκε').count()
+    if request.user.is_ypan == True:
+        esyd_pending_apps = ApplicationForm.objects.filter(foreas = request.user.id).filter(status='Σε εκκρεμότητα').count()
+        esyd_approved_apps = ApplicationForm.objects.filter(foreas = request.user.id).filter(status='Εγκρίθηκε').count()
+        esyd_rejected_apps = ApplicationForm.objects.filter(foreas = request.user.id).filter(status='Απορρίφθηκε').count()
+
+    # if esyd_pending_apps != 0 and esyd_approved_apps != 0 and esyd_rejected_apps != 0:
     context.update({'esyd_pending_apps':esyd_pending_apps, 'esyd_approved_apps':esyd_approved_apps, 'esyd_rejected_apps':esyd_rejected_apps})
     return render(request, 'user_index.html', context)
 
@@ -103,7 +109,7 @@ def updateSub_onEsyd(request):
 def ypan_application(request):
     context = {'ypan_page': True}
     pendingApps = ApplicationYpanForm.objects.filter(foreas = request.user.id) ##.filter(status='Σε εκκρεμότητα')
-    userProfile = ApplicantProfile.objects.filter(user =  request.user.id)
+    userProfile = ApplicantProfile.objects.filter(user = request.user.id)
     form = UploadYpanDocumentForm(current_user=request.user)
     if userProfile[0].has_empty_fields() :
         account_message = format_html("{} <a href='{}'>{}</a>",
