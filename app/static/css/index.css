@@ -3,3 +3,21 @@ html,body {
     width:100%;
     position: relative;
 }
+.headline {
+    text-align: center !important;
+}
+
+.home {
+    text-align: center !important;
+}
+.card-header {
+    text-align: center;
+}
+
+h5 {
+    margin-top: 2em !important;
+}
+
+.register-btn {
+    width: 100%!important;
+}
