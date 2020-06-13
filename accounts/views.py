@@ -36,8 +36,8 @@ def register(request):
 
 def regulation_view(request):
     context = {
-    'regulations': Regulation.objects.all(),
-    'regulation_page': True
+        'regulations': Regulation.objects.all(),
+        'regulation_page': True
     }
     return render(request, 'regulation_list.html', context)
 

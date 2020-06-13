@@ -2,3 +2,53 @@ p input {
     display: flow-root;
     width: 20rem;
 }
+
+.headline {
+    text-align: center;
+}
+
+.reglist {
+    text-align: center;
+    margin-top: 2em;
+}
+
+.regulation {
+    display: contents;
+}
+.regulation li {
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+    margin-top:.5em;
+    border-top-left-radius: 1rem !important;
+    border-top-right-radius: 1rem !important;
+    border-bottom-left-radius: 1rem !important;
+    border-bottom-right-radius: 1rem !important;
+}
+.list-item-regulation {
+    font-size: larger;
+}
+
+.regulationchild {
+}
+.regulationchild li {
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+}
+
+.reg-buttons {
+    margin-top: 1em;
+    text-align: center;
+}
+
+.reg {
+    color: white;
+}
+
+.subreg {
+    margin-top: .5em;
+    color: white;
+}
+
+.foreas-account {
+    margin-top: 2em;
+}
