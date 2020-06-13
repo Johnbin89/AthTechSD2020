@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
+    'background_task'
 ]
 
 MIDDLEWARE = [
@@ -144,3 +146,11 @@ import django_heroku
 django_heroku.settings(locals())
 
 del DATABASES['default']['OPTIONS']['sslmode']
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'ypan.info@gmail.com'
+EMAIL_HOST_PASSWORD = 'ypan123456'

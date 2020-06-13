@@ -254,7 +254,9 @@
             </br>
             <form method="post" enctype="multipart/form-data" action="">
                 {% csrf_token %}
-                {{ form.as_p }}
+                <table>
+                    {{ form.as_table }}
+                </table>
                 </br>
                 <button type="submit" value="save" class="btn btn-info ml-3">Καταχώρηση</button>
             </form>
