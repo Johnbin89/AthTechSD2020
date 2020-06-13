@@ -356,6 +356,11 @@
     }
 
     $(function() {
+        $('#id_Civil_ExpDate').datepicker({
+            dateFormat: "yy-mm-dd",
+            minDate: $.datepicker.formatDate('yy-mm-dd', new Date())
+        })
+
   $("#apptable").tablesorter({
     theme : 'blue',
       // this is the default setting

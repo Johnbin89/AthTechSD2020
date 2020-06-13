@@ -45,7 +45,7 @@ class UploadYpanDocumentForm(ModelForm):
     class Meta:
         model = ApplicationYpanForm
         fields = ['subfields', 'Non_Bankruptcy_Cert_1','Non_Bankruptcy_Cert_2','Non_Clearance_Cert','Non_Force_Arrange_Cert'
-        ,'GEMI_Cert','Tax_Clear_Cert','Insurance_Liability_Cert','Civil_ID','Balance_Sheet_3Y','Art_Of_Incorporation'
+        ,'GEMI_Cert','Tax_Clear_Cert','Insurance_Liability_Cert','Civil_ID','Civil_ExpDate','Balance_Sheet_3Y','Art_Of_Incorporation'
             ,'GEMI_NoMod_Cert','Foreign_Activity_Decl','Coord_Group_Decl']
     
     #find the subfields that are not in pending esyd apps for this user
