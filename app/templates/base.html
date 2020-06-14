@@ -67,6 +67,20 @@
           <li class="nav-item {{ regulation_page|yesno:'active, ' }}">
             <a class="nav-link" href="{% url 'regulation' %}">Νομοθεσίες-Πεδία</a>
           </li>
+          {% if user.is_foreas %}
+          <li class="nav-item {{ reporting|yesno:'active, ' }}">
+            <a class="nav-link" href="{% url 'report_foreas' %}">Αναφορές</a>
+          </li>
+          {% elif user.is_esyd %}
+          <li class="nav-item {{ reporting|yesno:'active, ' }}">
+            <a class="nav-link" href="{% url 'report_esyd' %}">Αναφορές</a>
+          </li>
+          {% elif user.is_ypan %}
+          <li class="nav-item {{ reporting|yesno:'active, ' }}">
+            <a class="nav-link" href="{% url 'report_ypan' %}">Αναφορές</a>
+          </li>
+          {% endif %}
+
           <li class="nav-item {{ contact_page|yesno:'active, ' }}" id="contactus">
             <a class="nav-link" href="{% url 'contactus' %}">Επικοινωνία</a>
           </li>

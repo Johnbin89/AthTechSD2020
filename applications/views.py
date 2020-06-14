@@ -17,17 +17,31 @@ def user_home(request):
         esyd_pending_apps = ApplicationForm.objects.filter(foreas = request.user.id).filter(status='Σε εκκρεμότητα').count()
         esyd_approved_apps = ApplicationForm.objects.filter(foreas = request.user.id).filter(status='Εγκρίθηκε').count()
         esyd_rejected_apps = ApplicationForm.objects.filter(foreas = request.user.id).filter(status='Απορρίφθηκε').count()
+        ypan_pending_apps = ApplicationYpanForm.objects.filter(foreas = request.user.id).filter(status='Σε εκκρεμότητα').count()
+        ypan_approved_apps = ApplicationYpanForm.objects.filter(foreas = request.user.id).filter(status='Εγκρίθηκε').count()
+        ypan_rejected_apps = ApplicationYpanForm.objects.filter(foreas = request.user.id).filter(status='Απορρίφθηκε').count()
     if request.user.is_esyd == True:
         esyd_pending_apps = ApplicationForm.objects.all().filter(status='Σε εκκρεμότητα').count()
         esyd_approved_apps = ApplicationForm.objects.all().filter(status='Εγκρίθηκε').count()
         esyd_rejected_apps = ApplicationForm.objects.all().filter(status='Απορρίφθηκε').count()
+        ypan_pending_apps = 0
+        ypan_approved_apps = 0
+        ypan_rejected_apps = 0
     if request.user.is_ypan == True:
-        esyd_pending_apps = ApplicationForm.objects.filter(foreas = request.user.id).filter(status='Σε εκκρεμότητα').count()
-        esyd_approved_apps = ApplicationForm.objects.filter(foreas = request.user.id).filter(status='Εγκρίθηκε').count()
-        esyd_rejected_apps = ApplicationForm.objects.filter(foreas = request.user.id).filter(status='Απορρίφθηκε').count()
+        esyd_pending_apps = 0
+        esyd_approved_apps = 0
+        esyd_rejected_apps = 0
+        ypan_pending_apps = ApplicationYpanForm.objects.all().filter(status='Σε εκκρεμότητα').count()
+        ypan_approved_apps = ApplicationYpanForm.objects.all().filter(status='Εγκρίθηκε').count()
+        ypan_rejected_apps = ApplicationYpanForm.objects.all().filter(status='Απορρίφθηκε').count()
 
-
-    context.update({'esyd_pending_apps':esyd_pending_apps, 'esyd_approved_apps':esyd_approved_apps, 'esyd_rejected_apps':esyd_rejected_apps})
+    # if esyd_pending_apps != 0 and esyd_approved_apps != 0 and esyd_rejected_apps != 0:
+    context.update({'esyd_pending_apps':esyd_pending_apps, 
+                    'esyd_approved_apps':esyd_approved_apps, 
+                    'esyd_rejected_apps':esyd_rejected_apps,
+                    'ypan_pending_apps':ypan_pending_apps, 
+                    'ypan_approved_apps':ypan_approved_apps, 
+                    'ypan_rejected_apps':ypan_rejected_apps})
     return render(request, 'user_index.html', context)
 
 @foreas_required

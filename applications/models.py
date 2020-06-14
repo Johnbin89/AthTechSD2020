@@ -73,6 +73,7 @@ class ApplicationYpanForm(models.Model):
     Tax_Clear_Cert = models.FileField(upload_to=generate_filename_ypan, verbose_name="Αποδεικτικό ενημερότητας για χρέη προς το Δημόσιο")
     Insurance_Liability_Cert= models.FileField(upload_to=generate_filename_ypan, verbose_name="Βεβαίωση ΙΚΑ περί ασφαλιστικής ενημερότητας σε ισχύ")
     Civil_ID= models.FileField(upload_to=generate_filename_ypan, verbose_name="Βεβαίωση ασφάλισης επαγγελματικής αστικής ευθύνης για την κάλυψη κινδύνων των παρεχόμενων υπηρεσιών")
+    Civil_ExpDate = models.DateField(verbose_name='Ημ/νία λήξης ασφάλισης')
     Balance_Sheet_3Y = models.FileField(upload_to=generate_filename_ypan, verbose_name="Ισολογισμοί τριών τελευταίων ετών")
     Art_Of_Incorporation= models.FileField(upload_to=generate_filename_ypan, verbose_name="Κωδικοποιημένο καταστατικό της εταιρείας")
     GEMI_NoMod_Cert= models.FileField(upload_to=generate_filename_ypan, verbose_name="Βεβαίωση περί μη τροποποίησης του πιστοποιητικού ΓΕΜΗ")
