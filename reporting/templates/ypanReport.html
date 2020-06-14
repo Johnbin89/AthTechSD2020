@@ -44,7 +44,7 @@
                     <tr>
                         <td>{{ field.subField.regulation.regulation }} - {{ field.subField.subField }}</td>
                         <td>{{ field.application.foreas }}</td>
-                        <td>{{ field.expDate }}</td>
+                        <td>{{ field.expDate|date:"d/m/Y" }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -69,7 +69,7 @@
             </select>
             </form>
         </div>
-            <table class="table table-bordered tablesorter-bootstrap" id="report2Table">
+            <table class="table table-bordered table-striped tablesorter-bootstrap" id="report2Table">
                 <thead>
                     <td>Αριθμός Αίτησης</td>
                     <td>Ημ/νία Υποβολής</td>
@@ -85,13 +85,13 @@
                     {% for field in app.ypan_subfields.all %}
                     <tr>
                         <td>{{ app.id }}</td>
-                        <td>{{ app.date }}</td>
+                        <td>{{ app.date|date:"d/m/Y" }} </td>
                         <td>{{ app.foreas }}</td>
                         <td>{{ app.status }}</td>
                         <td>{{ field.subField.regulation.regulation }}</td>
                         <td>{{ field.subField.subField }}</td>
                         <td>{{ field.status }}</td>
-                        <td>{{ field.expDate }}</td>
+                        <td>{{ field.expDate|date:"d/m/Y" }}</td>
                     </tr>
                     {% endfor %}
                     {% endfor %}
@@ -163,9 +163,11 @@ $(function() {
     cssGoto: '.gotoPage'
   };
 
+  
 
   $("#report2Table").tablesorter({
     theme : 'blue',
+
       // initialize zebra and filter widgets
       widgets : [  'filter' ],
       widgetOptions : {
@@ -182,12 +184,26 @@ $(function() {
             match : false // exact match only
           });
         },
-        // Alphanumeric (exact)
-        1 : function($cell, indx) {
+        /*  // Alphanumeric (exact)
+         1 : function($cell, indx) {
           return $.tablesorter.filterFormatter.select2( $cell, indx, {
             match : false // exact match only
           });
-        },
+        },  */
+        /*  // Date (one input)
+          1 : function($cell, indx) {
+          return $.tablesorter.filterFormatter.uiDateCompare( $cell, indx, {
+            cellText : 'Dates', // text added before the input
+            compare : [ '', '=', '>=', '<=' ],
+            selected : 3,
+            // jQuery UI datepicker options
+            // defaultDate : '1/1/2014', // default date
+            changeMonth : true,
+            changeYear : true
+
+          });
+        },  */
+
         // Alphanumeric (exact)
         2 : function($cell, indx) {
           return $.tablesorter.filterFormatter.select2( $cell, indx, {
@@ -218,12 +234,12 @@ $(function() {
             match : false // exact match only
           });
         },
-        // Alphanumeric (exact)
+      /*   // Alphanumeric (exact)
         7 : function($cell, indx) {
           return $.tablesorter.filterFormatter.select2( $cell, indx, {
             match : false // exact match only
           });
-        }
+        } */
       },
     }
 
@@ -241,8 +257,11 @@ $(function() {
 <script type="text/javascript" src="   https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.widgets.min.js"></script>
-
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.6/select2.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/widgets/widget-filter-formatter-select2.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/extras/jquery.tablesorter.pager.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/widgets/widget-filter-formatter-jui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/parsers/parser-date.min.js"></script>
 {% endblock %}

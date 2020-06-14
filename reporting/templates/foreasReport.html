@@ -51,7 +51,7 @@
                 </select>
                 </form>
             </div>
-            <table class="table table-bordered tablesorter-bootstrap" id="report2Table">
+            <table class="table table-bordered table-striped tablesorter-bootstrap" id="report2Table">
                 <thead>
                     <td>Αριθμός Αίτησης</td>
                     <td>Ημ/νία Υποβολής</td>
@@ -66,12 +66,12 @@
                     {% for field in app.children.all %}
                     <tr>
                         <td>{{ app.id }}</td>
-                        <td>{{ app.date }}</td>
+                        <td>{{ app.date|date:"d/m/Y" }}</td>
                         <td>{{ app.status }}</td>
                         <td>{{ field.subField.regulation.regulation }}</td>
                         <td>{{ field.subField.subField }}</td>
                         <td>{{ field.status }}</td>
-                        <td>{{ field.expDate }}</td>
+                        <td>{{ field.expDate|date:"d/m/Y" }}</td>
                     </tr>
                     {% endfor %}
                     {% endfor %}
@@ -97,7 +97,7 @@
                 </select>
                 </form>
             </div>
-            <table class="table table-bordered tablesorter-bootstrap" id="report3Table">
+            <table class="table table-bordered table-striped tablesorter-bootstrap" id="report3Table">
                 <thead>
                     <td>Αριθμός Αίτησης</td>
                     <td>Ημ/νία Υποβολής</td>
@@ -112,12 +112,12 @@
                     {% for field in app.ypan_subfields.all %}
                     <tr>
                         <td>{{ app.id }}</td>
-                        <td>{{ app.date }}</td>
+                        <td>{{ app.date|date:"d/m/Y" }}</td>
                         <td>{{ app.status }}</td>
                         <td>{{ field.subField.regulation.regulation }}</td>
                         <td>{{ field.subField.subField }}</td>
                         <td>{{ field.status }}</td>
-                        <td>{{ field.expDate }}</td>
+                        <td>{{ field.expDate|date:"d/m/Y" }}</td>
                     </tr>
                     {% endfor %}
                     {% endfor %}
@@ -169,12 +169,6 @@ $(function() {
           });
         },
         // Alphanumeric (exact)
-        1 : function($cell, indx) {
-          return $.tablesorter.filterFormatter.select2( $cell, indx, {
-            match : false // exact match only
-          });
-        },
-        // Alphanumeric (exact)
         2 : function($cell, indx) {
           return $.tablesorter.filterFormatter.select2( $cell, indx, {
             match : false // exact match only
@@ -194,18 +188,6 @@ $(function() {
         },
         // Alphanumeric (exact)
         5 : function($cell, indx) {
-          return $.tablesorter.filterFormatter.select2( $cell, indx, {
-            match : false // exact match only
-          });
-        },
-        // Alphanumeric (exact)
-        6 : function($cell, indx) {
-          return $.tablesorter.filterFormatter.select2( $cell, indx, {
-            match : false // exact match only
-          });
-        },
-        // Alphanumeric (exact)
-        7 : function($cell, indx) {
           return $.tablesorter.filterFormatter.select2( $cell, indx, {
             match : false // exact match only
           });
@@ -252,12 +234,6 @@ $(function() {
           });
         },
         // Alphanumeric (exact)
-        1 : function($cell, indx) {
-          return $.tablesorter.filterFormatter.select2( $cell, indx, {
-            match : false // exact match only
-          });
-        },
-        // Alphanumeric (exact)
         2 : function($cell, indx) {
           return $.tablesorter.filterFormatter.select2( $cell, indx, {
             match : false // exact match only
@@ -277,18 +253,6 @@ $(function() {
         },
         // Alphanumeric (exact)
         5 : function($cell, indx) {
-          return $.tablesorter.filterFormatter.select2( $cell, indx, {
-            match : false // exact match only
-          });
-        },
-        // Alphanumeric (exact)
-        6 : function($cell, indx) {
-          return $.tablesorter.filterFormatter.select2( $cell, indx, {
-            match : false // exact match only
-          });
-        },
-        // Alphanumeric (exact)
-        7 : function($cell, indx) {
           return $.tablesorter.filterFormatter.select2( $cell, indx, {
             match : false // exact match only
           });
