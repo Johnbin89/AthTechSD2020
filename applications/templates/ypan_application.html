@@ -54,7 +54,7 @@
                             </td>
                             <td>{{ pendApp.id }}</td>
                             <td>{{ pendApp.status }}</td>
-                            <td>{{ pendApp.date }}</td>
+                            <td>{{ pendApp.date|date:"d/m/Y" }}</td>
                             {% if user.is_ypan %}
                             <td><a href=""data-toggle="modal"
                                 data-target="#exampleModal{{ pendApp.foreas.foreas_profile.user_id}}">{{ pendApp.foreas.foreas_profile.companyName }}</a>
@@ -171,7 +171,7 @@
                                         {% elif field.status == 'Εγκρίθηκε' %}
                                         <div class="col text-success"> {{ field.status }}</div>
                                         {% endif %}
-                                        <div class="col"> {{ field.expDate }}</div>
+                                        <div class="col"> {{ field.expDate|date:"d/m/Y" }}</div>
                                     </div>
                                     {% endfor %}
 
@@ -432,12 +432,6 @@
         },
         // Alphanumeric (exact)
         2 : function($cell, indx) {
-          return $.tablesorter.filterFormatter.select2( $cell, indx, {
-            match : false // exact match only
-          });
-        },
-        // Alphanumeric (exact)
-        3 : function($cell, indx) {
           return $.tablesorter.filterFormatter.select2( $cell, indx, {
             match : false // exact match only
           });

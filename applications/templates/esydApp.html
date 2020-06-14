@@ -52,7 +52,7 @@
                                 <td class="accordion-toggle collapsed" id="accordion1" data-toggle="collapse" data-parent="#accordion1" href="#id{{ pendApp.id }}"><br><b class="expand-button"></b></td>
                                 <td>{{ pendApp.id }}</td>
                                 <td>{{ pendApp.status }}</td>
-                                <td>{{ pendApp.date }}</td>
+                                <td>{{ pendApp.date|date:"d/m/Y" }}</td>
                                 {% if user.is_esyd %}
                                 <td>
                                 <a href="" onclick="window.open('{{ pendApp.file.url }}', '_blank');">
@@ -146,7 +146,7 @@
                                             {% elif field.status == 'Εγκρίθηκε' %}
                                                 <div class="col text-success"> {{ field.status }}</div> 
                                             {% endif %}                                                                                      
-                                            <div class="col"> {{ field.expDate }}</div>
+                                            <div class="col"> {{ field.expDate|date:"d/m/Y" }}</div>
                                         </div>
                                         {% endfor %}
         
@@ -292,12 +292,6 @@ function updateSubfieldPOST(data){
         },
         // Alphanumeric (exact)
         2 : function($cell, indx) {
-          return $.tablesorter.filterFormatter.select2( $cell, indx, {
-            match : false // exact match only
-          });
-        },
-        // Alphanumeric (exact)
-        3 : function($cell, indx) {
           return $.tablesorter.filterFormatter.select2( $cell, indx, {
             match : false // exact match only
           });
