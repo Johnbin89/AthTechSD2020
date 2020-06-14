@@ -2,17 +2,28 @@
 {% load static %}
 
 {% block head %}
-  {{ block.super }}
+{{ block.super }}
 
-  <link rel="stylesheet" href="{% static 'css/index.css' %}">
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
 
 {% endblock %}
 
 {% block page_content %}
-  <h1>Test index page</h1>
-  {{ user.is_foreas }}
-  {{ user.is_ypan }}
-  {{ user.is_esyd }}
+<br>
+<!--  <h1 class="headline">Επίσιμη Ιστοσελίδα Υπουργείου Ανάπτυξης</h1>-->
+<!--    <h2>Εγγραφείτε και κάντε την Αίτηση σας</h2>-->
+<div class="container home">
+    <div class="card text-white bg-info mb-3 text-center">
+        <div class="card-header"><h1 class="headline">Επίσιμη Ιστοσελίδα Υπουργείου Ανάπτυξης</h1></div>
+        <div class="card-body">
+            <img class="card-img-bottom" src="{% static 'pictures/ypan.png'%}" alt="">
+            <h5 class="card-title ">Εγγραφείτε και κάντε την Αίτηση σας</h5>
+            <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+                content.</p> -->
+            <a href="{% url 'register' %}" class="btn btn-primary register-btn">Εγγραφή</a>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block scripts %}

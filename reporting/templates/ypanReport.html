@@ -1,0 +1,267 @@
+{% extends "./base.html" %}
+{% load static %}
+{% load extra_tags %}
+
+{% block title %}Αναφορές{% endblock %}
+
+{% block head %}
+{{ block.super }}
+<!-- <link rel="stylesheet" href="{% static 'css/esydApp.css' %}"> -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.21/datatables.min.css"/>
+<link href="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.6/select2.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/css/theme.bootstrap_4.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/css/jquery.tablesorter.pager.min.css">
+<script src="//code.jquery.com/jquery-1.12.4.js"></script>
+<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<style>
+    tr.group,
+    tr.group:hover {
+    background-color: #ddd !important;
+}
+</style>
+{% endblock %}
+
+{% block page_content %}
+<div class="content_application">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#report1">Φορείς ανά Πεδίο</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#report2">Σύνολο Αιτήσεων</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div id="report1" class="tab-pane active">
+            <table class="table table-bordered" id="report1Table">
+                <thead>
+                    <td>Νομοθεσία - Θεματικό Πεδίο</td>
+                    <td>Φορέας</td>
+                    <td>Ημερομηνία Λήξης</td>
+                </thead>
+                <tbody>
+                    {% for field in subFields%}
+                    <tr>
+                        <td>{{ field.subField.regulation.regulation }} - {{ field.subField.subField }}</td>
+                        <td>{{ field.application.foreas }}</td>
+                        <td>{{ field.expDate|date:"d/m/Y" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div id="report2" class="tab-pane">
+            <!-- pager -->
+        <div id="pager" class="pager">
+            <form>
+                <img src="https://mottie.github.io/tablesorter/addons/pager/icons/first.png" class="first"/> 
+                <img src="https://mottie.github.io/tablesorter/addons/pager/icons/prev.png" class="prev"/> 
+                <span class="pagedisplay"></span> <!-- this can be any element, including an input --> 
+                <img src="https://mottie.github.io/tablesorter/addons/pager/icons/next.png" class="next"/> 
+                <img src="https://mottie.github.io/tablesorter/addons/pager/icons/last.png" class="last"/> 
+            <select class="pagesize">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="40">40</option>
+                <option value="all">All Rows</option>
+            </select>
+            </form>
+        </div>
+            <table class="table table-bordered table-striped tablesorter-bootstrap" id="report2Table">
+                <thead>
+                    <td>Αριθμός Αίτησης</td>
+                    <td>Ημ/νία Υποβολής</td>
+                    <td>Φορέας</td>
+                    <td>Κατάσταση</td>
+                    <td>Νομοθεσία</td>
+                    <td>Πεδίο</td>
+                    <td>Κατάσταση Πεδίου</td>
+                    <td>Ημ/νία Λήξης</td>
+                </thead>
+                <tbody>
+                    {% for app in total%}
+                    {% for field in app.ypan_subfields.all %}
+                    <tr>
+                        <td>{{ app.id }}</td>
+                        <td>{{ app.date|date:"d/m/Y" }} </td>
+                        <td>{{ app.foreas }}</td>
+                        <td>{{ app.status }}</td>
+                        <td>{{ field.subField.regulation.regulation }}</td>
+                        <td>{{ field.subField.subField }}</td>
+                        <td>{{ field.status }}</td>
+                        <td>{{ field.expDate|date:"d/m/Y" }}</td>
+                    </tr>
+                    {% endfor %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+    $(document).ready(function() {
+    var groupColumn =0 ;
+    var table = $('#report1Table').DataTable({
+        "paging":   false,
+        "ordering": false,
+        "info":     false,
+        "columnDefs": [
+            { "visible": false, "targets": groupColumn }
+        ],
+        "order": [[ groupColumn, 'asc' ]],
+        "displayLength": 25,
+        "drawCallback": function ( settings ) {
+            var api = this.api();
+            var rows = api.rows( {page:'current'} ).nodes();
+            var last=null;
+ 
+            api.column(groupColumn, {page:'current'} ).data().each( function ( group, i ) {
+                if ( last !== group ) {
+                    $(rows).eq( i ).before(
+                        '<tr class="group"><td colspan="5">'+group+'</td></tr>'
+                    );
+ 
+                    last = group;
+                }
+            } );
+        }
+    } );
+ 
+    // Order by the grouping
+    $('#report1Table tbody').on( 'click', 'tr.group', function () {
+        var currentOrder = table.order()[0];
+        if ( currentOrder[0] === groupColumn && currentOrder[1] === 'asc' ) {
+            table.order( [ groupColumn, 'desc' ] ).draw();
+        }
+        else {
+            table.order( [ groupColumn, 'asc' ] ).draw();
+        }
+    } );
+} );
+
+$(function() {
+    pagerOptions = {
+    // target the pager markup - see the HTML block below
+    container: $(".pager"),
+    // output string - default is '{page}/{totalPages}';
+    // possible variables: {size}, {page}, {totalPages}, {filteredPages}, {startRow}, {endRow}, {filteredRows} and {totalRows}
+    // also {page:input} & {startRow:input} will add a modifiable input in place of the value
+    output: '{startRow} - {endRow} / {filteredRows} ({totalRows})',
+    // if true, the table will remain the same height no matter how many records are displayed. The space is made up by an empty
+    // table row set to a height to compensate; default is false
+    fixedHeight: true,
+    // remove rows from the table to speed up the sort of large tables.
+    // setting this to false, only hides the non-visible rows; needed if you plan to add/remove rows with the pager enabled.
+    removeRows: false,
+    // go to page selector - select dropdown that sets the current page
+    cssGoto: '.gotoPage'
+  };
+
+  
+
+  $("#report2Table").tablesorter({
+    theme : 'blue',
+
+      // initialize zebra and filter widgets
+      widgets : [  'filter' ],
+      widgetOptions : {
+    
+      // Use the $.tablesorter.storage utility to save the most recent filters
+      filter_saveFilters : true,
+      // jQuery selector string of an element used to reset the filters
+      filter_reset : 'button.reset',
+      // add custom selector elements to the filter row
+      filter_formatter : {
+        // Alphanumeric (exact)
+        0 : function($cell, indx) {
+          return $.tablesorter.filterFormatter.select2( $cell, indx, {
+            match : false // exact match only
+          });
+        },
+        /*  // Alphanumeric (exact)
+         1 : function($cell, indx) {
+          return $.tablesorter.filterFormatter.select2( $cell, indx, {
+            match : false // exact match only
+          });
+        },  */
+        /*  // Date (one input)
+          1 : function($cell, indx) {
+          return $.tablesorter.filterFormatter.uiDateCompare( $cell, indx, {
+            cellText : 'Dates', // text added before the input
+            compare : [ '', '=', '>=', '<=' ],
+            selected : 3,
+            // jQuery UI datepicker options
+            // defaultDate : '1/1/2014', // default date
+            changeMonth : true,
+            changeYear : true
+
+          });
+        },  */
+
+        // Alphanumeric (exact)
+        2 : function($cell, indx) {
+          return $.tablesorter.filterFormatter.select2( $cell, indx, {
+            match : false // exact match only
+          });
+        },
+        // Alphanumeric (exact)
+        3 : function($cell, indx) {
+          return $.tablesorter.filterFormatter.select2( $cell, indx, {
+            match : false // exact match only
+          });
+        },
+        // Alphanumeric (exact)
+        4 : function($cell, indx) {
+          return $.tablesorter.filterFormatter.select2( $cell, indx, {
+            match : false // exact match only
+          });
+        },
+        // Alphanumeric (exact)
+        5 : function($cell, indx) {
+          return $.tablesorter.filterFormatter.select2( $cell, indx, {
+            match : false // exact match only
+          });
+        },
+        // Alphanumeric (exact)
+        6 : function($cell, indx) {
+          return $.tablesorter.filterFormatter.select2( $cell, indx, {
+            match : false // exact match only
+          });
+        },
+      /*   // Alphanumeric (exact)
+        7 : function($cell, indx) {
+          return $.tablesorter.filterFormatter.select2( $cell, indx, {
+            match : false // exact match only
+          });
+        } */
+      },
+    }
+
+  }).tablesorterPager(pagerOptions);;
+});
+
+</script>
+<!-- JQuery -->
+
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="   https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" src="   https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.widgets.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.6/select2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/widgets/widget-filter-formatter-select2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/extras/jquery.tablesorter.pager.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/widgets/widget-filter-formatter-jui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/parsers/parser-date.min.js"></script>
+{% endblock %}

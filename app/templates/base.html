@@ -37,24 +37,50 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item {{ home|yesno:'active, ' }}">
-            <a class="nav-link" href="/">Αρχική <span class="sr-only">(current)</span></a>
+            {% if user.is_authenticated %}
+            <a class="nav-link" href="{% url 'user_home_page' %}">Αρχική <span class="sr-only">(current)</span></a>
+            {% else %}
+            <a class="nav-link" href="{% url 'index' %}">Αρχική <span class="sr-only">(current)</span></a>
+            {% endif %}
           </li>
-          <li class="nav-item {{ services_page|yesno:'active, ' }}">
-            <a class="nav-link" href="{% url 'services' %}">Υπηρεσίες</a>
-          </li>
-          {% if user.is_foreas or user.is_esyd %}
+<!--          <li class="nav-item {{ services_page|yesno:'active, ' }}">-->
+<!--            <a class="nav-link" href="{% url 'services' %}">Υπηρεσίες</a>-->
+<!--          </li>-->
+          {% if user.is_foreas %}
           <li class="nav-item {{ esyd_page|yesno:'active, ' }}">
-            <a class="nav-link" href="{% url 'esyd' %}">Αίτηση ΕΣΥΔ</a>
+            <a class="nav-link" href="{% url 'esyd_for_foreas' %}">Αίτηση ΕΣΥΔ</a>
+          </li>
+          {% elif user.is_esyd %}
+          <li class="nav-item {{ esyd_page|yesno:'active, ' }}">
+            <a class="nav-link" href="{% url 'esyd_xeiristis' %}">Αίτηση ΕΣΥΔ</a>
           </li>
           {% endif %}
-          {% if user.is_foreas or user.is_ypan %}
+          {% if user.is_foreas %}
           <li class="nav-item {{ ypan_page|yesno:'active, ' }}">
             <a class="nav-link" href="{% url 'ypan_application' %}">Αίτηση Υπ.Ανάπτυξης</a>
+          </li>
+          {% elif user.is_ypan %}
+          <li class="nav-item {{ ypan_page|yesno:'active, ' }}">
+            <a class="nav-link" href="{% url 'ypan_xeiristis' %}">Αίτηση Υπ.Ανάπτυξης</a>
           </li>
           {% endif %}
           <li class="nav-item {{ regulation_page|yesno:'active, ' }}">
             <a class="nav-link" href="{% url 'regulation' %}">Νομοθεσίες-Πεδία</a>
           </li>
+          {% if user.is_foreas %}
+          <li class="nav-item {{ reporting|yesno:'active, ' }}">
+            <a class="nav-link" href="{% url 'report_foreas' %}">Αναφορές</a>
+          </li>
+          {% elif user.is_esyd %}
+          <li class="nav-item {{ reporting|yesno:'active, ' }}">
+            <a class="nav-link" href="{% url 'report_esyd' %}">Αναφορές</a>
+          </li>
+          {% elif user.is_ypan %}
+          <li class="nav-item {{ reporting|yesno:'active, ' }}">
+            <a class="nav-link" href="{% url 'report_ypan' %}">Αναφορές</a>
+          </li>
+          {% endif %}
+
           <li class="nav-item {{ contact_page|yesno:'active, ' }}" id="contactus">
             <a class="nav-link" href="{% url 'contactus' %}">Επικοινωνία</a>
           </li>
