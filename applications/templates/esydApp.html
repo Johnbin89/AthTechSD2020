@@ -55,18 +55,20 @@
                                 <td>{{ pendApp.date }}</td>
                                 {% if user.is_esyd %}
                                 <td>
-                                {% with myFilter="esyd_applications/"|add:pendApp.foreas.foreas_profile.companyName|add:'/' %}
+                                <a href="" onclick="window.open('{{ pendApp.file.url }}', '_blank');">
+                                    {% with myFilter="esyd_applications/"|add:pendApp.foreas.foreas_profile.companyName|add:'/' %}
                                     {{ pendApp.file.name|cut:myFilter }}
-                                {% endwith %}                            
-                                <a onclick="window.open('{{ pendApp.file.url }}', '_blank');" class="btn btn-info ml-3" >View</a></td>
-                                <td>{{ pendApp.foreas.foreas_profile.companyName }} (ΑΦΜ: {{ pendApp.foreas.foreas_profile.afm }})
-                                <!-- Button trigger modal -->
+                                {% endwith %}                            </a>
+                                <!-- <a onclick="window.open('{{ pendApp.file.url }}', '_blank');" class="btn btn-info ml-3" >View</a></td> -->
+                                <td><a href="" data-toggle="modal" data-target="#exampleModal{{ pendApp.foreas.foreas_profile.user_id}}">{{ pendApp.foreas.foreas_profile.companyName }}</a>
+                                <!-- {{ pendApp.foreas.foreas_profile.companyName }} (ΑΦΜ: {{ pendApp.foreas.foreas_profile.afm }})
+                                
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                                     Πληροφορίες!
-                                </button>
+                                </button> -->
                                 
                                 <!-- Modal -->
-                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="exampleModal{{ pendApp.foreas.foreas_profile.user_id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -86,7 +88,7 @@
                                             <div><u>E-mail:</u> {{ pendApp.foreas.foreas_profile.email }}</div>
                                             <div><u>Πρόσωπο Επικοινωνίας:</u> {{ pendApp.foreas.foreas_profile.contactPerson }}</div>
                                         <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">ΟΚ</button>
                                         </div>
                                     </div>
                                     </div>
