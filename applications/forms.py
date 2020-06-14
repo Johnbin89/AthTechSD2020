@@ -2,7 +2,7 @@ from django.forms import ModelForm
 from django import forms
 from applications.models import ApplicationForm, ApplicationSubField,ApplicationYpanForm,ApplicationYpanSubField
 from accounts.models import SubField
-
+from itertools import chain
 
 class UploadDocumentForm(ModelForm):
 
@@ -52,11 +52,12 @@ class UploadYpanDocumentForm(ModelForm):
     def __init__(self, *args, **kwargs):
         current_user = kwargs.pop('current_user')
         super(UploadYpanDocumentForm, self).__init__(*args, **kwargs)
-        esyd_subfields = ApplicationForm.objects.values_list('subfields', flat=True).filter(foreas = current_user.id)
-        accepted_subfields = SubField.objects.filter(children__status = 'Εγκρίθηκε', pk__in=set(esyd_subfields))
+        esyd_subfields = ApplicationForm.objects.values_list('subfields', flat=True).filter(foreas = current_user.id,status='Εγκρίθηκε')
         used_subfields = ApplicationYpanForm.objects.values_list('subfields', flat=True).filter(foreas = current_user.id)
-        _subfields = accepted_subfields.exclude(pk__in = set(used_subfields))
-        self.fields['subfields'].queryset = _subfields
+        Notrejected_fields = used_subfields.exclude(status= 'Απορρίφθηκε')
+        available_fields = SubField.objects.filter( pk__in=set(esyd_subfields))
+        final_fields = available_fields.exclude( pk__in=set(Notrejected_fields))
+        self.fields['subfields'].queryset = final_fields
 
 class YpanStatusForm(ModelForm):
     class Meta:
