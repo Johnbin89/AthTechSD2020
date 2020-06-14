@@ -12,8 +12,8 @@ urlpatterns = [
     path('updateYpan/', views_applications.updateSub_onYpan, name='ypan_update_subfield')
 ]
 
-from background_task.models import Task
+""" from background_task.models import Task
 from .reminder import run_reminder
 
 if not Task.objects.filter(verbose_name="run_reminder").exists():
-   run_reminder(repeat=Task.DAILY, verbose_name="run_reminder")
+   run_reminder(repeat=Task.DAILY, verbose_name="run_reminder") """
