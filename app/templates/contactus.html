@@ -2,16 +2,33 @@
 {% load static %}
 
 {% block head %}
-  {{ block.super }}
+{{ block.super }}
 
-  <link rel="stylesheet" href="{% static 'css/under_construction.css' %}">
+<link rel="stylesheet" href="{% static 'css/contactus.css' %}">
 
 {% endblock %}
 
 {% block page_content %}
+<br>
+<h2 class="headline">Επικοινωνήστε Μαζί μας</h2>
+<div class="contact-table card bg-info">
+  <div class="card-body">
+    <table class="table table-bordered contact">
+        <tr class="table-success">
+            <th>Στο Τηλέφωνο:</th>
+            <td>1234456</td>
+        </tr>
+        <tr class="table-info">
+            <th>Μέσω Email:</th>
+            <td>Thornton@ypan.com</td>
+        </tr>
+        </tbody>
+    </table>
+    </div>
+</div>
 
 {% endblock %}
 
 {% block scripts %}
-  {{ block.super }}
+{{ block.super }}
 {% endblock %}

@@ -3,7 +3,6 @@ p input {
     width: 20rem;
 }
 
-
 tr.hide-table-padding td {
     padding: 0;
   }
@@ -24,3 +23,7 @@ tr.hide-table-padding td {
   {
     content: '+';
   }
+
+.hidden{
+    display:none;
+}
