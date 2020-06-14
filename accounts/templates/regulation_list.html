@@ -12,6 +12,13 @@
 
 {% block page_content %}
     <br>
+    {% if user.is_ypan %}
+    <div class="reg-buttons">
+        <a class="reg btn bg-info btn-lg" href="{% url 'new_regulation' %}">Create New Regulation</a>
+        <a class="reg btn bg-info btn-lg" href="{% url 'new_subfield' %}">Create New SubField</a>
+    </div>
+    {% endif %}
+    <br>
     <h2 class="headline">Διαθέσιμα Πεδία Τεχνικής Νομοθεσίας</h2>
     <div class="reglist ">
         <ul class="regulation list-group">
@@ -24,13 +31,6 @@
         {% endfor %} 
         </ul>
     </div>
-    {% if user.is_ypan %}
-    <div class="reg-buttons">
-        <a class="reg btn bg-info btn-lg" href="{% url 'new_regulation' %}">Create New Regulation</a>
-        </br>
-        <a class="subreg btn bg-info btn-lg" href="{% url 'new_subfield' %}">Create New SubField</a>
-    </div>
-    {% endif %}
 {% endblock %}
 
 {% block scripts %}
