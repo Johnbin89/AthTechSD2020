@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'background_task',
-    'django_dropbox_storage'
+    'storages'
 ]
 
 MIDDLEWARE = [
@@ -142,8 +142,9 @@ MESSAGE_TAGS = {
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-DEFAULT_FILE_STORAGE = 'django_dropbox_storage.storage.DropboxStorage'
-DROPBOX_ACCESS_TOKEN = '-GFEHGGoKPAAAAAAAAAADAwBcRodFPChh3qOVtPwpM6VudTcl9_Is31uVD6VbymQ'
+DEFAULT_FILE_STORAGE = 'storages.backends.dropbox.DropBoxStorage'
+DROPBOX_OAUTH2_TOKEN = '-GFEHGGoKPAAAAAAAAAADekp3t4c08fWUpm-Ri0j1eyZrbq3kpmxabwHlxO_8kxj'
+#DROPBOX_ROOT_PATH = '/media/'
 
 # AUTH_USER_MODEL = 'app.User'
 
