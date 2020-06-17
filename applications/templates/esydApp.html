@@ -189,12 +189,12 @@
 
 
 function editSubfield(form_name){
-    var saveBtn = $(`#save\\-${form_name}`)
-    var cancelBtn = $(`#cancel\\-${form_name}`)
-    var confirmBtn = $(`#confirm\\-${form_name}`)
-    var editBtn = $(`#edit\\-${form_name}`)
-    var status_field = $(`#status\\-${form_name}`)
-    var date_field = $(`#expDate\\-${form_name}`)
+    var saveBtn = $(`[id="save-${form_name}"]`)
+    var cancelBtn = $(`[id="cancel-${form_name}"]`)
+    var confirmBtn = $(`[id="confirm-${form_name}"]`)
+    var editBtn = $(`[id="edit-${form_name}"]`)
+    var status_field = $(`[id="status-${form_name}"]`)
+    var date_field = $(`[id="expDate-${form_name}"]`)
     date_field.datepicker({
         dateFormat: "yy-mm-dd",
         minDate: $.datepicker.formatDate('yy-mm-dd', new Date())
