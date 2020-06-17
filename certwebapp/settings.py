@@ -143,7 +143,9 @@ MESSAGE_TAGS = {
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_FILE_STORAGE = 'storages.backends.dropbox.DropBoxStorage'
-DROPBOX_OAUTH2_TOKEN = '-GFEHGGoKPAAAAAAAAAADekp3t4c08fWUpm-Ri0j1eyZrbq3kpmxabwHlxO_8kxj'
+DROPBOX_OAUTH2_TOKEN = '-GFEHGGoKPAAAAAAAAAAECkAAZKigOqG1_VBgzvPX8aNFnPSQnFJj3-_b6Opt_vD'
+DROPBOX_APP_KEY = 'vm130h4zbucnvu2'
+DROPBOX_APP_SECRET = 'cw143m5gl46qxzz'
 #DROPBOX_ROOT_PATH = '/media/'
 
 # AUTH_USER_MODEL = 'app.User'
