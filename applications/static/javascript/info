@@ -1,6 +1,0 @@
-
-$(document).ready(function() {
-    $('.hint').click(function() {
-      $(this).toggleClass("show");
-    });
-}
