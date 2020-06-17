@@ -145,7 +145,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # AUTH_USER_MODEL = 'app.User'
 
 
-
+django_heroku.settings(locals())
 del DATABASES['default']['OPTIONS']['sslmode']
 
 
@@ -156,4 +156,3 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'ypan.info@gmail.com'
 EMAIL_HOST_PASSWORD = 'ypan123456'
 
-django_heroku.settings(locals())
