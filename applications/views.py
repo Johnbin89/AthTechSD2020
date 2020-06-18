@@ -145,6 +145,10 @@ def ypan_application(request):
                       'Λογαριασμός')
         messages.error(request, account_message)
     else:
+        @background(schedule=1)
+        def handle_post_ypan(form):
+            if form.is_valid():
+                form.save()
         if request.method == 'POST':
             form = UploadYpanDocumentForm(request.POST, request.FILES, current_user = request.user)
             form.instance.foreas = request.user
@@ -153,10 +157,7 @@ def ypan_application(request):
     context['form'],context['pendingApps'] = form, pendingApps
     return render(request, 'ypan_application.html', context)
 
-@background(schedule=1)
-def handle_post_ypan(form):
-    if form.is_valid():
-        form.save()
+
         
 
 
@@ -182,27 +183,6 @@ def ypan_xeiristis(request):
     context.update({'pendingApps':pendingApps, 'status_forms':status_forms})
     return render(request, 'ypan_application.html', context)
 
-@esyd_required
-def esyd_xeiristis(request):
-    context = {'esyd_page': True}
-    pendingApps = ApplicationForm.objects.all() ##.filter(status='Σε εκκρεμότητα')
-    status_forms = {}
-    for application in pendingApps:
-        num_subfields = ApplicationSubField.objects.filter(application=application.id).count()
-        if num_subfields > 1:
-            list_obj = list(ApplicationSubField.objects.filter(application=application.id))
-            for obj in list_obj:
-                no_space_sub_name = str(obj).replace(" ","")
-                form_name = "form%s%s" % (application.id, no_space_sub_name)
-                status_forms.update({form_name:EsydStatusForm(instance=obj)})
-        else:
-            obj = ApplicationSubField.objects.get(application=application.id)
-            no_space_sub_name = str(obj).replace(" ","")
-            form_name = "form%s%s" % (application.id, no_space_sub_name)
-            status_forms.update({form_name:EsydStatusForm(instance=obj)})  
-    print(status_forms)
-    context.update({'pendingApps':pendingApps, 'status_forms':status_forms})
-    return render(request, 'esydApp.html', context)
 
 @csrf_exempt
 def updateSub_onYpan(request):
