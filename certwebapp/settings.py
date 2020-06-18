@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'background_task',
-    'storages'
+    'storages',
+    'django_q'
 ]
 
 MIDDLEWARE = [
@@ -159,3 +160,19 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = '***REMOVED***'
 EMAIL_HOST_PASSWORD = '***REMOVED***'
 
+Q_CLUSTER = {
+    'name': 'django_q_django',
+    'workers': 8,
+    'recycle': 500,
+    'timeout': 60,
+    'compress': True,
+    'save_limit': 250,
+    'queue_limit': 500,
+    'cpu_affinity': 1,
+    'label': 'Django Q',
+    'redis': {
+        'host': '***REMOVED***',
+        'port': 6379,
+        'password': 'Athtech2020!jbin_for#SD',
+        'db': 0, }
+}
