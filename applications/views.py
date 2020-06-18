@@ -145,18 +145,18 @@ def ypan_application(request):
                       'Λογαριασμός')
         messages.error(request, account_message)
     else:
-        def handle_post_ypan():
-            if form.is_valid():
-                form.save()
         if request.method == 'POST':
             form = UploadYpanDocumentForm(request.POST, request.FILES, current_user = request.user)
             form.instance.foreas = request.user
-            async_task("handle_post_ypan")
+            async_task("applications.views.handle_post_ypan", form)
             return HttpResponseRedirect(reverse('ypan_application'))
     context['form'],context['pendingApps'] = form, pendingApps
     return render(request, 'ypan_application.html', context)
 
 
+def handle_post_ypan(form):
+    if form.is_valid():
+        form.save()
         
 
 
