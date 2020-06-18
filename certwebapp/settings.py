@@ -140,15 +140,10 @@ MESSAGE_TAGS = {
     messages.ERROR: 'danger'
 }
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-DEFAULT_FILE_STORAGE = 'storages.backends.dropbox.DropBoxStorage'
-DROPBOX_OAUTH2_TOKEN = '-GFEHGGoKPAAAAAAAAAAEbkMlRuty6ZuuO2ZOvXNHEJ4VZfCUGmkh03ViT2p1M5B'
-DROPBOX_CONSUMER_KEY = 'vm130h4zbucnvu2'
-DROPBOX_CONSUMER_SECRET = 'cw143m5gl46qxzz'
-#DROPBOX_ROOT_PATH = '/media/'
-
-# AUTH_USER_MODEL = 'app.User'
+MEDIA_URL = 'ftp://jbin:Athtech2020@66.220.9.50:21/'
+MEDIA_ROOT = 'ftp://jbin:Athtech2020@66.220.9.50:21'
+DEFAULT_FILE_STORAGE = 'storages.backends.ftp.FTPStorage'
+FTP_STORAGE_LOCATION = 'ftp://jbin:Athtech2020@66.220.9.50:21'
 
 
 django_heroku.settings(locals())
