@@ -1,2 +1,2 @@
 release: python manage.py migrate
-web: gunicorn certwebapp.wsgi:application --log-file -
+web: gunicorn -t 1200 certwebapp.wsgi:application --log-file -
