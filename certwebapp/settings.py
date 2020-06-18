@@ -144,6 +144,7 @@ MEDIA_URL = '***REMOVED***/'
 MEDIA_ROOT = '***REMOVED***'
 DEFAULT_FILE_STORAGE = '***REMOVED***'
 FTP_STORAGE_LOCATION = '***REMOVED***'
+FILE_UPLOAD_TEMP_DIR = '***REMOVED***/tmp'
 
 
 django_heroku.settings(locals())
