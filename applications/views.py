@@ -145,18 +145,19 @@ def ypan_application(request):
                       'Λογαριασμός')
         messages.error(request, account_message)
     else:
-        handle_post_ypan(request)
+        if request.method == 'POST':
+            form = UploadYpanDocumentForm(request.POST, request.FILES, current_user = request.user)
+            form.instance.foreas = request.user
+            handle_post_ypan(form)
+            return HttpResponseRedirect(reverse('ypan_application'))
     context['form'],context['pendingApps'] = form, pendingApps
     return render(request, 'ypan_application.html', context)
 
 @background(schedule=1)
-def handle_post_ypan(request):
-    if request.method == 'POST':
-        form = UploadYpanDocumentForm(request.POST, request.FILES, current_user = request.user)
-        form.instance.foreas = request.user
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('ypan_application'))
+def handle_post_ypan(form):
+    if form.is_valid():
+        form.save()
+        
 
 
 @ypan_required
