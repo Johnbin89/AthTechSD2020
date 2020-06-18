@@ -173,6 +173,6 @@ Q_CLUSTER = {
     'redis': {
         'host': '188.166.34.85',
         'port': 6379,
-        'password': 'Athtech2020!jbin_for#SD',
+        'password': 'Athtech2020jbin_forSD',
         'db': 0, }
 }
