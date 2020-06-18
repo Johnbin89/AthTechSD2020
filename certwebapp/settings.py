@@ -145,6 +145,7 @@ MEDIA_ROOT = '***REMOVED***'
 DEFAULT_FILE_STORAGE = '***REMOVED***'
 FTP_STORAGE_LOCATION = '***REMOVED***'
 FILE_UPLOAD_TEMP_DIR = '***REMOVED***/tmp'
+DATA_UPLOAD_MAX_MEMORY_SIZE = None
 
 
 django_heroku.settings(locals())
