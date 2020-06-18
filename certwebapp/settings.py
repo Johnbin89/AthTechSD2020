@@ -144,6 +144,7 @@ MEDIA_URL = 'ftp://jbin:Athtech2020@66.220.9.50:21/'
 MEDIA_ROOT = 'ftp://jbin:Athtech2020@66.220.9.50:21'
 DEFAULT_FILE_STORAGE = 'storages.backends.ftp.FTPStorage'
 FTP_STORAGE_LOCATION = 'ftp://jbin:Athtech2020@66.220.9.50:21'
+FILE_UPLOAD_TEMP_DIR = 'ftp://jbin:Athtech2020@66.220.9.50:21/tmp'
 
 
 django_heroku.settings(locals())
