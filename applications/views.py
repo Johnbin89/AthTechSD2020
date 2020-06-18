@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.utils.html import format_html
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 import json
+from background_task import background
 
 @login_required
 def user_home(request):
@@ -144,14 +145,19 @@ def ypan_application(request):
                       'Λογαριασμός')
         messages.error(request, account_message)
     else:
-        if request.method == 'POST':
-            form = UploadYpanDocumentForm(request.POST, request.FILES, current_user = request.user)
-            form.instance.foreas = request.user
-            if form.is_valid():
-                form.save()
-                return HttpResponseRedirect(reverse('ypan_application'))
+        handle_post_ypan(request)
     context['form'],context['pendingApps'] = form, pendingApps
     return render(request, 'ypan_application.html', context)
+
+@background(schedule=1)
+def handle_post_ypan(request):
+    if request.method == 'POST':
+        form = UploadYpanDocumentForm(request.POST, request.FILES, current_user = request.user)
+        form.instance.foreas = request.user
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('ypan_application'))
+
 
 @ypan_required
 def ypan_xeiristis(request):
