@@ -13,6 +13,7 @@
 <link href="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.6/select2.min.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="{% static 'js/bootstrap-uploadprogress.js' %}"> </script>
 
 {% endblock %}
 
@@ -309,7 +310,6 @@
                 </br>
                 <button type="submit" value="save" class="btn btn-info ml-3">Καταχώρηση</button>
             </form>
-
             {% if uploaded_file_url %}
             <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
             {% endif %}
@@ -450,7 +450,12 @@
 
 
 </script>
+<script type="text/javascript">
+    $("#id_ajax_upload_form").uploadprogress({redirect_url: ""});
+</script>
 
+
+<!--
 <script type="text/javascript">
     // form upload
     $('#id_ajax_upload_form').submit(function(e){
@@ -464,6 +469,19 @@
             enctype: 'multipart/form-data',
             data: formData,
             cache: false,
+            contentType: false,
+            processData: false,
+            xhr: function() {
+                var xhr = new window.XMLHttpRequest();
+                xhr.upload.addEventListener("progress", function(evt) {
+                    if (evt.lengthComputable) {
+                        var percentComplete = evt.loaded / evt.total;
+                        console.log(percentComplete);
+                        $('#status').html('<b> Uploading -> ' + (Math.round(percentComplete * 100)) + '% </b>');
+                    }
+                }, false);
+                return xhr;
+            },
             success: function (response) {
                 $('.error').remove();
                 console.log(response)
@@ -474,17 +492,16 @@
                     })
                 }
                 else{
+                    $("#status").html('UPLOADED!!');
                     alert(response.message)
                     window.location = ""
                 }
-            },
-            cache: false,
-            contentType: false,
-            processData: false
+            }
         });
     });
     // end
 </script>
+-->
 <!-- JQuery -->
 
 <!-- Bootstrap tooltips -->
