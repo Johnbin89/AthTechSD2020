@@ -7,6 +7,7 @@
 {% block head %}
 {{ block.super }}
 <link rel="stylesheet" href="{% static 'css/ypanApp.css' %}">
+<link rel="stylesheet" href="{% static 'css/ajax-upload-widget.css' %}">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
 <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/css/theme.bootstrap_4.min.css">
@@ -301,7 +302,7 @@
         <div class="upload_app tab-pane" id="new_app">
             <h2 class="ml-3">Αίτηση νέου πιστοποιητικού διαπίστευσης (Υπουργείο Ανάπτυξης):</h2>
             </br>
-            <form method="post" enctype="multipart/form-data" action="">
+            <form id="id_ajax_upload_form" method="post" enctype="multipart/form-data" action="">
                 {% csrf_token %}
                 <table>
                     {{ form.as_table }}
@@ -449,6 +450,41 @@
 });
 
 
+</script>
+
+<script type="text/javascript">
+    // form upload
+    $('#id_ajax_upload_form').submit(function(e){
+        e.preventDefault();
+        $form = $(this)
+        var formData = new FormData(this);
+        console.log(formData)
+        $.ajax({
+            url: window.location.pathname,
+            type: 'POST',
+            enctype: 'multipart/form-data',
+            data: formData,
+            cache: false,
+            success: function (response) {
+                $('.error').remove();
+                console.log(response)
+                if(response.error){
+                    $.each(response.errors, function(name, error){
+                        error = '<small class="text-muted error">' + error + '</small>'
+                        $form.find('[name=' + name + ']').after(error);
+                    })
+                }
+                else{
+                    alert(response.message)
+                    window.location = ""
+                }
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+    });
+    // end
 </script>
 <!-- JQuery -->
 

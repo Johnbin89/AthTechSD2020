@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'background_task',
     'storages',
-    'django_q'
+    'django_q',
 ]
 
 MIDDLEWARE = [
