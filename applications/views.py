@@ -131,7 +131,7 @@ def updateSub_onEsyd(request):
 
 
 
-
+@csrf_exempt
 def ypan_application(request):
     context = {'ypan_page': True}
     pendingApps = ApplicationYpanForm.objects.filter(foreas = request.user.id) ##.filter(status='Σε εκκρεμότητα')
