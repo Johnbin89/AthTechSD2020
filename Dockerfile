@@ -13,14 +13,12 @@ RUN apt-get update && apt-get upgrade -y && apt-get autoremove && apt-get autocl
 RUN apt-get install -y \
     libffi-dev \
     libssl-dev \
-    libmysqlclient-dev \
     libxml2-dev \
     libxslt-dev \
     libjpeg-dev \
     libfreetype6-dev \
     zlib1g-dev \
     net-tools \
-    vim
 
 # Copy in your requirements file
 COPY requirements.txt .
