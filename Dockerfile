@@ -18,7 +18,7 @@ RUN apt-get install -y \
     libjpeg-dev \
     libfreetype6-dev \
     zlib1g-dev \
-    net-tools \
+    net-tools
 
 # Copy in your requirements file
 ADD requirements.txt /requirements.txt
