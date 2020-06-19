@@ -11,6 +11,7 @@ RUN groupadd -r ${APP_USER} && useradd --no-log-init -r -g ${APP_USER} ${APP_USE
 # they were clobbered by a parent image.
 RUN apt-get update && apt-get upgrade -y && apt-get autoremove && apt-get autoclean
 RUN apt-get install -y \
+    build-essential \
     libffi-dev \
     libssl-dev \
     libxml2-dev \
