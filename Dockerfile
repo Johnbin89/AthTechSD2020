@@ -59,12 +59,11 @@ ENV UWSGI_WORKERS=1 UWSGI_THREADS=1
 
 # Deny invalid hosts before they get to Django (uncomment and change to your hostname(s)):
 # ENV UWSGI_ROUTE_HOST="^(?!localhost:8000$) break:400"
-
+RUN chmod a+x /code/docker-entrypoint.sh
 # Change to a non-root user
 USER ${APP_USER}:${APP_USER}
 
 # Uncomment after creating your docker-entrypoint.sh
-RUN chmod a+x /code/docker-entrypoint.sh
 ENTRYPOINT ["/code/docker-entrypoint.sh"]
 
 # Start uWSGI
