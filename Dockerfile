@@ -21,7 +21,7 @@ RUN apt-get install -y \
     net-tools \
 
 # Copy in your requirements file
-COPY requirements.txt /requirements.txt
+ADD requirements.txt /requirements.txt
 
 # OR, if you're using a directory for your requirements, copy everything (comment out the above and uncomment this if so):
 # ADD requirements /requirements
