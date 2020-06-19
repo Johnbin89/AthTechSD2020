@@ -9,7 +9,6 @@ from django.contrib import messages
 from django.utils.html import format_html
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 import json
-from django_q.tasks import async_task
 
 @login_required
 def user_home(request):
@@ -148,18 +147,16 @@ def ypan_application(request):
         if request.method == 'POST':
             form = UploadYpanDocumentForm(request.POST, request.FILES, current_user = request.user)
             form.instance.foreas = request.user
-            async_task("applications.views.handle_post_ypan", form)
-            return HttpResponseRedirect(reverse('ypan_application'))
+            if form.is_valid():
+                form.save()
+                return JsonResponse({'error': False, 'message': 'Uploaded Successfully'})
+            else:
+                return JsonResponse({'error': True, 'errors': form.errors})
+#            return HttpResponseRedirect(reverse('ypan_application'))
     context['form'],context['pendingApps'] = form, pendingApps
     return render(request, 'ypan_application.html', context)
 
-
-def handle_post_ypan(form):
-    if form.is_valid():
-        form.save()
-        
-
-
+    
 @ypan_required
 def ypan_xeiristis(request):
     context = {'ypan_page': True}
