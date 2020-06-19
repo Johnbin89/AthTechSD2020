@@ -43,7 +43,7 @@ EXPOSE 8000
 ENV DJANGO_SETTINGS_MODULE=certwebapp.settings
 
 # Call collectstatic (customize the following line with the minimal environment variables needed for manage.py to run):
-RUN DATABASE_URL='' python manage.py collectstatic --noinput
+RUN python manage.py collectstatic --noinput
 
 # Tell uWSGI where to find your wsgi file (change this):
 ENV UWSGI_WSGI_FILE=certwebapp/wsgi.py
