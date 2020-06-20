@@ -90,12 +90,11 @@ def start_email_schedule():
     schedule('applications.reminder.run_reminder',
         name='daily_expDate_check',
         schedule_type='D')
-
+'''
 def min_email_schedule():
     schedule('applications.reminder.run_reminder',
         name='minftest_expDate_check',
         schedule_type='I',
         minutes=15)
-
-
+'''
                 

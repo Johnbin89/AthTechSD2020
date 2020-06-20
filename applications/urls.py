@@ -25,5 +25,5 @@ from applications.reminder import start_email_schedule, min_email_schedule
 if not Schedule.objects.filter(name="daily_expDate_check").exists():
     start_email_schedule()
 
-if not Schedule.objects.filter(name="minftest_expDate_check").exists():
-    min_email_schedule()
+#if not Schedule.objects.filter(name="minftest_expDate_check").exists():
+#    min_email_schedule()
