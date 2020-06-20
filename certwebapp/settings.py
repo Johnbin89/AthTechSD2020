@@ -37,6 +37,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'django_q',
     'app',
     'accounts',
     'reporting',
@@ -49,8 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'background_task',
-    'storages',
-    'django_q',
+    'storages'
 ]
 
 MIDDLEWARE = [
