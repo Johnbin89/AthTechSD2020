@@ -19,8 +19,10 @@ if not Task.objects.filter(verbose_name="run_reminder").exists():
    run_reminder(repeat=Task.DAILY, verbose_name="run_reminder") """
 
 from django_q.models import Schedule
-from applications.reminder import start_email_schedule
+from applications.reminder import start_email_schedule, min_email_schedule
 
 
-if not Schedule.objects.filter(func="applications.reminder.run_reminder").exists():
-        start_email_schedule()
+if not Schedule.objects.filter(name="daily_expDate_check").exists():
+    start_email_schedule()
+
+min_email_schedule()
