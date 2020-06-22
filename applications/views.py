@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.utils.html import format_html
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 import json
+from django.core.mail import send_mail 
 
 @login_required
 def user_home(request):
@@ -126,6 +127,11 @@ def updateSub_onEsyd(request):
         esyd_app.status = 'Εγκρίθηκε'
         esyd_app.save()
         messages.success(request, "H αίτηση Νο. ' "+ application_id +" ' εγκρίθηκε" )
+        userEmail = esyd_app.foreas.foreas_profile.email
+        send_mail('ΕΣΥΔ: Έγκριση αίτησης',
+                'Η αίτηση σας στο ΕΣΥΔ με αριθμό "' + application_id + '" εγκρίθηκε.',
+                'ypan.info@gmail.com',
+                [userEmail])
 
     return JsonResponse('Test Updated!', safe=False)
 
@@ -217,4 +223,9 @@ def updateSub_onYpan(request):
         ypan_app.status = 'Εγκρίθηκε'
         ypan_app.save()
         messages.success(request, "H αίτηση Νο. ' "+ application_id +" ' εγκρίθηκε" )
+        userEmail = ypan_app.foreas.foreas_profile.email
+        send_mail('Yπ.Ανάπτυξης: Έγκριση αίτησης',
+                'Η αίτηση σας στο Yπ.Ανάπτυξης με αριθμό "' + application_id + '" εγκρίθηκε.',
+                'ypan.info@gmail.com',
+                [userEmail])
     return JsonResponse('Test Updated!', safe=False)

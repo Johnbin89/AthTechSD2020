@@ -37,6 +37,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'django_q',
     'app',
     'accounts',
     'reporting',
@@ -49,8 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'background_task',
-    'storages',
-    'django_q'
+    'storages'
 ]
 
 MIDDLEWARE = [
@@ -164,7 +164,7 @@ MEDIA_URL = 'ftp://jbin:Athtech2020@66.220.9.50:21/'
 MEDIA_ROOT = 'ftp://jbin:Athtech2020@66.220.9.50:21'
 DEFAULT_FILE_STORAGE = 'storages.backends.ftp.FTPStorage'
 FTP_STORAGE_LOCATION = 'ftp://jbin:Athtech2020@66.220.9.50:21'
-FILE_UPLOAD_TEMP_DIR = 'ftp://jbin:Athtech2020@66.220.9.50:21/tmp'
+#FILE_UPLOAD_TEMP_DIR = 'ftp://jbin:Athtech2020@66.220.9.50:21/tmp'
 DATA_UPLOAD_MAX_MEMORY_SIZE = None
 
 
