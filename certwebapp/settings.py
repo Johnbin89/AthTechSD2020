@@ -37,6 +37,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'django_q',
     'app',
     'accounts',
     'reporting',
@@ -49,8 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'background_task',
-    'storages',
-    'django_q'
+    'storages'
 ]
 
 MIDDLEWARE = [
@@ -164,7 +164,7 @@ MEDIA_URL = '***REMOVED***/'
 MEDIA_ROOT = '***REMOVED***'
 DEFAULT_FILE_STORAGE = '***REMOVED***'
 FTP_STORAGE_LOCATION = '***REMOVED***'
-FILE_UPLOAD_TEMP_DIR = '***REMOVED***/tmp'
+#FILE_UPLOAD_TEMP_DIR = '***REMOVED***/tmp'
 DATA_UPLOAD_MAX_MEMORY_SIZE = None
 
 
