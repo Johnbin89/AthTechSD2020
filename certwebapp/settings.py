@@ -33,6 +33,9 @@ SECRET_KEY = 'ow7a7)ze&o_zi^d^o1)ahw9cd!3s%vc*v9jqo@5anq68l2&acb'
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 
 # Application definition
 
