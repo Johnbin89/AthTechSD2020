@@ -154,7 +154,7 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = None
 
 
 django_heroku.settings(locals())
-del DATABASES['default']['OPTIONS']['sslmode']
+#del DATABASES['default']['OPTIONS']['sslmode']
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
