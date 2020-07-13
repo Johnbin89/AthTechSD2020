@@ -90,27 +90,9 @@ WSGI_APPLICATION = 'certwebapp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-#DATABASES = {}
-#DATABASES['default'] = dj_database_url.config(conn_max_age=600)
-DATABASES = {
+DATABASES = {}
+DATABASES['default'] = dj_database_url.config(conn_max_age=600)
 
-    'default': {
-
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-
-        'NAME': 'd7hc7das2ffsfc',
-
-        'USER': 'mjpapqhyrrckcn',
-
-        'PASSWORD': '5b9d98962247fc567b39b967e9eea2c253505ebd8af59b3a4f342a0994470060',
-
-        'HOST': 'ec2-176-34-123-50.eu-west-1.compute.amazonaws.com',
-
-        'PORT': '5432',
-
-    }
-
-}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -172,7 +154,7 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = None
 
 
 django_heroku.settings(locals())
-#del DATABASES['default']['OPTIONS']['sslmode']
+del DATABASES['default']['OPTIONS']['sslmode']
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
