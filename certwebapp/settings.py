@@ -35,9 +35,9 @@ SECRET_KEY = config('SECRET_KEY', default=get_random_secret_key())
 DEBUG = config('DEBUG', cast=bool, default=False)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv(), default='*')
-SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', cast=bool)
-SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', cast=bool)
-CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', cast=bool)
+SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', cast=bool, default=False)
+SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', cast=bool, default=False)
+CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', cast=bool, default=False)
 
 # Application definition
 
