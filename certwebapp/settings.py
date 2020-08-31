@@ -155,7 +155,6 @@ FTP_STORAGE_LOCATION = config('FTP_STORAGE_LOCATION')
 DATA_UPLOAD_MAX_MEMORY_SIZE = None
 
 
-django_heroku.settings(locals())
 #del DATABASES['default']['OPTIONS']['sslmode']
 
 
