@@ -32,7 +32,7 @@ from django.core.management.utils import get_random_secret_key
 SECRET_KEY = config('SECRET_KEY', default=get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', cast=bool)
+DEBUG = config('DEBUG', cast=bool, default=False)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', cast=bool)
