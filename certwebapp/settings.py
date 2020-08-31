@@ -19,23 +19,24 @@ import django_heroku
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-#dotenv_file = os.path.join(BASE_DIR, ".env")
-#if os.path.isfile(dotenv_file):
-#    dotenv.load_dotenv(dotenv_file)
+dotenv_file = os.path.join(BASE_DIR, ".env")
+if os.path.isfile(dotenv_file):
+    dotenv.load_dotenv(dotenv_file)
 
+from decouple import config, Csv
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'ow7a7)ze&o_zi^d^o1)ahw9cd!3s%vc*v9jqo@5anq68l2&acb'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = ['athtechsd.jbin.me']
-SECURE_SSL_REDIRECT = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
+SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', cast=bool)
+SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', cast=bool)
+CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', cast=bool)
 
 # Application definition
 
@@ -145,11 +146,11 @@ MESSAGE_TAGS = {
     messages.ERROR: 'danger'
 }
 
-MEDIA_URL = 'ftp://jbin:Athtech2020@66.220.9.50:21/'
-MEDIA_ROOT = 'ftp://jbin:Athtech2020@66.220.9.50:21'
-DEFAULT_FILE_STORAGE = 'storages.backends.ftp.FTPStorage'
-FTP_STORAGE_LOCATION = 'ftp://jbin:Athtech2020@66.220.9.50:21'
-#FILE_UPLOAD_TEMP_DIR = 'ftp://jbin:Athtech2020@66.220.9.50:21/tmp'
+MEDIA_URL = config('MEDIA_URL')
+MEDIA_ROOT = config('MEDIA_ROOT')
+DEFAULT_FILE_STORAGE = config('DEFAULT_FILE_STORAGE')
+FTP_STORAGE_LOCATION = config('FTP_STORAGE_LOCATION')
+#FILE_UPLOAD_TEMP_DIR = config('FILE_UPLOAD_TEMP_DIR')
 DATA_UPLOAD_MAX_MEMORY_SIZE = None
 
 
@@ -158,11 +159,11 @@ django_heroku.settings(locals())
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'ypan.info@gmail.com'
-EMAIL_HOST_PASSWORD = 'ypan123456'
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
+EMAIL_PORT = config('EMAIL_PORT', cast=int)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
 Q_CLUSTER = {
     'name': 'django_q_django',
@@ -175,8 +176,8 @@ Q_CLUSTER = {
     'cpu_affinity': 1,
     'label': 'Django Q',
     'redis': {
-        'host': '188.166.34.85',
-        'port': 6379,
-        'password': 'Athtech2020jbin_forSD',
+        'host': config('REDIS_HOST'),
+        'port': config('REDIS_PORT', cast=int),
+        'password': config('REDIS_PWD'),
         'db': 0, }
 }
