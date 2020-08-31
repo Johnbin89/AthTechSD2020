@@ -97,4 +97,3 @@ def min_email_schedule():
         schedule_type='I',
         minutes=15)
 '''
-                
