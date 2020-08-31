@@ -130,7 +130,7 @@ def updateSub_onEsyd(request):
         userEmail = esyd_app.foreas.foreas_profile.email
         send_mail('ΕΣΥΔ: Έγκριση αίτησης',
                 'Η αίτηση σας στο ΕΣΥΔ με αριθμό "' + application_id + '" εγκρίθηκε.',
-                '***REMOVED***',
+                'ypan.info@gmail.com',
                 [userEmail])
 
     return JsonResponse('Test Updated!', safe=False)
@@ -226,6 +226,6 @@ def updateSub_onYpan(request):
         userEmail = ypan_app.foreas.foreas_profile.email
         send_mail('Yπ.Ανάπτυξης: Έγκριση αίτησης',
                 'Η αίτηση σας στο Yπ.Ανάπτυξης με αριθμό "' + application_id + '" εγκρίθηκε.',
-                '***REMOVED***',
+                'ypan.info@gmail.com',
                 [userEmail])
     return JsonResponse('Test Updated!', safe=False)

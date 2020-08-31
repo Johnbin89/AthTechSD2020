@@ -23,7 +23,7 @@ def run_reminder():
             regulation = subField.subField.regulation.regulation
             send_mail('Προειδοποίηση Λήξης',
                     'Σας υπενθυμίζουμε ότι η αναγνώριση σας από το Υπουργείο Ανάπτυξης για το θεματικό πεδίο "' + field + '" της νομοθεσίας "'+ regulation +'" λήγει σε 1 μήνα.',
-                    '***REMOVED***',
+                    'ypan.info@gmail.com',
                     [userEmail])
 
     for ypanApp in ApplicationYpanForm.objects.filter(status ='Εγκρίθηκε'):
@@ -36,7 +36,7 @@ def run_reminder():
 
             send_mail('Προειδοποίηση Λήξης',
                     'Σας υπενθυμίζουμε ότι η αναγνώριση σας από το Υπουργείο Ανάπτυξης για το θεματικό πεδίο "' + field + '" της νομοθεσίας "'+ regulation +'" λήγει σε 3 μήνες.',
-                    '***REMOVED***',
+                    'ypan.info@gmail.com',
                     [userEmail])
 
 
@@ -48,7 +48,7 @@ def run_reminder():
             regulation = subField.subField.regulation.regulation
             send_mail('Προειδοποίηση Λήξης',
                     'Σας υπενθυμίζουμε ότι η αναγνώριση σας από το ΕΣΥΔ για το θεματικό πεδίο "' + field + '" της νομοθεσίας "'+ regulation +'" λήγει σε 1 μήνα.',
-                    '***REMOVED***',
+                    'ypan.info@gmail.com',
                     [userEmail])
 
     for esydApp in ApplicationForm.objects.filter(status ='Εγκρίθηκε'):
@@ -61,7 +61,7 @@ def run_reminder():
 
             send_mail('Προειδοποίηση Λήξης',
                     'Σας υπενθυμίζουμε ότι η αναγνώριση σας από το ΕΣΥΔ για το θεματικό πεδίο "' + field + '" της νομοθεσίας "'+ regulation +'" λήγει σε 3 μήνες.',
-                    '***REMOVED***',
+                    'ypan.info@gmail.com',
                     [userEmail])
 
 
@@ -71,7 +71,7 @@ def run_reminder():
 
         send_mail('Προειδοποίηση Λήξης',
                 'Σας υπενθυμίζουμε ότι το ασφαλιστήριο συμβόλαιο αστικής επαγγελματικής ευθύνης που καταθέσατε στην αίτηση σας με αριθμό ' + str(ypanApp.id) + ' στο Υπουργείο Ανάπτυξης λήγει σε 1 μήνα.',
-                '***REMOVED***',
+                'ypan.info@gmail.com',
                 [userEmail])
 
 
@@ -81,7 +81,7 @@ def run_reminder():
 
         send_mail('Προειδοποίηση Λήξης',
                 'Σας υπενθυμίζουμε ότι το ασφαλιστήριο συμβόλαιο αστικής επαγγελματικής ευθύνης που καταθέσατε στην αίτηση σας με αριθμό ' + str(ypanApp.id) + ' στο Υπουργείο Ανάπτυξης λήγει σε 3 μήνες.',
-                '***REMOVED***',
+                'ypan.info@gmail.com',
                 [userEmail])
 
     print('end email reminder')

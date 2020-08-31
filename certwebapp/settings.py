@@ -19,23 +19,25 @@ import django_heroku
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-#dotenv_file = os.path.join(BASE_DIR, ".env")
-#if os.path.isfile(dotenv_file):
-#    dotenv.load_dotenv(dotenv_file)
+dotenv_file = os.path.join(BASE_DIR, ".env")
+if os.path.isfile(dotenv_file):
+    dotenv.load_dotenv(dotenv_file)
 
+from decouple import config, Csv
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '***REMOVED***'
+from django.core.management.utils import get_random_secret_key
+SECRET_KEY = config('SECRET_KEY', default=get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', cast=bool, default=False)
 
-ALLOWED_HOSTS = ['***REMOVED***']
-SECURE_SSL_REDIRECT = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv(), default='*')
+SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', cast=bool, default=False)
+SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', cast=bool, default=False)
+CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', cast=bool, default=False)
 
 # Application definition
 
@@ -145,24 +147,23 @@ MESSAGE_TAGS = {
     messages.ERROR: 'danger'
 }
 
-MEDIA_URL = '***REMOVED***/'
-MEDIA_ROOT = '***REMOVED***'
-DEFAULT_FILE_STORAGE = '***REMOVED***'
-FTP_STORAGE_LOCATION = '***REMOVED***'
-#FILE_UPLOAD_TEMP_DIR = '***REMOVED***/tmp'
+MEDIA_URL = config('MEDIA_URL')
+MEDIA_ROOT = config('MEDIA_ROOT')
+DEFAULT_FILE_STORAGE = config('DEFAULT_FILE_STORAGE')
+FTP_STORAGE_LOCATION = config('FTP_STORAGE_LOCATION')
+#FILE_UPLOAD_TEMP_DIR = config('FILE_UPLOAD_TEMP_DIR')
 DATA_UPLOAD_MAX_MEMORY_SIZE = None
 
 
-django_heroku.settings(locals())
 #del DATABASES['default']['OPTIONS']['sslmode']
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = '***REMOVED***'
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST_USER = '***REMOVED***'
-EMAIL_HOST_PASSWORD = '***REMOVED***'
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
+EMAIL_PORT = config('EMAIL_PORT', cast=int)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
 Q_CLUSTER = {
     'name': 'django_q_django',
@@ -175,8 +176,8 @@ Q_CLUSTER = {
     'cpu_affinity': 1,
     'label': 'Django Q',
     'redis': {
-        'host': '***REMOVED***',
-        'port': 6379,
-        'password': '***REMOVED***',
+        'host': config('REDIS_HOST'),
+        'port': config('REDIS_PORT', cast=int),
+        'password': config('REDIS_PWD'),
         'db': 0, }
 }

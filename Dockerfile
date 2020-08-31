@@ -1,8 +1,7 @@
 FROM python:3.7
 
 # Create a group and user to run our app
-ARG APP_USER=appuser
-RUN groupadd -r ${APP_USER} && useradd --no-log-init -r -g ${APP_USER} ${APP_USER}
+
 
 # Install packages needed to run your application (not build deps):
 #   mime-support -- for mime types when serving static files
@@ -44,7 +43,6 @@ EXPOSE 8000
 ENV DJANGO_SETTINGS_MODULE=certwebapp.settings
 
 # Call collectstatic (customize the following line with the minimal environment variables needed for manage.py to run):
-RUN python manage.py collectstatic --noinput
 
 # Tell uWSGI where to find your wsgi file (change this):
 ENV UWSGI_WSGI_FILE=certwebapp/wsgi.py
@@ -62,7 +60,7 @@ ENV UWSGI_WORKERS=1 UWSGI_THREADS=1
 # ENV UWSGI_ROUTE_HOST="^(?!localhost:8000$) break:400"
 RUN chmod a+x /code/docker-entrypoint.sh
 # Change to a non-root user
-USER ${APP_USER}:${APP_USER}
+
 
 # Uncomment after creating your docker-entrypoint.sh
 ENTRYPOINT ["/code/docker-entrypoint.sh"]
