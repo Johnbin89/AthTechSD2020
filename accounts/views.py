@@ -4,7 +4,7 @@ from django.utils.decorators import method_decorator
 from .decorators import foreas_required, ypan_required, esyd_required
 from django.contrib import messages
 from django.contrib.auth import authenticate, logout
-from accounts.forms import SignUpForm
+from accounts.forms import SignUpForm, ProfileForm
 from .models import ApplicantProfile, XeiristisYpourgeiou, XeiristisEsyd, Regulation, SubField
 from django.views.generic import UpdateView, CreateView, ListView
 
@@ -49,8 +49,7 @@ class ForeasProfile(UpdateView):
     slug_url_kwarg = 'user_id'
     model = ApplicantProfile
     template_name = 'profile.html'
-    fields = ['companyName', 'distTitle', 'afm', 'doy', 'gemi', 'address', 'postalCode', 'phone', 'fax', 'email',
-              'contactPerson']
+    form_class = ProfileForm
 
 
 @method_decorator([login_required, ypan_required], name='dispatch')

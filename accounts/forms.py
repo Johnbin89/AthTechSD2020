@@ -25,3 +25,21 @@ class SignUpForm(UserCreationForm):
             newProfile = ApplicantProfile(user=user, email=user.email)
             newProfile.save()
         return user
+
+
+class ProfileForm(forms.ModelForm):
+
+    class Meta:
+        model = ApplicantProfile
+        fields = ['companyName', 'distTitle', 'afm', 'doy', 'gemi', 'address', 'postalCode', 'phone', 'fax', 'email',
+              'contactPerson']
+
+
+    def __init__(self, *args, **kwargs):
+        super(ProfileForm, self).__init__(*args, **kwargs)
+        self.fields['afm'] = forms.CharField(label='ΑΦΜ' ,widget=forms.TextInput(attrs={'maxlength': 9,
+        'minlength': 9,
+        'onkeypress': "return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57",
+        }))
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
