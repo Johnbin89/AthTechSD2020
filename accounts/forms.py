@@ -41,5 +41,15 @@ class ProfileForm(forms.ModelForm):
         'minlength': 9,
         'onkeypress': "return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57",
         }))
+        self.fields['postalCode'] = forms.CharField(label='Ταχ. Κώδικας' ,widget=forms.TextInput(attrs={'maxlength': 5,
+        'minlength': 5,
+        'onkeypress': "return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57",
+        }))
+        self.fields['phone'] = forms.CharField(label='Τηλέφωνο' ,widget=forms.TextInput(attrs={'maxlength': 10,
+        'minlength': 10,
+        'onkeypress': "return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57",
+        }))
+
+        self.fields['email'] = forms.EmailField()
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
