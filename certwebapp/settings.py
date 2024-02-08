@@ -42,7 +42,7 @@ CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', cast=bool, default=False)
 # Application definition
 
 INSTALLED_APPS = [
-    'django_q',
+ #  'django_q',
     'app',
     'accounts',
     'reporting',
@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
-    'background_task',
+ #  'background_task',
     'storages'
 ]
 
@@ -92,8 +92,13 @@ WSGI_APPLICATION = 'certwebapp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {}
-DATABASES['default'] = dj_database_url.config(conn_max_age=600)
+DATABASES = {
+    'default': dj_database_url.config(
+        default='sqlite:///'+BASE_DIR+'/db.sqlite3',
+        conn_max_age=600,
+        conn_health_checks=True,
+    )
+}
 
 
 # Password validation
@@ -165,6 +170,12 @@ EMAIL_PORT = config('EMAIL_PORT', cast=int)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
+#When not defining primary-key in models: (Hint since Django3.2)
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+
+'''
+Comment django_q not needed for demo/Removing django_q, redis from requirements (08/02/2024)
 Q_CLUSTER = {
     'name': 'django_q_django',
     'workers': 8,
@@ -181,3 +192,4 @@ Q_CLUSTER = {
         'password': config('REDIS_PWD'),
         'db': 0, }
 }
+'''
