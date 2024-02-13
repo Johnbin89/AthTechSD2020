@@ -3,9 +3,8 @@ from datetime import date
 from dateutil.relativedelta import relativedelta
 from django.core.mail import send_mail  
 from applications.models import ApplicationYpanForm,ApplicationForm
-from django_q.tasks import schedule
-import arrow
-
+#from django_q.tasks import schedule
+#Removing django_q not needed for demo (08/02/2024)
 
 def run_reminder():
     print('start email reminder')
@@ -86,10 +85,12 @@ def run_reminder():
 
     print('end email reminder')
 
+'''
 def start_email_schedule():
     schedule('applications.reminder.run_reminder',
         name='daily_expDate_check',
         schedule_type='D')
+'''
 '''
 def min_email_schedule():
     schedule('applications.reminder.run_reminder',

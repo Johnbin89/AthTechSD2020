@@ -106,6 +106,14 @@
           <li class="nav-item {{ register|yesno:'active, ' }}" id="register">
             <a class="nav-link" href="{% url 'register' %}">Εγγραφή</a>
           </li>
+          <li class="nav-item dropdown">
+            <a id="navname" class="nav-link  dropdown-toggle" href="#" data-toggle="dropdown"> Demo Login </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'foreas_demo_login' %}"> Login as Foreas </a></li>
+              <li><a class="dropdown-item" href="{% url 'esyd_demo_login' %}"> Login as Esyd </a></li>
+              <li><a class="dropdown-item" href="{% url 'ypan_demo_login'  %}"> Login as Ypan </a></li>
+            </ul>
+          </li>
           {% endif %}
 
         </ul>
