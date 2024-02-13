@@ -1,15 +1,38 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from applications.views import user_home
 from .decorators import foreas_required, ypan_required, esyd_required
 from django.contrib import messages
-from django.contrib.auth import authenticate, logout
+from django.contrib.auth import authenticate, logout, login
 from accounts.forms import SignUpForm, ProfileForm
 from .models import ApplicantProfile, XeiristisYpourgeiou, XeiristisEsyd, Regulation, SubField
 from django.views.generic import UpdateView, CreateView, ListView
+from decouple import config
 
 
 # Create your views here.
+def foreas_login(request):
+    password = config('DEMO_FOREAS_PASS')
+    user = authenticate(username='foreas', password=password)
+    if user is not None:
+        login(request, user)
+        return redirect(user_home)
+
+def esyd_login(request):
+    password = config('DEMO_ESYD_PASS')
+    user = authenticate(username='esyd', password=password)
+    if user is not None:
+        login(request, user)
+        return redirect(user_home)
+
+def ypan_login(request):
+    password = config('DEMO_YPAN_PASS')
+    user = authenticate(username='ypan', password=password)
+    if user is not None:
+        login(request, user)
+        return redirect(user_home)
+
 @login_required
 def logout_view(request):
     logout(request)

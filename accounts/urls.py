@@ -7,6 +7,9 @@ from accounts import views as views_accounts
 
 urlpatterns = [
     path('login/', LoginView.as_view(extra_context={'login': True}), name='login'),
+    path('foreas_demo_login/', views_accounts.foreas_login, name='foreas_demo_login'),
+    path('esyd_demo_login/', views_accounts.esyd_login, name='esyd_demo_login'),
+    path('ypan_demo_login/', views_accounts.ypan_login, name='ypan_demo_login'),
     path('register/', views_accounts.register, name='register'),
     path('logout/', views_accounts.logout_view, name='logout'),
     path('foreas_profile/<user_id>', views_accounts.ForeasProfile.as_view() , name='foreas_profile'),
