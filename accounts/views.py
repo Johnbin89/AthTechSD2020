@@ -9,6 +9,8 @@ from accounts.forms import SignUpForm, ProfileForm
 from .models import ApplicantProfile, XeiristisYpourgeiou, XeiristisEsyd, Regulation, SubField
 from django.views.generic import UpdateView, CreateView, ListView
 from decouple import config
+from rest_framework import viewsets, permissions
+from .serializers import RegulationSerializer, SubFieldSerializer
 
 
 # Create your views here.
@@ -103,3 +105,13 @@ class NewSubField(CreateView):
     model = SubField
     template_name = 'new_subfield.html'
     fields = '__all__'
+
+class RegulationViewSet(viewsets.ModelViewSet):
+    serializer_class = RegulationSerializer
+    queryset = Regulation.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
+
+class SubFieldViewSet(viewsets.ModelViewSet):
+    serializer_class = SubFieldSerializer
+    queryset = SubField.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
