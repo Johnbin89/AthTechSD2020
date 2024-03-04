@@ -57,6 +57,7 @@ INSTALLED_APPS = [
  #  'background_task',
     'storages',
     'rest_framework',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [

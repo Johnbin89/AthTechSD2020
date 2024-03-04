@@ -168,12 +168,18 @@
             <div class="upload_app tab-pane" id="new_app">
                 <h2 class="ml-3">Αίτηση νέου πιστοποιητικού διαπίστευσης (ΕΣΥΔ):</h2>
                 </br>
-                <form method="post" enctype="multipart/form-data" action="">
-                {% csrf_token %}
-                    {{ form.as_p }}
-                </br>
-                    <button type="submit" value="save" class="btn btn-info ml-3">Καταχώρηση</button>
-                </form>
+                <div class="d-flex justify-content-center align-items-center container ">
+                    <div class="row ">
+                    <form method="post" enctype="multipart/form-data" action="">
+                    {% csrf_token %}
+                    {% include 'bs4_form.html' with form=form %}
+                    </br>
+                    <div class="form-group row justify-content-md-center">
+                        <button type="submit" value="save" class="btn btn-info ml-3">Καταχώρηση</button>
+                    </div>
+                    </form>
+                    </div>
+                </div>
     
                 {% if uploaded_file_url %}
                  <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
