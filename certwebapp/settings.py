@@ -56,7 +56,7 @@ INSTALLED_APPS = [
     'django_extensions',
  #  'background_task',
     'storages',
-    'rest_framework',
+ #  'rest_framework',
     'widget_tweaks',
 ]
 
