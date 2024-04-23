@@ -14,7 +14,6 @@ import os
 import dj_database_url
 import dotenv
 from django.contrib.messages import constants as messages
-import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -54,11 +53,24 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
- #  'background_task',
     'storages',
  #  'rest_framework',
     'widget_tweaks',
+    'django_celery_beat',
+    'django_celery_results',
 ]
+
+# save Celery task results in Django's database
+CELERY_RESULT_BACKEND = "django-db"
+
+# This configures Redis as the datastore between Django + Celery
+CELERY_BROKER_URL = config('CELERY_BROKER_REDIS_URL', default='redis://localhost:6379')
+# if you out to use os.environ the config is:
+# CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_REDIS_URL', 'redis://localhost:6379')
+
+
+# this allows you to schedule items in the Django admin.
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers.DatabaseScheduler'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

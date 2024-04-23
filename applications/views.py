@@ -1,5 +1,6 @@
 from django.shortcuts import render, reverse
 from applications.forms import UploadDocumentForm, EsydStatusForm,UploadYpanDocumentForm,YpanStatusForm
+from applications.tasks import send_celery_email
 from .models import ApplicationForm, ApplicationSubField,ApplicationYpanForm,ApplicationYpanSubField
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
@@ -8,8 +9,7 @@ from accounts.models import ApplicantProfile
 from django.contrib import messages
 from django.utils.html import format_html
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
-import json
-from django.core.mail import send_mail 
+
 
 @login_required
 def user_home(request):
@@ -128,11 +128,12 @@ def updateSub_onEsyd(request):
         esyd_app.save()
         messages.success(request, "H αίτηση Νο. ' "+ application_id +" ' εγκρίθηκε" )
         userEmail = esyd_app.foreas.foreas_profile.email
-        send_mail('ΕΣΥΔ: Έγκριση αίτησης',
+        '''
+        send_celery_email('ΕΣΥΔ: Έγκριση αίτησης',
                 'Η αίτηση σας στο ΕΣΥΔ με αριθμό "' + application_id + '" εγκρίθηκε.',
                 'ypan.info@gmail.com',
                 [userEmail])
-
+        '''
     return JsonResponse('Test Updated!', safe=False)
 
 
@@ -143,7 +144,7 @@ def ypan_application(request):
     pendingApps = ApplicationYpanForm.objects.filter(foreas = request.user.id) ##.filter(status='Σε εκκρεμότητα')
     userProfile = ApplicantProfile.objects.filter(user = request.user.id)
     form = UploadYpanDocumentForm(current_user=request.user)
-    if userProfile[0].has_empty_fields() :
+    if userProfile[0].has_empty_fields():
         account_message = format_html("{} <a href='{}'>{}</a>",
                       "Συμπληρώστε τα στοιχεία σας στην ενότητα ", 
                       reverse('foreas_profile', args=(request.user.id,)),
@@ -224,8 +225,10 @@ def updateSub_onYpan(request):
         ypan_app.save()
         messages.success(request, "H αίτηση Νο. ' "+ application_id +" ' εγκρίθηκε" )
         userEmail = ypan_app.foreas.foreas_profile.email
-        send_mail('Yπ.Ανάπτυξης: Έγκριση αίτησης',
+        '''
+        send_celery_email('Yπ.Ανάπτυξης: Έγκριση αίτησης',
                 'Η αίτηση σας στο Yπ.Ανάπτυξης με αριθμό "' + application_id + '" εγκρίθηκε.',
                 'ypan.info@gmail.com',
                 [userEmail])
+        '''
     return JsonResponse('Test Updated!', safe=False)
