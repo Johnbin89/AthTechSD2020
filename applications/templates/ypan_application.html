@@ -8,12 +8,14 @@
 {{ block.super }}
 <link rel="stylesheet" href="{% static 'css/ypanApp.css' %}">
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
-<link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/css/theme.bootstrap_4.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/css/theme.bootstrap_4.min.css">
 <link href="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.6/select2.min.css" rel="stylesheet">
+<link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
+
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="{% static 'js/bootstrap-uploadprogress.js' %}"> </script>
+<script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
 
 {% endblock %}
 
@@ -455,7 +457,20 @@
 <script type="text/javascript">
     $("#id_ajax_upload_form").uploadprogress({redirect_url: ""});
 </script>
-
+<script type="text/javascript">
+    FilePond.setOptions({
+        chunkUploads: true,
+        chunkSize: 500000,
+        server: {
+            url: './fp', //TODO: change to match drf url
+            process: '/process/',
+            patch: '/patch/',
+            revert: '/revert/',
+            fetch: '/fetch/?target='
+        }
+    });
+    FilePond.parse(document.body);
+</script>
 
 <!--
 <script type="text/javascript">

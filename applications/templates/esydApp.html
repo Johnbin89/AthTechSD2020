@@ -10,8 +10,10 @@
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/css/theme.bootstrap_4.min.css">
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+  <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
   <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
 
 {% endblock %}
 
@@ -320,7 +322,20 @@ function updateSubfieldPOST(data){
   });
 });
 </script>
-<!-- JQuery -->
+<script type="text/javascript">
+    FilePond.setOptions({
+        chunkUploads: true,
+        chunkSize: 500000,
+        server: {
+            url: './fp', //TODO: change to match drf url
+            process: '/process/',
+            patch: '/patch/',
+            revert: '/revert/',
+            fetch: '/fetch/?target='
+        }
+    });
+    FilePond.parse(document.body);
+</script>
 
 <!-- Bootstrap tooltips -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>

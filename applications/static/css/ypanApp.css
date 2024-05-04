@@ -27,3 +27,7 @@ tr.hide-table-padding td {
 .hidden{
     display:none;
 }
+
+.filepond--panel-root {
+  background-color: #8bb9cc !important;
+}
