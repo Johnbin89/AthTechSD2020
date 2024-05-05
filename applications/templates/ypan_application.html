@@ -462,8 +462,28 @@
         chunkUploads: true,
         chunkSize: 500000,
         server: {
-            url: './fp', //TODO: change to match drf url
-            process: '/process/',
+            url: '/applications/fp', //TODO: change to match drf url
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            process: {
+                url: '/process/',
+                method: 'POST',
+                headers: {
+                'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
+                },
+                withCredentials: false,
+                ondata: (formData) => {
+                var upload_field = '';
+                for (var item of formData.keys()) {
+                    upload_field = item;
+                    break;
+                }
+                if (upload_field !== '') {
+                    formData.append('fp_upload_field',upload_field);
+                }
+                return formData;
+                },
+                onerror: (response) => { console.log(response.data); },
+            },
             patch: '/patch/',
             revert: '/revert/',
             fetch: '/fetch/?target='

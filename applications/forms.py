@@ -17,6 +17,9 @@ class UploadDocumentForm(ModelForm):
         used_subfields = ApplicationForm.objects.values_list('subfields', flat=True).filter(foreas = current_user.id)
         unused_subfields = SubField.objects.exclude(pk__in=set(used_subfields))
         self.fields['subfields'].queryset = unused_subfields
+        self.fields['file'].widget = forms.TextInput(attrs={
+            'name': 'file',
+            })
 
 class EsydStatusForm(ModelForm):
     class Meta:

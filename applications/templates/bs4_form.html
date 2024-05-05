@@ -25,14 +25,14 @@
           </div>
         {% endfor %}
       {% else %}
-        {% if field|field_type == "filefield" %}
+        {% if field.field.widget.input_type == "text" %}
           {% render_field field class+="is-valid filepond" %}
         {% else %}
           {% render_field field class+="form-control is-valid" %}
         {% endif %}
       {% endif %}
     {% else %}
-      {% if field|field_type == "filefield" %}
+      {% if field.field.widget.input_type == "text" %}
         {% render_field field class+="filepond" %}
       {% else %}
         {% render_field field class+="form-control" %}

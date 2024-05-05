@@ -6,6 +6,7 @@ from accounts.models import ApplicantProfile, SubField
 
 # Create your models here.
 from django.urls import reverse
+from django_drf_filepond.models import StoredUpload
 
 def generate_filename(self, filename):
     url = "esyd_applications/%s/%s" % (self.foreas.foreas_profile.companyName, filename)
@@ -22,7 +23,7 @@ class ApplicationForm(models.Model):
     ]
     status = models.CharField(max_length=30, verbose_name='Κατασταση', choices=status_esyd_choices, default='Σε εκκρεμότητα')
     date = models.DateField(default=datetime.date.today, verbose_name='Ημ/νία υποβολής')
-    file = models.FileField(upload_to=generate_filename, verbose_name="Αρχείο απόδειξης τεχνικής επάρκειας προσωπικού")
+    file = models.ForeignKey(StoredUpload, on_delete=models.CASCADE)
 
     def get_absolute_url(self):
         return reverse('Application', args=[self.pk])

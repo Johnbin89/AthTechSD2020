@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'storages',
+    'django_drf_filepond',
  #  'rest_framework',
     'widget_tweaks',
     'django_celery_beat',
@@ -173,6 +174,8 @@ FTP_STORAGE_LOCATION = config('FTP_STORAGE_LOCATION')
 #FILE_UPLOAD_TEMP_DIR = config('FILE_UPLOAD_TEMP_DIR')
 DATA_UPLOAD_MAX_MEMORY_SIZE = None
 
+DJANGO_DRF_FILEPOND_UPLOAD_TMP = os.path.join(BASE_DIR, 'filepond-temp-uploads')
+DJANGO_DRF_FILEPOND_STORAGES_BACKEND = 'storages.backends.ftp.FTPStorage'
 
 #del DATABASES['default']['OPTIONS']['sslmode']
 

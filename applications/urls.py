@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path, include
 from applications import views as views_applications
 
 urlpatterns = [
@@ -8,7 +8,9 @@ urlpatterns = [
     path('xeiristis-ypan/', views_applications.ypan_xeiristis, name='ypan_xeiristis'),
     path('home/', views_applications.user_home, name='user_home_page'),
     path('updatetest/', views_applications.updateSub_onEsyd, name='esyd_update_subfield'),
-    path('updateYpan/', views_applications.updateSub_onYpan, name='ypan_update_subfield')
+    path('updateYpan/', views_applications.updateSub_onYpan, name='ypan_update_subfield'),
+    path('pdfView/<upload_id>', views_applications.pdf_view, name='pdfView'),
+    re_path(r'^fp/', include('django_drf_filepond.urls'), name='fp'),
 ]
 
 """ from background_task.models import Task

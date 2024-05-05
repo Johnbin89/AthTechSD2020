@@ -57,10 +57,13 @@
                                 <td>{{ pendApp.date|date:"d/m/Y" }}</td>
                                 {% if user.is_esyd %}
                                 <td>
-                                <a href="" onclick="window.open('{{ pendApp.file.url }}', '_blank');">
-                                    {% with myFilter="esyd_applications/"|add:pendApp.foreas.foreas_profile.companyName|add:'/' %}
-                                    {{ pendApp.file.name|cut:myFilter }}
-                                {% endwith %}                            </a>
+                                {% with file_upload_id=pendApp.file.upload_id %}
+                                <a href="{% url 'pdfView' upload_id=file_upload_id %}" target="_blank">
+                                {% endwith %} 
+                                {% with myFilter=".*/" %}
+                                    {{ pendApp.file.file.url|cut_re:myFilter }}
+                                {% endwith %}
+                                </a>
                                 <!-- <a onclick="window.open('{{ pendApp.file.url }}', '_blank');" class="btn btn-info ml-3" >View</a></td> -->
                                 <td><a href="" data-toggle="modal" data-target="#exampleModal{{ pendApp.foreas.foreas_profile.user_id}}">{{ pendApp.foreas.foreas_profile.companyName }}</a>
                                 <!-- {{ pendApp.foreas.foreas_profile.companyName }} (ΑΦΜ: {{ pendApp.foreas.foreas_profile.afm }})
@@ -327,8 +330,28 @@ function updateSubfieldPOST(data){
         chunkUploads: true,
         chunkSize: 500000,
         server: {
-            url: './fp', //TODO: change to match drf url
-            process: '/process/',
+            url: '/applications/fp', //TODO: change to match drf url
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            process: {
+                url: '/process/',
+                method: 'POST',
+                headers: {
+                'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
+                },
+                withCredentials: false,
+                ondata: (formData) => {
+                var upload_field = '';
+                for (var item of formData.keys()) {
+                    upload_field = item;
+                    break;
+                }
+                if (upload_field !== '') {
+                    formData.append('fp_upload_field',upload_field);
+                }
+                return formData;
+                },
+                onerror: (response) => { console.log(response.data); },
+            },
             patch: '/patch/',
             revert: '/revert/',
             fetch: '/fetch/?target='

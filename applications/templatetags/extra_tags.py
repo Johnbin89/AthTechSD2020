@@ -1,7 +1,10 @@
 from django import template
 from datetime import date
-
+from storages.backends.ftp import FTPStorage
+from django_drf_filepond.models import StoredUpload
+import re
 register = template.Library()
+
 
 @register.filter
 def addstr(arg1, arg2):
@@ -26,3 +29,7 @@ def get_type(value):
 @register.filter
 def index(indexable, i):
     return indexable[i]
+
+@register.filter
+def cut_re(value, search): 
+    return re.sub(search, "", value)
