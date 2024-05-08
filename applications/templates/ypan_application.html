@@ -16,6 +16,7 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="{% static 'js/bootstrap-uploadprogress.js' %}"> </script>
 <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
+<script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
 
 {% endblock %}
 
@@ -458,7 +459,9 @@
     $("#id_ajax_upload_form").uploadprogress({redirect_url: ""});
 </script>
 <script type="text/javascript">
+    FilePond.registerPlugin(FilePondPluginFileValidateType);
     FilePond.setOptions({
+        acceptedFileTypes: ["application/pdf"],
         chunkUploads: true,
         chunkSize: 500000,
         server: {
