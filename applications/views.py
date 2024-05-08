@@ -67,10 +67,10 @@ def esyd_for_foreas(request):
             form = UploadDocumentForm(request.POST, current_user = request.user)
             form.instance.foreas = request.user
             filepond_id = request.POST['file']
-            tu = TemporaryUpload.objects.get(upload_id=filepond_id)
-            su = store_upload(filepond_id, os.path.join(filepond_id, tu.upload_name))
-            form.instance.file = su
-            print(su.get_absolute_file_path())
+            #tu = TemporaryUpload.objects.get(upload_id=filepond_id)
+            #su = store_upload(filepond_id, os.path.join(filepond_id, tu.upload_name))
+            form.instance.file = StoredUpload.objects.get(upload_id=filepond_id)
+            #print(su.get_absolute_file_path())
             if form.is_valid():
                 print('saveForm')
                 form.save()
