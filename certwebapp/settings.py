@@ -42,6 +42,7 @@ CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', cast=bool, default=False)
 
 INSTALLED_APPS = [
  #  'django_q',
+    'daphne',
     'app',
     'accounts',
     'reporting',
@@ -103,6 +104,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'certwebapp.wsgi.application'
+ASGI_APPLICATION = "certwebapp.asgi.application"  #allows runserver command utilize daphne
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
