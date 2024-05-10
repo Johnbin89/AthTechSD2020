@@ -191,9 +191,15 @@
                                         <tbody>
                                         <tr>
                                             <th><b>Πιστοποιητικό Πρωτοδικείου περί μη πτώχευσης σε ισχύ</b></th>
-                                            <td><a href="" onclick="window.open('{{ pendApp.Non_Bankruptcy_Cert_1.url }}', '_blank');" >{% with myFilter="ypan_applications/"|add:pendApp.foreas.foreas_profile.companyName|add:'/' %}
-                                              {{ pendApp.Non_Bankruptcy_Cert_1.name|cut:myFilter }}
-                                                {% endwith %}</a></td>
+                                            <td>                                            
+                                                {% with file_upload_id=pendApp.Non_Bankruptcy_Cert_1.upload_id %}
+                                                <a href="{% url 'pdfView' upload_id=file_upload_id %}" target="_blank">
+                                                {% endwith %} 
+                                                {% with myFilter=".*/" %}
+                                                    {{ pendApp.Non_Bankruptcy_Cert_1.file.url|cut_re:myFilter }}
+                                                {% endwith %}
+                                                </a>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th><b>Πιστοποιητικό Πρωτοδικείου περί μη κατάθεσης αίτησης
