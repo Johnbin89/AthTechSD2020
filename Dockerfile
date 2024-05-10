@@ -1,4 +1,4 @@
-FROM python:3.10
+FROM python:3.12
 
 # Create a group and user to run our app
 
@@ -66,4 +66,7 @@ RUN chmod a+x /code/docker-entrypoint.sh
 ENTRYPOINT ["/code/docker-entrypoint.sh"]
 
 # Start uWSGI
-CMD ["uwsgi", "--show-config"]
+#CMD ["uwsgi", "--show-config"]
+
+#Start Daphne
+CMD ["daphne", "certwebapp.asgi:application", "--port", "8000", "-b", "0.0.0.0"]

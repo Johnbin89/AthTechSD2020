@@ -42,6 +42,7 @@ CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', cast=bool, default=False)
 
 INSTALLED_APPS = [
  #  'django_q',
+    'daphne',
     'app',
     'accounts',
     'reporting',
@@ -54,6 +55,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'storages',
+    'django_drf_filepond',
  #  'rest_framework',
     'widget_tweaks',
     'django_celery_beat',
@@ -102,6 +104,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'certwebapp.wsgi.application'
+ASGI_APPLICATION = "certwebapp.asgi.application"  #allows runserver command utilize daphne
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -173,6 +176,8 @@ FTP_STORAGE_LOCATION = config('FTP_STORAGE_LOCATION')
 #FILE_UPLOAD_TEMP_DIR = config('FILE_UPLOAD_TEMP_DIR')
 DATA_UPLOAD_MAX_MEMORY_SIZE = None
 
+DJANGO_DRF_FILEPOND_UPLOAD_TMP = os.path.join(BASE_DIR, 'filepond-temp-uploads')
+DJANGO_DRF_FILEPOND_STORAGES_BACKEND = 'storages.backends.ftp.FTPStorage'
 
 #del DATABASES['default']['OPTIONS']['sslmode']
 

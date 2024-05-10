@@ -1,3 +1,4 @@
+from urllib.request import urlopen, urlretrieve
 from django.shortcuts import render, reverse
 from applications.forms import UploadDocumentForm, EsydStatusForm,UploadYpanDocumentForm,YpanStatusForm
 from applications.tasks import send_celery_email
@@ -8,7 +9,10 @@ from accounts.decorators import foreas_required, ypan_required, esyd_required
 from accounts.models import ApplicantProfile
 from django.contrib import messages
 from django.utils.html import format_html
-from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
+from django.http import FileResponse, HttpResponseRedirect, JsonResponse, HttpResponse
+from django_drf_filepond.api import store_upload, delete_stored_upload, get_stored_upload, get_stored_upload_file_data
+from django_drf_filepond.models import TemporaryUpload, StoredUpload
+import os
 
 
 @login_required
@@ -51,7 +55,7 @@ def esyd_for_foreas(request):
     pendingApps = ApplicationForm.objects.filter(foreas = request.user.id) ##.filter(status='Σε εκκρεμότητα')
     userProfile = ApplicantProfile.objects.filter(user =  request.user.id)
     form = UploadDocumentForm(current_user=request.user)
-    if userProfile[0].has_empty_fields() :
+    if userProfile[0].has_empty_fields():
         account_message = format_html("{} <a href='{}'>{}</a>",
                       "Συμπληρώστε τα στοιχεία σας στην ενότητα ", 
                       reverse('foreas_profile', args=(request.user.id,)),
@@ -59,13 +63,34 @@ def esyd_for_foreas(request):
         messages.error(request, account_message)
     else:
         if request.method == 'POST':
-            form = UploadDocumentForm(request.POST, request.FILES, current_user = request.user)
+            print(request.POST)
+            form = UploadDocumentForm(request.POST, current_user = request.user)
             form.instance.foreas = request.user
+            filepond_id = request.POST['file']
+            #tu = TemporaryUpload.objects.get(upload_id=filepond_id)
+            #su = store_upload(filepond_id, os.path.join(filepond_id, tu.upload_name))
+            form.instance.file = StoredUpload.objects.get(upload_id=filepond_id)
+            #print(su.get_absolute_file_path())
             if form.is_valid():
+                print('saveForm')
                 form.save()
                 return HttpResponseRedirect(reverse('esyd_for_foreas'))
     context['form'],context['pendingApps'] = form, pendingApps
     return render(request, 'esydApp.html', context)
+
+
+@login_required
+def pdf_view(request, upload_id):
+    su = get_stored_upload(upload_id)
+    url = su.file.name.split('/')
+    path, filename = url
+    abs_url = su.file.url[1:].replace('ftp:/', 'ftp://')
+    print(path, filename)
+    print(abs_url)
+    with urlopen(abs_url) as f:
+        response = HttpResponse(f.read(), content_type="application/pdf")
+        response["Content-Disposition"] = f"inline;filename={filename}"
+        return response
 
 @esyd_required
 def esyd_xeiristis(request):

@@ -10,8 +10,11 @@
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/css/theme.bootstrap_4.min.css">
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+  <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
   <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
+  <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
 
 {% endblock %}
 
@@ -55,10 +58,13 @@
                                 <td>{{ pendApp.date|date:"d/m/Y" }}</td>
                                 {% if user.is_esyd %}
                                 <td>
-                                <a href="" onclick="window.open('{{ pendApp.file.url }}', '_blank');">
-                                    {% with myFilter="esyd_applications/"|add:pendApp.foreas.foreas_profile.companyName|add:'/' %}
-                                    {{ pendApp.file.name|cut:myFilter }}
-                                {% endwith %}                            </a>
+                                {% with file_upload_id=pendApp.file.upload_id %}
+                                <a href="{% url 'pdfView' upload_id=file_upload_id %}" target="_blank">
+                                {% endwith %} 
+                                {% with myFilter=".*/" %}
+                                    {{ pendApp.file.file.url|cut_re:myFilter }}
+                                {% endwith %}
+                                </a>
                                 <!-- <a onclick="window.open('{{ pendApp.file.url }}', '_blank');" class="btn btn-info ml-3" >View</a></td> -->
                                 <td><a href="" data-toggle="modal" data-target="#exampleModal{{ pendApp.foreas.foreas_profile.user_id}}">{{ pendApp.foreas.foreas_profile.companyName }}</a>
                                 <!-- {{ pendApp.foreas.foreas_profile.companyName }} (ΑΦΜ: {{ pendApp.foreas.foreas_profile.afm }})
@@ -320,7 +326,42 @@ function updateSubfieldPOST(data){
   });
 });
 </script>
-<!-- JQuery -->
+<script type="text/javascript">
+    FilePond.registerPlugin(FilePondPluginFileValidateType);
+    FilePond.setOptions({
+        acceptedFileTypes: ["application/pdf"],
+        chunkUploads: true,
+        chunkSize: 500000,
+        server: {
+            url: '/applications/fp', //TODO: change to match drf url
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            process: {
+                url: '/process/',
+                method: 'POST',
+                headers: {
+                'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
+                },
+                withCredentials: false,
+                ondata: (formData) => {
+                var upload_field = '';
+                for (var item of formData.keys()) {
+                    upload_field = item;
+                    break;
+                }
+                if (upload_field !== '') {
+                    formData.append('fp_upload_field',upload_field);
+                }
+                return formData;
+                },
+                onerror: (response) => { console.log(response.data); },
+            },
+            patch: '/patch/',
+            revert: '/revert/',
+            fetch: '/fetch/?target='
+        }
+    });
+    FilePond.parse(document.body);
+</script>
 
 <!-- Bootstrap tooltips -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>

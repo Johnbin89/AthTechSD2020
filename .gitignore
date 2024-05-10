@@ -116,3 +116,6 @@ GitHub.sublime-settings
 
 #script
 populateDB.py
+
+#filepond temp
+/filepond-temp-uploads
