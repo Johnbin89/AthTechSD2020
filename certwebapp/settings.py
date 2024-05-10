@@ -42,7 +42,6 @@ CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', cast=bool, default=False)
 
 INSTALLED_APPS = [
  #  'django_q',
-    'daphne',
     'app',
     'accounts',
     'reporting',

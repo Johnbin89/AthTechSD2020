@@ -69,4 +69,8 @@ ENTRYPOINT ["/code/docker-entrypoint.sh"]
 #CMD ["uwsgi", "--show-config"]
 
 #Start Daphne
-CMD ["daphne", "certwebapp.asgi:application", "--port", "8000", "-b", "0.0.0.0"]
+#CMD ["daphne", "certwebapp.asgi:application", "--port", "8000", "-b", "0.0.0.0"]
+
+
+#Start Gunicorn
+CMD ["gunicorn", "--bind", ":8000", "--workers", "3", "-k", "uvicorn.workers.UvicornWorker", "certwebapp.asgi:application" ]
