@@ -66,11 +66,11 @@ RUN chmod a+x /code/docker-entrypoint.sh
 ENTRYPOINT ["/code/docker-entrypoint.sh"]
 
 # Start uWSGI
-#CMD ["uwsgi", "--show-config"]
+CMD ["uwsgi", "--show-config"]
 
 #Start Daphne
 #CMD ["daphne", "certwebapp.asgi:application", "--port", "8000", "-b", "0.0.0.0"]
 
 
 #Start Gunicorn
-CMD ["gunicorn", "--access-logfile", "--error-logfile" ,"--bind", ":8000", "-k", "uvicorn.workers.UvicornWorker", "certwebapp.asgi:application" ]
+#CMD ["gunicorn", "--access-logfile", "--error-logfile" ,"--bind", ":8000", "-k", "uvicorn.workers.UvicornWorker", "certwebapp.asgi:application" ]
