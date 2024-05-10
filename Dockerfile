@@ -73,4 +73,4 @@ ENTRYPOINT ["/code/docker-entrypoint.sh"]
 
 
 #Start Gunicorn
-CMD ["gunicorn", "--bind", ":8000", "--workers", "3", "-k", "uvicorn.workers.UvicornWorker", "certwebapp.asgi:application" ]
+CMD ["gunicorn", "--bind", ":8000", "-k", "uvicorn.workers.UvicornWorker", "certwebapp.asgi:application" ]
