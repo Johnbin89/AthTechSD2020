@@ -205,93 +205,154 @@
                                             <th><b>Πιστοποιητικό Πρωτοδικείου περί μη κατάθεσης αίτησης
                                                 πτωχεύσεως σε
                                                 ισχύ</b><br></th>
-                                            <td><a href="" onclick="window.open('{{ pendApp.Non_Bankruptcy_Cert_2.url }}', '_blank');" >{% with myFilter="ypan_applications/"|add:pendApp.foreas.foreas_profile.companyName|add:'/' %}
-                                                {{ pendApp.Non_Bankruptcy_Cert_2.name|cut:myFilter }}
-                                                {% endwith %}</a></td>
+                                            <td>                                            
+                                                {% with file_upload_id=pendApp.Non_Bankruptcy_Cert_2.upload_id %}
+                                                <a href="{% url 'pdfView' upload_id=file_upload_id %}" target="_blank">
+                                                {% endwith %} 
+                                                {% with myFilter=".*/" %}
+                                                    {{ pendApp.Non_Bankruptcy_Cert_2.file.url|cut_re:myFilter }}
+                                                {% endwith %}
+                                                </a>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th><b>Πιστοποιητικό Πρωτοδικείου περί μη θέσης σε εκκαθάριση σε ισχύ</b><br></th>
-                                            <td><a href="" onclick="window.open('{{ pendApp.Non_Clearance_Cert.url }}', '_blank');">
-                                                {% with myFilter="ypan_applications/"|add:pendApp.foreas.foreas_profile.companyName|add:'/' %}
-                                                {{ pendApp.Non_Clearance_Cert.name|cut:myFilter }}
-                                                {% endwith %}</a></td>
+                                            <td>                                            
+                                                {% with file_upload_id=pendApp.Non_Clearance_Cert.upload_id %}
+                                                <a href="{% url 'pdfView' upload_id=file_upload_id %}" target="_blank">
+                                                {% endwith %} 
+                                                {% with myFilter=".*/" %}
+                                                    {{ pendApp.Non_Clearance_Cert.file.url|cut_re:myFilter }}
+                                                {% endwith %}
+                                                </a>
+                                            </td>   
                                         </tr>
                                         <tr>
                                             <th><b>Πιστοποιητικό Πρωτοδικείου περί μη θέσης σε αναγκαστική
                                             διαχείριση σε
                                             ισχύ</b><br></th>
-                                            <td><a href="" onclick="window.open('{{ pendApp.Non_Force_Arrange_Cert.url }}', '_blank');">
-                                            {% with myFilter="ypan_applications/"|add:pendApp.foreas.foreas_profile.companyName|add:'/' %}
-                                            {{ pendApp.Non_Force_Arrange_Cert.name|cut:myFilter }}
-                                            {% endwith %}</a></td>
+                                            <td>                                            
+                                                {% with file_upload_id=pendApp.Non_Force_Arrange_Cert.upload_id %}
+                                                <a href="{% url 'pdfView' upload_id=file_upload_id %}" target="_blank">
+                                                {% endwith %} 
+                                                {% with myFilter=".*/" %}
+                                                    {{ pendApp.Non_Force_Arrange_Cert.file.url|cut_re:myFilter }}
+                                                {% endwith %}
+                                                </a>
+                                            </td> 
                                         </tr>
                                         <tr>
                                             <th><b>Πιστοποιητικό ΓΕΜΗ Γενικής Χρήσης και Εκπροσώπησης</b><br></th>
-                                            <td><a href="" onclick="window.open('{{ pendApp.GEMI_Cert.url }}', '_blank');">
-                                                    {% with myFilter="ypan_applications/"|add:pendApp.foreas.foreas_profile.companyName|add:'/' %}
-                                                    {{ pendApp.GEMI_Cert.name|cut:myFilter }}
-                                                    {% endwith %}</a></td>
+                                            <td>                                            
+                                                {% with file_upload_id=pendApp.GEMI_Cert.upload_id %}
+                                                <a href="{% url 'pdfView' upload_id=file_upload_id %}" target="_blank">
+                                                {% endwith %} 
+                                                {% with myFilter=".*/" %}
+                                                    {{ pendApp.GEMI_Cert.file.url|cut_re:myFilter }}
+                                                {% endwith %}
+                                                </a>
+                                            </td> 
                                         </tr>
                                         <tr>
                                             <th><b>Αποδεικτικό ενημερότητας για χρέη προς το Δημόσιο</b><br></th>
-                                            <td><a href="" onclick="window.open('{{ pendApp.Tax_Clear_Cert.url }}', '_blank');">
-                                                    {% with myFilter="ypan_applications/"|add:pendApp.foreas.foreas_profile.companyName|add:'/' %}
-                                                    {{ pendApp.Tax_Clear_Cert.name|cut:myFilter }}
-                                                    {% endwith %}</a></td>
+                                            <td>                                            
+                                                {% with file_upload_id=pendApp.Tax_Clear_Cert.upload_id %}
+                                                <a href="{% url 'pdfView' upload_id=file_upload_id %}" target="_blank">
+                                                {% endwith %} 
+                                                {% with myFilter=".*/" %}
+                                                    {{ pendApp.Tax_Clear_Cert.file.url|cut_re:myFilter }}
+                                                {% endwith %}
+                                                </a>
+                                            </td> 
                                         </tr>
                                         <tr>
                                             <th><b>Βεβαίωση ΙΚΑ περί ασφαλιστικής ενημερότητας σε ισχύ</b><br></th>
-                                            <td><a href="" onclick="window.open('{{ pendApp.Insurance_Liability_Cert.url }}', '_blank');">
-                                                    {% with myFilter="ypan_applications/"|add:pendApp.foreas.foreas_profile.companyName|add:'/' %}
-                                                    {{ pendApp.Insurance_Liability_Cert.name|cut:myFilter }}
-                                                    {% endwith %}</a></td>
+                                            <td>                                            
+                                                {% with file_upload_id=pendApp.Insurance_Liability_Cert.upload_id %}
+                                                <a href="{% url 'pdfView' upload_id=file_upload_id %}" target="_blank">
+                                                {% endwith %} 
+                                                {% with myFilter=".*/" %}
+                                                    {{ pendApp.Insurance_Liability_Cert.file.url|cut_re:myFilter }}
+                                                {% endwith %}
+                                                </a>
+                                            </td> 
                                         </tr>
                                         <tr>
                                             <th><b>Βεβαίωση ασφάλισης επαγγελματικής αστικής ευθύνης για
                                             την κάλυψη κινδύνων των παρεχόμενων
                                             υπηρεσιών</b><br></th>
-                                            <td><a href="" onclick="window.open('{{ pendApp.Civil_ID.url }}', '_blank');">
-                                            {% with myFilter="ypan_applications/"|add:pendApp.foreas.foreas_profile.companyName|add:'/' %}
-                                            {{ pendApp.Civil_ID.name|cut:myFilter }}
-                                            {% endwith %}</a></td>
+                                            <td>                                            
+                                                {% with file_upload_id=pendApp.Civil_ID.upload_id %}
+                                                <a href="{% url 'pdfView' upload_id=file_upload_id %}" target="_blank">
+                                                {% endwith %} 
+                                                {% with myFilter=".*/" %}
+                                                    {{ pendApp.Civil_ID.file.url|cut_re:myFilter }}
+                                                {% endwith %}
+                                                </a>
+                                            </td> 
                                         </tr>
                                         <tr>
                                             <th><b>Ισολογισμοί τριών τελευταίων ετών</b><br></th>
-                                            <td><a href="" onclick="window.open('{{ pendApp.Balance_Sheet_3Y.url }}', '_blank');">
-                                                    {% with myFilter="ypan_applications/"|add:pendApp.foreas.foreas_profile.companyName|add:'/' %}
-                                                    {{ pendApp.Balance_Sheet_3Y.name|cut:myFilter }}
-                                                    {% endwith %}</a></td>
+                                            <td>                                            
+                                                {% with file_upload_id=pendApp.Balance_Sheet_3Y.upload_id %}
+                                                <a href="{% url 'pdfView' upload_id=file_upload_id %}" target="_blank">
+                                                {% endwith %} 
+                                                {% with myFilter=".*/" %}
+                                                    {{ pendApp.Balance_Sheet_3Y.file.url|cut_re:myFilter }}
+                                                {% endwith %}
+                                                </a>
+                                            </td> 
                                         </tr>
                                         <tr>
                                             <th><b>Κωδικοποιημένο καταστατικό της εταιρείας</b><br></th>
-                                            <td><a href="" onclick="window.open('{{ pendApp.Art_Of_Incorporation.url }}', '_blank');">
-                                            {% with myFilter="ypan_applications/"|add:pendApp.foreas.foreas_profile.companyName|add:'/' %}
-                                            {{ pendApp.Art_Of_Incorporation.name|cut:myFilter }}
-                                            {% endwith %}</a></td>
+                                            <td>                                            
+                                                {% with file_upload_id=pendApp.Art_Of_Incorporation.upload_id %}
+                                                <a href="{% url 'pdfView' upload_id=file_upload_id %}" target="_blank">
+                                                {% endwith %} 
+                                                {% with myFilter=".*/" %}
+                                                    {{ pendApp.Art_Of_Incorporation.file.url|cut_re:myFilter }}
+                                                {% endwith %}
+                                                </a>
+                                            </td> 
                                         </tr>
                                         <tr>
                                             <th><b>Βεβαίωση περί μη τροποποίησης του πιστοποιητικού ΓΕΜΗ</b></th>
-                                            <td><a href="" onclick="window.open('{{ pendApp.GEMI_NoMod_Cert.url }}', '_blank');">
-                                            {% with myFilter="ypan_applications/"|add:pendApp.foreas.foreas_profile.companyName|add:'/' %}
-                                            {{ pendApp.GEMI_NoMod_Cert.name|cut:myFilter }}
-                                            {% endwith %}</a></td>
+                                            <td>                                            
+                                                {% with file_upload_id=pendApp.GEMI_NoMod_Cert.upload_id %}
+                                                <a href="{% url 'pdfView' upload_id=file_upload_id %}" target="_blank">
+                                                {% endwith %} 
+                                                {% with myFilter=".*/" %}
+                                                    {{ pendApp.GEMI_NoMod_Cert.file.url|cut_re:myFilter }}
+                                                {% endwith %}
+                                                </a>
+                                            </td> 
                                         </tr>
                                         <tr>
                                             <th><b>Υπεύθυνη δήλωση του κοινοποιημένου οργανισμού για τη
                                             δραστηριοποίησή του ή μη σε άλλες χώρες</b></th>
-                                            <td><a href="" onclick="window.open('{{ pendApp.Foreign_Activity_Decl.url }}', '_blank');">
-                                            {% with myFilter="ypan_applications/"|add:pendApp.foreas.foreas_profile.companyName|add:'/' %}
-                                            {{ pendApp.Foreign_Activity_Decl.name|cut:myFilter }}
-                                            {% endwith %}</a></td>
+                                            <td>                                            
+                                                {% with file_upload_id=pendApp.Foreign_Activity_Decl.upload_id %}
+                                                <a href="{% url 'pdfView' upload_id=file_upload_id %}" target="_blank">
+                                                {% endwith %} 
+                                                {% with myFilter=".*/" %}
+                                                    {{ pendApp.Foreign_Activity_Decl.file.url|cut_re:myFilter }}
+                                                {% endwith %}
+                                                </a>
+                                            </td> 
                                         </tr>
                                         <tr>
                                             <th><b>Υπεύθυνη δήλωση του κοινοποιημένου φορέα για τη
                                             συμμετοχή του ή μη στις ομάδες
                                             συντονισμού</b></th>
-                                            <td><a href="" onclick="window.open('{{ pendApp.Coord_Group_Decl.url }}', '_blank');">
-                                            {% with myFilter="ypan_applications/"|add:pendApp.foreas.foreas_profile.companyName|add:'/' %}
-                                            {{ pendApp.Coord_Group_Decl.name|cut:myFilter }}
-                                            {% endwith %}</a></td>
+                                            <td>                                            
+                                                {% with file_upload_id=pendApp.Coord_Group_Decl.upload_id %}
+                                                <a href="{% url 'pdfView' upload_id=file_upload_id %}" target="_blank">
+                                                {% endwith %} 
+                                                {% with myFilter=".*/" %}
+                                                    {{ pendApp.Coord_Group_Decl.file.url|cut_re:myFilter }}
+                                                {% endwith %}
+                                                </a>
+                                            </td> 
                                         </tr>
                                         </tbody>
                                     </table>
