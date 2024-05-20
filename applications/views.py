@@ -66,10 +66,10 @@ def esyd_for_foreas(request):
             print(request.POST)
             form = UploadDocumentForm(request.POST, current_user = request.user)
             form.instance.foreas = request.user
-            filepond_id = request.POST['file']
+            #filepond_id = request.POST['file']
             #tu = TemporaryUpload.objects.get(upload_id=filepond_id)
             #su = store_upload(filepond_id, os.path.join(filepond_id, tu.upload_name))
-            form.instance.file = StoredUpload.objects.get(upload_id=filepond_id)
+            #form.instance.file = StoredUpload.objects.get(upload_id=filepond_id)
             #print(su.get_absolute_file_path())
             if form.is_valid():
                 print('saveForm')
@@ -177,7 +177,7 @@ def ypan_application(request):
         messages.error(request, account_message)
     else:
         if request.method == 'POST':
-            form = UploadYpanDocumentForm(request.POST, request.FILES, current_user = request.user)
+            form = UploadYpanDocumentForm(request.POST, current_user = request.user)
             form.instance.foreas = request.user
             if form.is_valid():
                 form.save()
