@@ -1,9 +1,8 @@
-from django.db.models.signals import post_save, pre_delete
+from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django_drf_filepond.models import TemporaryUpload
 from django_drf_filepond.api import store_upload
 import os
-from asgiref.sync import sync_to_async
  
  
 @receiver(post_save, sender=TemporaryUpload, dispatch_uid="store_upload") 

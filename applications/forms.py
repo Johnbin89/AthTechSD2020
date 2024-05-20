@@ -14,6 +14,7 @@ class UploadDocumentForm(ModelForm):
     def __init__(self, *args, **kwargs):
         current_user = kwargs.pop('current_user')
         super(UploadDocumentForm, self).__init__(*args, **kwargs)
+        #Django ORM values_list(): https://docs.djangoproject.com/en/5.0/ref/models/querysets/#values-list
         used_subfields = ApplicationForm.objects.values_list('subfields', flat=True).filter(foreas = current_user.id)
         unused_subfields = SubField.objects.exclude(pk__in=set(used_subfields))
         self.fields['subfields'].queryset = unused_subfields
