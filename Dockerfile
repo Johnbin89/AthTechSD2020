@@ -1,48 +1,47 @@
-FROM python:3.12
+ARG PYTHON_VERSION=3.12-slim-bookworm
 
-# Create a group and user to run our app
-
-
-# Install packages needed to run your application (not build deps):
-#   mime-support -- for mime types when serving static files
-#   postgresql-client -- for running database commands
-# We need to recreate the /usr/share/man/man{1..8} directories first because
-# they were clobbered by a parent image.
-RUN apt-get update && apt-get upgrade -y && apt-get autoremove && apt-get autoclean
-RUN apt-get install -y \
-    build-essential \
-    libffi-dev \
-    libssl-dev \
-    libxml2-dev \
-    libxslt-dev \
-    libjpeg-dev \
-    libfreetype6-dev \
-    zlib1g-dev \
-    net-tools
-
-# Copy in your requirements file
-ADD requirements.txt /requirements.txt
-
-# OR, if you're using a directory for your requirements, copy everything (comment out the above and uncomment this if so):
-# ADD requirements /requirements
-
-# Install build deps, then run `pip install`, then remove unneeded build deps all in a single step.
-# Correct the path to your production requirements file, if needed.
-RUN pip install --no-cache-dir -r /requirements.txt
+FROM python:${PYTHON_VERSION} as builder
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE 1
 
 
-# Copy your application code to the container (make sure you create a .dockerignore file if any large files or directories should be excluded)
-RUN mkdir /code/
-WORKDIR /code/
-ADD . /code/
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends build-essential libpq-dev \
+  && rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man \
+  && apt-get clean
 
-# uWSGI will listen on this port
+WORKDIR /wheels
+COPY requirements.txt .
+RUN pip wheel -r requirements.txt --disable-pip-version-check
+
+FROM python:${PYTHON_VERSION}
+ENV PYTHONUNBUFFERED=1
+
+
+# install required runtime dependencies, and cleanup cached files for a smaller layer
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        # psycopg2 runtime dependencies
+        libpq5 \
+  # cleaning up unused files
+  && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
+  && rm -rf /var/lib/apt/lists/*
+
+COPY --from=builder /wheels /wheels
+RUN pip install \
+        --no-cache-dir \
+        --disable-pip-version-check \
+        -r /wheels/requirements.txt \
+        -f /wheels \
+    && rm -rf /wheels
+
+WORKDIR /app
+
+ADD . /app/
 EXPOSE 8000
 
-# Add any static environment variables needed by Django or your settings file here:
-ENV DJANGO_SETTINGS_MODULE=certwebapp.settings
 
-# Call collectstatic (customize the following line with the minimal environment variables needed for manage.py to run):
+ENV DJANGO_SETTINGS_MODULE=certwebapp.settings
 
 # Tell uWSGI where to find your wsgi file (change this):
 ENV UWSGI_WSGI_FILE=certwebapp/wsgi.py
@@ -58,19 +57,22 @@ ENV UWSGI_WORKERS=1 UWSGI_THREADS=1
 
 # Deny invalid hosts before they get to Django (uncomment and change to your hostname(s)):
 # ENV UWSGI_ROUTE_HOST="^(?!localhost:8000$) break:400"
-RUN chmod a+x /code/docker-entrypoint.sh
+RUN chmod a+x /app/docker-entrypoint.sh
 # Change to a non-root user
 
 
 # Uncomment after creating your docker-entrypoint.sh
-ENTRYPOINT ["/code/docker-entrypoint.sh"]
+ENTRYPOINT ["/app/docker-entrypoint.sh"]
 
 # Start uWSGI
 CMD ["uwsgi", "--show-config"]
 
 #Start Daphne
-#CMD ["daphne", "certwebapp.asgi:application", "--port", "8000", "-b", "0.0.0.0"]
+#CMD ["daphne", "divephotomap.asgi:application", "--port", "8000", "-b", "0.0.0.0"]
 
 
 #Start Gunicorn
-#CMD ["gunicorn", "--access-logfile", "--error-logfile" ,"--bind", ":8000", "-k", "uvicorn.workers.UvicornWorker", "certwebapp.asgi:application" ]
+#CMD ["gunicorn", "--access-logfile", "--error-logfile" ,"--bind", ":8000", "-k", "uvicorn.workers.UvicornWorker", "divephotomap.asgi:application" ]
+
+#Start uvicorn
+#CMD ["uvicorn", "--host", "0.0.0.0", "divephotomap.asgi:application"]
