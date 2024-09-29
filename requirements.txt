@@ -60,7 +60,7 @@ pyasn1==0.6.0
 pyasn1_modules==0.4.0
 pycparser==2.22
 pylint==3.0.3
-pyOpenSSL==24.1.0
+pyOpenSSL==24.2.1
 python-crontab==3.0.0
 python-dateutil==2.8.2
 python-decouple==3.8
