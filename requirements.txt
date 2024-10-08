@@ -22,7 +22,7 @@ cron-descriptor==1.4.3
 cryptography==43.0.1
 dill==0.3.8
 dj-database-url==2.1.0
-Django==5.0.8
+Django==5.0.9
 django-celery-beat==2.6.0
 django-celery-results==2.5.1
 django-compat==1.0.15
