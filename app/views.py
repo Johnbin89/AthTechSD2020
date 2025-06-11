@@ -10,6 +10,7 @@ from django.contrib import messages
 def index(request):
     context = {'home': True}
     # messages.success(request, 'Hello')
+    messages.info(request, "This is a demo website for learning purposes.")
     return render(request, 'index.html', context)
 
 def services(request):
