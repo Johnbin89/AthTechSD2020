@@ -34,7 +34,7 @@ django-timezone-field==6.1.0
 django-widget-tweaks==1.5.0
 djangorestframework==3.15.2
 dropbox==11.36.2
-gunicorn==22.0.0
+gunicorn==23.0.0
 h11==0.14.0
 h2==4.1.0
 hpack==4.0.0
