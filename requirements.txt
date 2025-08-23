@@ -67,7 +67,7 @@ python-decouple==3.8
 python-dotenv==1.0.1
 pytz==2024.1
 redis==5.0.3
-requests==2.32.0
+requests==2.32.4
 service-identity==24.1.0
 setuptools==70.0.0
 shortuuid==1.0.13
